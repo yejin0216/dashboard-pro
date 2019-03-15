@@ -1,0 +1,509 @@
+<div id="contents" ui-view>
+    <section>
+        <div class="guideBasic">
+            <!-- 문서 정보 -->
+            <div class="docHead">
+                <div class="func">
+                    <dl class="info">
+                        <dt>문서 버전.</dt>
+                        <dd>1.0.0</dd>
+                        <dt>작성일자.</dt>
+                        <dd>2019.04</dd>
+                    </dl>
+                </div>
+            </div>
+            <!-- //문서 정보 -->
+            <section class="guideCon">
+                <!-- 목차 -->
+                <button type="button" class="guide_lnb_btn" onclick="lnbFuc(this);"></button>
+                <div class="tableOfCon" id="tbCon">
+                    <h1>Contents</h1>
+                    <div class="tbConList">
+                        <ol>
+                            <li>
+                                <a href="#" onclick="portal.ui.scrollTo('c1');return false;">소개</a>
+                                <ol>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c1-1');return false;">특장점</a></li>
+                                    <!--<li><a href="#" onclick="portal.ui.scrollTo('c1-2');return false;">반응형 웹</a></li>-->
+                                </ol>
+                            </li>
+                            <li>
+                                <a href="#" onclick="portal.ui.scrollTo('c2');return false;">주요 메뉴</a>
+                                <ol>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c2-1');return false;">즐겨찾기</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c2-2');return false;">나의 디바이스</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c2-3');return false;">대시보드(목록)</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c2-4');return false;">이벤트 타임라인</a></li>
+                                </ol>
+                            </li>
+                            <li>
+                                <a href="#" onclick="portal.ui.scrollTo('c3');return false;">주요 기능</a>
+                                <ol>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c3-1');return false;">대시보드</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c3-2');return false;">위젯</a></li>
+                                </ol>
+                            </li>
+                            <li>
+                                <a href="#" onclick="portal.ui.scrollTo('c5');return false;">위젯 종류</a>
+                                <ol>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-1');return false;">디바이스 목록</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-2');return false;">디바이스 이미지</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-3');return false;">디바이스 지도</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-4');return false;">센서 목록</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-5');return false;">센서 이미지</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-6');return false;">센서 차트</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-7');return false;">센서 로그(목록형)</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-8');return false;">센서 로그(차트형)</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-9');return false;">이벤트 목록</a></li>
+                                    <!--<li><a href="#" onclick="portal.ui.scrollTo('c5-10');return false;">이벤트 차트</a></li>-->
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-11');return false;">복합 이미지</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-12');return false;">복합 지도</a></li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- //목차 -->
+
+                <!-- 가이드 컨텐츠 -->
+                <div class="docCon" id="docCon">
+                    <ul class="docConWrap">
+                        <h1 class="d1" id="c1">소개</h1>
+                        <p class="d1">
+                            Dashboard Pro2는 디바이스, 센서, 이벤트 등 IoT 데이터를 시각화할 수 있는 UI(User Interface) 서비스입니다.<br/>
+                            대시보드와 위젯을 자유자재로 커스터마이징해서, 사용자가 원하는 IoT 서비스 UI를 만들 수 있습니다.<br/>
+                        </p>
+                        <h2 class="d2" id="c1-1">특장점</h2>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>1) 실시간 모니터링 및 제어</b></div>
+                                <img src="assets/images/guide/guide_dash_1-1_1_1.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>IoT 디바이스의 다양한 리소스<sub>(디바이스, 센서, 이벤트 등)</sub> 정보를 실시간으로 수집, 제어할 수 있습니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>2) User-customized UI 구성</b></div>
+                                <img src="assets/images/guide/guide_dash_1-1_2.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>위젯을 배치하여 다양한 목적에 적합한 UI를 구성할 수 있습니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>3) 자유로운 위젯 리사이징 및 배치</b></div>
+                                <img src="assets/images/guide/guide_dash_1-1_3.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>생성한 위젯 사이즈를 크거나 작게 수정하고, 위젯 위치도 자유자재로 변경할 수 있습니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>4) 반응형 웹 디자인</b></div>
+                                <img src="assets/images/guide/guide_dash_1-1_4.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>Dashboard Pro2는 PC, Tablet, Smart Phone 등 다양한 사이즈의 기기에서 브라우저를 통해 접속할 수 있습니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h1 class="d1" id="c2">주요 메뉴</h1>
+                        <h2 class="d2" id="c2-1">즐겨찾기</h2>
+                        <p class="d2">자주 사용하거나 중요한 디바이스의 바로가기 모음입니다. 2)번 영역을 클릭하면 선택한 대시보드로 이동합니다.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_2_1.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) 즐겨찾기 추가: 대시보드를 선택한 뒤 [즐겨찾기 추가] 버튼을 클릭하여 즐겨찾기 목록에 추가할 수 있습니다.</li>
+                                    <li>2) 즐겨찾기 이름: 즐겨찾기에 추가된 대시보드의 이름이 표시되는 영역입니다. 클릭하면 해당 대시보드로 이동할 수 있습니다.</li>
+                                    <li>3) 즐겨찾기 정보: 대시보드 구분, 작업자(생성자), 최근 수정일자 등을 대시보드의 상세정보를 확인할 수 있습니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c2-2">나의 디바이스</h2>
+                        <p class="d2">IoTMakers에 등록한 디바이스와 센서 정보를 조회하고, 그룹태그, Capability 등 센서 속성을 정의할 수 있습니다.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_2_2.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) 디바이스 목록: IoTMakers에 등록한 나의 디바이스 목록입니다.</li>
+                                    <li>2) 디바이스 정보: 디바이스명, (디바이스)모델명 등 디바이스의 간략한 정보를 확인할 수 있습니다.</li>
+                                    <li>3) 자세히보기: [자세히보기] 버튼을 클릭하면 디바이스 상세 정보를 확인할 수 있습니다.</li>
+                                    <li>4) 센서보기: [센서보기] 버튼을 클릭하면 디바이스에 종속된 센서 정보를 확인할 수 있습니다.</li>
+                                    <li>5) Capability 설정: [Capability 설정] 버튼을 클릭하면 디바이스 모델에 종속된 제어센서의 UI타입을 설정할 수 있습니다. 설정한 UI타입은 "디바이스 이미지 위젯"에 적용됩니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c2-3">대시보드(목록)</h2>
+                        <p class="d2">대시보드를 신규 등록하거나 수정, 삭제할 수 있습니다.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_2_3.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) 대시보드 추가: [대시보드 추가] 버튼을 클릭하여 신규 대시보드를 생성할 수 있습니다.</li>
+                                    <li>2) 대시보드 목록: 사용자가 생성한 대시보드의 목록입니다.</li>
+                                    <li>3) 대시보드 정보: 대시보드명, 대시보드 구분 등 대시보드의 상세정보입니다.</li>
+                                    <li>4) 자세히 보기: 선택한 대시보드 화면으로 이동합니다.</li>
+                                    <li>5) 수정: 선택한 대시보드의 이름과 구분 등을 수정할 수 있습니다.</li>
+                                    <li>6) 삭제: 선택한 대시보드를 삭제할 수 있습니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c2-4">이벤트 타임라인</h2>
+                        <p class="d2">IoTMakers에 등록한 이벤트의 로그 정보를 확인할 수 있습니다. 조회시점으로부터 역순으로 표시되며, 새로고침 버튼을 눌러 목록을 갱신할 수 있습니다.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_2_4.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) 새로고침: [<i class="fas fa-sync-alt"></i>] 버튼을 클릭하여 새로운 로그를 조회할 수 있습니다.</li>
+                                    <li>2) 안내 메시지: 금일 발생한 이벤트 중, 각 이벤트 별 최대 100건까지 조회됩니다.</li>
+                                    <li>3) 이벤트 목록: 최근 발생한 이벤트 로그 목록입니다.(시간역순)</li>
+                                    <li>4) 이벤트 정보: 이벤트 등급과 이벤트명을 확인할 수 있습니다. </li>
+                                    <li>5) 발생일시: 선택한 이벤트의 발생일시입니다.</li>
+                                    <li>6) 연관정보: 선택한 이벤트의 상세정보를 확인할 수 있습니다.</li>
+                                    <li>7) 로그보기: 선택한 이벤트 로그의 상세정보를 확인할 수 있습니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h1 class="d1" id="c3">주요 기능</h1>
+                        <h2 class="d2" id="c3-1">대시보드</h2>
+                        <p class="d2">대시보드는 위젯의 집합이며, 최대 5개까지 등록할 수 있습니다.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_3_1_1.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) 네비게이션: 대시보드/{대시보드명}의 형식으로 표현되며, 대시보드명은 자유자재로 변경할 수 있습니다.</li>
+                                    <li>2) 대시보드 부가기능: 대시보드에 위젯 추가, 복제 등 다양한 부가기능을 제공합니다.</li>
+                                    <li>3) 이벤트 푸시 알람: 최근 발생한 이벤트 푸시 알람이 쌓입니다.(최근 5개)</li>
+                                </ul>
+                                <!--<img src="assets/images/guide/guide_dash_3_1.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) 네비게이션: 대시보드/{대시보드명}의 형식으로 표현되며, 대시보드명은 자유자재로 변경할 수 있습니다.</li>
+                                    <li>2) 위젯추가: 신규 위젯을 선택하고 추가할 수 있습니다.</li>
+                                    <li>3) 즐겨찾기: 대시보드를 즐겨찾기 목록에 추가할 수 있습니다.</li>
+                                    <li>4) 대시보드 삭제: 대시보드를 삭제합니다.</li>
+                                    <li>5) 대시보드 복제: 대시보드를 복제한 신규 대시보드를 생성할 수 있습니다.</li>
+                                    <li>6) 대시보드 성능 검사기: 대시보드의 성능을 검사하고 제안합니다.</li>
+                                    <li>7) 데이터 연결: 대시보드의 데이터 연결방식<sub>(고정, 주기)</sub>을 선택할 수 있습니다.
+                                        <ul>
+                                            <li>고정: 접속시점을 기준으로 위젯을 조회합니다.</li>
+                                            <li>주기: 설정한 주기마다 데이터를 업데이트합니다.<sub>(예. 30초, 60초, 90초 등)</sub></li>
+                                        </ul>
+                                    </li>
+                                </ul>-->
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c3-2">위젯</h2>
+                        <p class="d2">IoT 데이터를 관제할 커스터마이징 위젯을 생성할 수 있는 저작도구입니다.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [위젯 추가] 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_3_2_1.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) 리소스: IoTMakers에 등록한 IoT 리소스<sub>(디바이스, 센서, 이벤트 등)</sub></li>
+                                    <li>2) 컴포넌트: IoT 리소스를 표현하기 위한 UI 시각화 종류</li>
+                                    <li>3) 데이터셋: 컴포넌트를 구성할 IoT의 데이터 종류</li>
+                                    <li>4) 미리보기: 선택한 리소스, 컴포넌트 결과 생성되는 위젯 미리보기</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div><b>◎ [위젯] 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_3_2_2.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) 제목: 위젯의 제목과 소제목 표시 영역</li>
+                                    <li>2) 편집: 위젯 제목, 내용 편집 영역</li>
+                                    <li>3) 내용: 위젯의 내용 표시 영역</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div><b>◎ [위젯] 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_3_2_3.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) 세부정보 편집: 위젯의 제목, 소제목, 내용을 편집할 수 있습니다.</li>
+                                    <li>2) 시각화옵션 편집: 추가적인 시각화옵션<sub>(효과, 최적값, 기준구간 등)</sub>을 적용할 수 있습니다.</li>
+                                    <li>3) 위젯 삭제: 위젯을 삭제합니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h1 class="d1" id="c5">위젯 종류</h1>
+                        <p class="d1">
+                            사용자는 [위젯 추가]에서 리소스, 컴포넌트, 데이터셋, 시각화옵션을 선택하여 원하는 위젯을 만들 수 있습니다.<br/>
+
+                        </p>
+                        <h2 class="d2" id="c5-1">디바이스 목록</h2>
+                        <p class="d2">여러 디바이스의 실시간 연결상태, 최근수집일시 등을 모니터링할 수 있습니다.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_1.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) 순번: 목록의 순서</li>
+                                    <li>2) 연결상태: IoTMakers와 디바이스 간 연결상태</li>
+                                    <li>3) 디바이스명: 디바이스의 이름</li>
+                                    <li>4) 최근수집일시: IoTMakers 기준 디바이스의 최근 데이터 전송일시</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c5-2">디바이스 이미지</h2>
+                        <p class="d2">디바이스의 실시간 연결상태, 최근수집일시 등을 모니터링할 수 있습니다.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_2.jpg" class="imgCon15">
+                                <ul class="noBul">
+                                    <li>1) 디바이스명: 디바이스의 이름</li>
+                                    <li>2) 아이콘: 디바이스의 대표 이미지</li>
+                                    <li>3) 연결상태: IoTMakers와 디바이스 간 연결상태</li>
+                                    <li>4) 최근수집일시: IoTMakers 기준 디바이스의 최근 데이터 전송일시</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c5-3">디바이스 지도</h2>
+                        <p class="d2">
+                            디바이스의 실시간 연결상태, 최근수집일시를 확인하고 디바이스 (고정)위치를 KT Map으로 확인할 수 있습니다.<br/>
+                            디바이스 (고정)위치 정보는 디바이스 등록화면에서 수정할 수 있습니다.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_3.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) 연결상태: IoTMakers와 디바이스 간 연결상태</li>
+                                    <li>2) 디바이스명: 디바이스의 이름</li>
+                                    <li>3) 디바이스 주소: 디바이스 위치 주소</li>
+                                    <li>4) 최근수집일시: IoTMakers 기준 디바이스의 최근 데이터 전송일시</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c5-4">센서 목록</h2>
+                        <p class="d2">
+                            여러 센서의 실시간 값, 최근수집일시 등을 모니터링할 수 있습니다.<br/>
+                            [센서 아이콘] 영역을 클릭하면 아이콘을 자유자재로 커스터마이징할 수 있습니다.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_4_1.jpg" class="imgCon65">
+                                <ul class="noBul">
+                                    <li>1) 순번: 목록의 순서</li>
+                                    <li>2) 아이콘: 센서의 대표 이미지</li>
+                                    <li>3) 디바이스명: 디바이스의 이름</li>
+                                    <li>4) 센서타입: 센서 타입(수집/제어)</li>
+                                    <li>5) 센서명: 센서의 이름</li>
+                                    <li>6) 최종값: 센서의 마지막 수집/제어 값</li>
+                                    <li>7) 최근수집일시: IoTMakers 기준 센서의 최근 데이터 전송일시</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [아이콘 변경] 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_4_2.jpg" class="imgCon45">
+                                <ul class="noBul">
+                                    <li>1) 컬러 아이콘: 기본 제공하는 RGB색상 아이콘</li>
+                                    <li>2) 모노 아이콘: 기본 제공하는 회색음영 아이콘</li>
+                                    <li>3) 사용자 정의 아이콘: 사용자 커스터마이징 아이콘</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c5-5">센서 이미지</h2>
+                        <p class="d2">
+                            센서의 실시간 값, 최근수집일시 등을 모니터링할 수 있습니다.<br/>
+                            [센서 아이콘] 영역을 클릭하면 아이콘을 자유자재로 커스터마이징할 수 있습니다.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_5.jpg" class="imgCon15">
+                                <ul class="noBul">
+                                    <li>1) 디바이스명: 디바이스의 이름</li>
+                                    <li>2) 센서명: 센서의 이름</li>
+                                    <li>3) 아이콘: 센서의 대표 이미지</li>
+                                    <li>4) 최종값: 센서의 마지막 수집/제어 값</li>
+                                    <li>5) 최근수집일시: IoTMakers 기준 센서의 최근 데이터 전송일시</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c5-6">센서 차트</h2>
+                        <p class="d2">
+                            센서의 실시간 값을 다양한 차트로 시각화할 수 있습니다. 적절한 차트를 선택한 뒤 필요에 따라 차트 옵션을 추가할 수 있습니다.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_6.jpg" class="imgCon100">
+                            </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [시각화옵션 편집] 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_6_6.jpg" class="imgCon45">
+                                <ul class="noBul">
+                                    <li>시각화 효과, 기준구간, 최적값 등 추가적인 데이터 표현을 설정할 수 있습니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c5-7">센서 로그(목록형)</h2>
+                        <p class="d2">
+                            선택한 센서의 최근 100건 로그정보를 확인할 수 있습니다.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_7.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) 수집일시: IoTMakers에서 수집한 센서의 로깅 일시</li>
+                                    <li>2) 디바이스: 디바이스의 이름</li>
+                                    <li>3) 센서: 센서의 이름</li>
+                                    <li>4) VALUE: 센서에서 최근 발생한 값</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c5-8">센서 로그(차트형)</h2>
+                        <p class="d2">
+                            선택한 센서의 로그정보를 차트로 확인할 수 있습니다.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_8_1.jpg" class="imgCon65">
+                                <ul class="noBul">
+                                    <li>1) 조회기간: 조회기간만큼 차트에 데이터를 표시합니다. 기본값은 1시간입니다.</li>
+                                    <li>2) 조회기간 변경: [<i class="far fa-calendar-alt"></i>] 버튼을 클릭하여 조회기간을 수정할 수 있습니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [조회기간 수정] 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_8_2.jpg" class="imgCon45">
+                                <ul class="noBul">
+                                    <li>센서 로그의 조회기간을 수정할 수 있습니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c5-9">이벤트 목록</h2>
+                        <p class="d2">
+                            IoTMakers에 등록한 이벤트의 최근 발생일시와 상태를 확인할 수 있습니다. 토글버튼을 클릭하여 이벤트를 On/Off 할 수 있습니다.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_9.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) 순번: 목록의 순서</li>
+                                    <li>2) 이벤트: 이벤트의 이름</li>
+                                    <li>3) 최근발생일시: 이벤트의 최근 발생일시</li>
+                                    <li>4) 상태: 이벤트 On/Off 상태</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!--<h2 class="d2" id="c5-10">이벤트 차트</h2>
+                        <p class="d2">
+                            IoTMakers에 등록한 이벤트의 최근 발생일시와 상태를 확인할 수 있습니다. 토글버튼을 클릭하여 이벤트를 On/Off 할 수 있습니다.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_9.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) 순번: 목록의 순서</li>
+                                    <li>2) 이벤트: 이벤트의 이름</li>
+                                    <li>3) 최근발생일시: 이벤트의 최근 발생일시</li>
+                                    <li>4) 상태: 이벤트 On/Off 상태</li>
+                                </ul>
+                            </li>
+                        </ul>-->
+                        <h2 class="d2" id="c5-11">복합 이미지</h2>
+                        <p class="d2">
+                            대시보드에 이미지를 업로드하고 글귀, 배경색상, 폰트색상 등을 커스터마이징 할 수 있습니다.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_11_1.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) 제목: 이미지의 제목</li>
+                                    <li>2) 부제목/내용: 이미지의 부제목 또는 내용</li>
+                                    <li>3) 이미지: 이미지 파일</li>
+                                    <li>4) 로고/바닥: 로고나 이미지의 바닥</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [세부정보 편집] 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_11_2.jpg" class="imgCon45">
+                                <ul class="noBul">
+                                    <li>1) 배경이미지: 이미지를 커스터마이징 작업하는 공간</li>
+                                    <li>2) 제목: 이미지의 제목글 입력</li>
+                                    <li>3) 부제목/내용: 이미지의 부제목 또는 내용글 입력</li>
+                                    <li>4) 이미지: 첨부한 이미지가 표시되는 공간</li>
+                                    <li>5) 바닥: 이미지의 바닥글 입력</li>
+                                    <li>6) 이미지 첨부: 버튼을 클릭하여 새로운 이미지를 첨부할 수 있다.</li>
+                                    <li>7) 배경색상: 버튼을 클릭하여 이미지의 배경색상과 투명도를 변경할 수 있다.</li>
+                                    <li>8) 폰트색상: 버튼을 클릭하여 제목, 부제목/내용, 바닥의 폰트색상을 변경할 수 있다.</li>
+                                    <li>9) 이미지 크기: 이미지 크기를 토글<sub>(원본크기, 배경크기)</sub>할 수 있다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="d2" id="c5-12">복합 지도</h2>
+                        <p class="d2">
+                            차량, 트래커 등 이동체의 위치를 실시간으로 추적하고 이동체의 자산정보를 관리할 수 있습니다.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_12_1.jpg" class="imgCon65">
+                                <ul class="noBul">
+                                    <li>1) 연결상태: IoTMakers와 이동체 간 연결상태</li>
+                                    <li>2) 디바이스명: 이동체의 이름</li>
+                                    <li>3) 디바이스 주소: 이동체 위치 주소</li>
+                                    <li>4) 최근수집일시: IoTMakers 기준 이동체의 최근 데이터 전송일시</li>
+                                    <li>5) 자세히보기: 이동체 상세정보 보기</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [자세히 보기] 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_12_2.jpg" class="imgCon65">
+                                <ul class="noBul">
+                                    <li>1) 이동체명: 이동체의 이름</li>
+                                    <li>2) 수정: [수정] 버튼을 클릭하여 이동체의 자산정보를 수정할 수 있습니다.</li>
+                                    <li>3) 이동체 상세정보: 이동체 이미지, 이름, 아이디 등 상세정보</li>
+                                    <li>4) 자산정보: 이동체의 자산정보 표시</li>
+                                    <li>5) 검색: 조회기간을 입력한 뒤 [검색] 버튼을 클릭하여 최대 2일간 이동체의 위치 이력을 조회할 수 있습니다.</li>
+                                    <li>6) 위치이력: 조회기간에 대한 이동체의 위치 이력을 KT Map에 표시합니다.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [세부정보 편집] 화면 설명</b></div>
+                                <img src="assets/images/guide/guide_dash_5_12_3.jpg" class="imgCon45">
+                                <ul class="noBul">
+                                    <li>1) 자산명: 이동체의 자산정보</li>
+                                    <li>2) 자산 상세정보: 이미지의 제목글 입력</li>
+                                    <li>3) 행추가: 행추가</li>
+                                    <li>3) 행삭제: 행삭제</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </section>
+</div>

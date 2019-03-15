@@ -1,0 +1,35 @@
+<style>
+    .footer{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.1);color:#aaa;}
+</style>
+<div id="content" class="clear" ui-view>
+    <!-- 로그인 -->
+    <div class="loginWrap">
+        <div class="loginArea identify">
+            <div class="loginInfo">
+                <div class="welcomeMessage" ng-bind-html="'comm.eMsgChgPwd' | translate"></div>
+                <div class="loginPwd">
+                    <input type="password" class="form-control" ng-model="vm.nowPwd" tabindex="2" placeholder='{{"comm.nowPwd" | translate}}'/>
+                    <span class="error" ng-if="vm.invalidNowPwd">{{"comm.eMsgMustValueColumn" | translate}}</span>
+                </div>
+                <div class="loginPwd">
+                    <input type="password" class="form-control" ng-model="vm.newPwd" tabindex="2" placeholder='{{"comm.newPwd" | translate}}'/>
+                    <span class="error" ng-if="vm.invalidNewPwd">{{"comm.eMsgMustValueColumn" | translate}}</span>
+                </div>
+                <div class="loginPwd">
+                    <input type="password" class="form-control" ng-model="vm.newPwdCnf" tabindex="2" placeholder='{{"comm.newPwdCnf" | translate}}'/>
+                    <span class="error" ng-if="vm.invalidNewPwdCnf">{{"comm.eMsgMustValueColumn" | translate}}</span>
+                </div>
+                <div class="error">{{invalidMessage}}</div>
+                <div>
+                    <a class="btn middle btn-gray h30" ng-click="vm.nxtChg()" tabindex="1">{{"comm.nxtCnf" | translate}}</a>
+                    <a class="btn middle btn-black h30" ng-click="vm.cnf()" tabindex="2">{{"comm.cnf" | translate}}</a>
+                </div>
+            </div>
+            <div class="chgInfo">
+                <ul ng-bind-html="'comm.eMsgChgPwdPlcy' | translate">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--// 로그인 -->
+</div>

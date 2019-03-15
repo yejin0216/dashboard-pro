@@ -1,0 +1,68 @@
+<div class="modal-dialog popSetWidget">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+            <h3>{{"dash.updAssets" | translate}}</h3><!--시각화옵션 편집-->
+        </div>
+        <!-- 모달 내부 컨텐츠 -->
+        <div class="modal-body chart-tool-widget">
+            <!--<div class="form-group row">-->
+                <!--<div class="col-sm-12">-->
+                    <!--<label class="label-control">{{"wdgt.btry" | translate}}<sub>({{"comm.snsr" | translate}})</sub></label>&lt;!&ndash;배터리&ndash;&gt;-->
+                    <!--<div>-->
+                        <!--<select class="form-control" ng-model="selectedSnsr" ng-options="item.name for item in snsrList track by item.code">-->
+                            <!--<option value="">{{"comm.choise" | translate}}</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-4">{{"wdgt.btry" | translate}}<sub>({{"comm.snsr" | translate}})</sub></div>&lt;!&ndash;배터리&ndash;&gt;-->
+                <!--<div class="col-sm-8">-->
+                    <!--<select class="form-control" ng-model="selectedSnsr" ng-options="item.name for item in snsrList track by item.code">-->
+                        <!--<option value="">{{"comm.choise" | translate}}</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label class="label-control">{{"wdgt.inputAssets" | translate}}</label><!--상세 자산정보 입력-->
+                    <div>
+                        <div class="table-type02">
+                            <table>
+                                <colgroup>
+                                    <col/>
+                                    <col/>
+                                    <col/>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>{{"wdgt.assetName" | translate}}</th>
+                                        <th>{{"wdgt.assetInfo" | translate}}</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in assetsList track by $index">
+                                        <td><input type="text" ng-model="item.label" class="form-control" placeholder="{{'wdgt.mapMkeEx01' | translate}}"/></td>
+                                        <td><input type="text" ng-model="item.value" class="form-control" placeholder="{{'wdgt.mapMkeEx02' | translate}}"/></td>
+                                        <td title="{{'comm.delRow' | translate}}" aria-label="{{'comm.delRow' | translate}}" ng-click="delRow($index)"><i class="fas fa-minus-circle"></i></td>
+                                    </tr>
+                                    <tr ng-if="assetsList.length === 0">
+                                        <td colspan="3">{{"comm.eMsgNoData" | translate}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--<button class="btn btn-small custom delRow" ng-click="delRow()">{{"comm.delRow" | translate}}</button>&lt;!&ndash;행삭제&ndash;&gt;-->
+                        <button class="btn btn-small custom addRow" ng-click="addRow()">{{"comm.addRow" | translate}}</button><!--행추가-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="validator">{{invalidMessage}}</div> <!--유효성 검증 메시지-->
+        <!--// 모달 내부 컨텐츠 -->
+        <div class="modal-footer">
+            <a class="btn btn-white-b h30" ng-click="close()">{{"comm.cancel" | translate}}</a>
+            <a class="btn btn-black h30" ng-click="save()">{{"comm.save" | translate}}</a>
+        </div>
+    </div>
+</div>

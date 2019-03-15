@@ -1,0 +1,62 @@
+<script type="text/javascript">
+    $(function(){
+        $('#datetimepicker1').datetimepicker({format:'YYYY-MM-DD HH:mm'});
+        $('#datetimepicker2').datetimepicker({format:'YYYY-MM-DD HH:mm'});
+        //prevent enter key
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+    });
+</script>
+<div class="modal-dialog map-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+            <h3>[{{parentMapInfo.devNm}}] {{"comm.dtlView" | translate}}</h3>
+        </div>
+        <!-- 모달 내부 컨텐츠 -->
+        <div class="modal-body mapWdgt">
+            <div class="devDtlArea">
+                <div class="devNm">
+                    {{parentMapInfo.devNm}}
+                    <button class="btn btn-small custom" ng-click="updateDev()">{{"comm.upd" | translate}}</button><!--수정-->
+                </div>
+                <div class="devModel">
+                    <img ng-if="parentMapInfo.icon" ng-src="data:image/jpg;base64,{{parentMapInfo.icon}}">
+                    <img ng-if="!parentMapInfo.icon" src="assets/images/svg/img_device_none.svg">
+                    <div class="devDtl">
+                        <p>{{parentMapInfo.devModelNm}}</p>
+                        <p>{{parentMapInfo.spotDevId}}</p>
+                        <p><i class="fas fa-sync"></i> {{"wdgt.rcvCycl" | translate}} : {{parentMapInfo.clecCyclTime || '입력 정보 없음'}}</p>
+                    </div>
+                </div>
+                <div class="devItem" ng-repeat="info in parentMapInfo.mapExpnsnInfo track by $index">
+                    <p class="tag ellipsis">{{info.label}}</p><p class="tagVal ellipsis">{{info.value}}</p>
+                </div>
+            </div>
+            <div class="mapDtlArea">
+                <div class="form-inline">
+                    <div class="input-group date" id="datetimepicker1">
+                        <input type="text" id="dp1" class="form-control" ng-model="parentMapInfo.stTime" options="{format:'YYYY-MM-DD HH:mm'}">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                    &nbsp;~&nbsp;
+                    <div class="input-group date" id="datetimepicker2">
+                        <input type="text" id="dp2" class="form-control" ng-model="parentMapInfo.endTime" options="{format:'YYYY-MM-DD HH:mm'}">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                    <a class="btn btn-gray h30" ng-click="search()">{{"comm.search" | translate}}</a>
+                </div>
+                <comm-popup-maparea class="mapbox" map-info="parentMapInfo"></comm-popup-maparea>
+            </div>
+        </div>
+        <!--// 모달 내부 컨텐츠 -->
+        <div class="modal-footer">
+            <a class="btn btn-white-b h30" ng-click="close()">{{"comm.exit" | translate}}</a>
+            <!--<a class="btn btn-black h30" ng-click="save()">{{"comm.save" | translate}}</a>-->
+        </div>
+    </div>
+</div>

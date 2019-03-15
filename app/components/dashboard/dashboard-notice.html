@@ -1,0 +1,30 @@
+<div id="contents">
+    <!-- Contents -->
+    <section>
+        <div class="contents-btn-group"></div>
+        <div class="subContents dashboard-settings">
+            <div class="generalContents faq">
+                <div class="findFaq">
+                    <input type="text" class="form-control" ng-model="vm.keyword" placeholder="{{'dash.findNotice' | translate}}"/>
+                    <a class="btn btn-gray h30" ng-click="vm.search()">{{"comm.search" | translate}}</a>
+                </div>
+                <div>
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default" ng-repeat="item in vm.list | filter:searchText">
+                            <div class="panel-heading" role="tab" id="heading_{{$index}}">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse_{{$index}}" aria-expanded="true" aria-controls="collapseOne">
+                                        {{item.title}}
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse_{{$index}}" ng-class="vm.collapse($index)" role="tabpanel" aria-labelledby="heading_{{$index}}">
+                                <div class="panel-body" ng-bind-html="item.contents"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,49 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="closeSnsrIconModal()"><span aria-hidden="true">&times;</span></button>
+            <h3>[{{snsrIconList.devNm}}] {{snsrIconList.snsrNm}} {{"dash.updIcon" | translate}}</h3><!--위젯/탭 추가-->
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label class="label-control">{{"dash.color" | translate}} {{"dash.icon" | translate}}</label>
+                    <div class="whiteBox">
+                            <span class="pointer" ng-repeat="a in ::range(20) track by $index">
+                                <img ng-if="selectedIcon == 'color_sense'+$index" class="selected"
+                                     ng-src="assets/images/color_sense{{::$index}}.png" ng-click="selectIcon('color_sense',$index)" width="30" height="30" />
+                                <img ng-if="selectedIcon != 'color_sense'+$index"
+                                     ng-src="assets/images/color_sense{{::$index}}.png" ng-click="selectIcon('color_sense',$index)" width="30" height="30" />
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label class="label-control">{{"dash.mono" | translate}} {{"dash.icon" | translate}}</label>
+                    <div class="whiteBox">
+                            <span class="pointer" ng-repeat="a in ::range(22) track by $index">
+                                <img ng-if="selectedIcon == 'mono_sense'+$index" class="selected"
+                                     ng-src="assets/images/mono_sense{{::$index}}.png" ng-click="selectIcon('mono_sense',$index)" width="30" height="30" />
+                                <img ng-if="selectedIcon != 'mono_sense'+$index"
+                                     ng-src="assets/images/mono_sense{{::$index}}.png" ng-click="selectIcon('mono_sense',$index)" width="30" height="30" />
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label class="label-control">{{"dash.userDefinedIcon" | translate}}</label>
+                    <div class="whiteBox">
+                        <input type="file" id="custIcon" ngf-select ng-model="selectedIcon" name="file" ngf-accept="'image/*'" ngf-pattern="'.png,.jpeg,.jpg'" required ng-click="selectIcon('','')">
+                    </div>
+                    <div class="error">{{invalidMessage}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-white-b h30" ng-click="closeSnsrIconModal()">{{"comm.cancel" | translate}}</a>
+            <a class="btn btn-black h30" ng-click="updateSnsrIcon()">{{"comm.save" | translate}}</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,276 @@
+<div id="contents">
+    <!-- Contents -->
+    <section>
+        <div class="contents-btn-group">
+            <!--<select class="form-control" ng-model="vm.selectedIf" ng-options="list.code as list.name for list in vm.ifList">-->
+                <!--<option value="">{{"comm.choise" | translate}}</option>-->
+            <!--</select>-->
+            <!--<a ng-click="vm.addBMarkDashbd()" class="btn btn-black h30">{{"dash.doIf" | translate}}</a>-->
+        </div>
+        <div class="subContents dashboard-list">
+            <div class="bs-callout" ng-repeat="item in ::vm.devList">
+                <!-- 웹 영역 -->
+                <div class="hidden-mobile">
+                    <div>
+                        <div class="bs-callout-name">
+                            <!--<input type="checkbox" ng-model="selectedDev" ng-true-value="'Y'" ng-false-value="'N'"> -->{{item.devNm}} <!--({{item.spotDevId}})-->
+                        </div>
+                        <div class="bs-callout-detail">
+                            <p> {{"comm.modelNm" | translate}} : {{item.devModelNm}}
+                                <span class="pipe color-gray1">|</span>{{"comm.devId" | translate}} : {{item.spotDevId}}
+                                <span class="pipe color-gray1">|</span>{{"comm.cretDt" | translate}} : {{item.cretDt}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="btn-list">
+                        <a class="btn btn-white h30" ng-click="vm.open('dtlView', item)">{{"comm.dtlView" | translate}}</a>
+                        <a class="btn btn-white h30" ng-click="vm.open('snsrView', item)">{{"comm.snsrView" | translate}}</a>
+                        <a class="btn btn-gray h30" ng-click="vm.open('setCapa', item)">{{"comm.setCapa" | translate}}</a>
+                        <!--<a class="btn btn-gray h30" ng-click="vm.open('setTracker', item)">{{"comm.setTracker" | translate}}</a>-->
+                    </div>
+                </div>
+                <!--// 웹 영역 -->
+                <!-- 모바일 영역 -->
+                <div class="visible-mobile">
+                    <div>
+                        <div class="bs-callout-name" ng-click="vm.move(item.sbjtSeq)">
+                            <p><!--<input type="checkbox" ng-model="selectedDev" ng-true-value="'Y'" ng-false-value="'N'"> -->{{item.devNm}}</p>
+                            <p>{{"comm.modelNm" | translate}} : {{item.devModelNm}}</p>
+                            <p>{{"comm.devId" | translate}} : {{item.spotDevId}}</p>
+                            <p>{{"comm.cretDt" | translate}} : {{item.cretDt}}</p>
+                        </div>
+                        <div class="bs-callout-btn-group">
+                            <ul class="bs-callout-btn">
+                                <li class="dev-btn" ng-click="vm.open('dtlView', item)"><i class="fas fa-search pointer"></i></li>
+                                <li class="dev-btn" ng-click="vm.open('snsrView', item)"><i class="fas fa-stream pointer"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--// 모바일 영역 -->
+            </div>
+        </div>
+    </section>
+    <!--// Contents -->
+</div>
+
+<!-- 테마 추가 모달 -->
+<div kt-modal="deviceModal" close="vm.close()">
+    <div class="modal-dialog popSetWidget">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="vm.close()"><span aria-hidden="true">&times;</span></button>
+                <h3>{{vm.modalName}}</h3><!--위젯/탭 추가-->
+            </div>
+            <div class="modal-body" ng-switch on="vm.currentModal">
+                <!--디바이스 자세히보기-->
+                <device-detail ng-switch-when="dtlView">
+                    <div class="form-base-date">Last updated date : {{vm.selectedDev.amdDt}}</div>
+                    <div class="form-group row col-sm-12">
+                        <div class="table-type01">
+                            <table class="horizontal">
+                                <colgroup>
+                                    <col style="width:30%">
+                                    <col style="width:70%">
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th scope="col">{{"comm.devNm" | translate}}</th>
+                                    <td class="color-red1"><b>{{vm.selectedDev.devNm}}</b></td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.devId" | translate}}</th>
+                                    <td>{{vm.selectedDev.spotDevId}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.pwd" | translate}}</th>
+                                    <td>{{vm.selectedDev.athnNo}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.modelNm" | translate}}</th>
+                                    <td>{{vm.selectedDev.devModelNm}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"dash.makr" | translate}}</th>
+                                    <td>{{vm.selectedDev.termlMakrNm}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"dash.protType" | translate}}</th>
+                                    <td>{{vm.selectedDev.protNm}} / {{vm.selectedDev.bindTypeNm}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"dash.gwID" | translate}}</th>
+                                    <td>{{vm.selectedDev.gwCnctId}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.cretDt" | translate}}</th>
+                                    <td>{{vm.selectedDev.cretDt}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </device-detail>
+                <!--//디바이스 자세히보기-->
+                <!--센서보기-->
+                <sensor-detail ng-switch-when="snsrView">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label class="label-control">[{{vm.selectedDev.devNm}}] {{"comm.snsrList" | translate}}</label>
+                            <div class="snsrBox" ng-if="vm.snsrList.length>0">
+                                <div class="boxRow pointer ellipsis" ng-repeat="item in vm.snsrList" ng-click="vm.getSnsrDtl(item,$index)" ng-class="vm.isActive($index)">
+                                    {{item.type | snsrTypeNm}}<span class="pipe color-gray1">|</span>{{item.name}}
+                                </div>
+                            </div>
+                            <div class="noData" ng-if="vm.snsrList.length==0">
+                                {{"comm.eMsgNoData" | translate}}
+                            </div>
+                        </div>
+                    </div>
+                    <h4 ng-if="vm.snsrList.length>0"></h4>
+                    <div class="form-group row col-sm-12" ng-if="vm.snsrList.length>0">
+                        <div class="grayBox">
+                            <label class="label-control">{{"comm.selSnsr" | translate}} ({{vm.selectedSnsr.name}})</label>
+                            <div class="table-type01">
+                                <table class="horizontal">
+                                    <colgroup>
+                                        <col>
+                                        <col>
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">{{"comm.gubun" | translate}}</th>
+                                            <td>{{vm.selectedSnsr.type | snsrTypeNm}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">{{"comm.snsrCd" | translate}}</th>
+                                            <td>{{vm.selectedSnsr.code}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">{{"dash.dataType" | translate}}</th>
+                                            <td>{{vm.selectedSnsr.dataType}}</td>
+                                        </tr>
+                                        <!--<tr> 현재 지원하지 않음
+                                            <th scope="col">{{"comm.groupTag" | translate}}</th>
+                                            <td><input type="text" class="form-control" maxlength="10" ng-model="vm.selectedTagGroup"/></td>
+                                        </tr>-->
+                                        <tr>
+                                            <th scope="col">{{"comm.unit" | translate}}</th>
+                                            <td>{{vm.selectedSnsr.unit}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </sensor-detail>
+                <!--//센서보기-->
+                <!--Capability-->
+                <capability-detail ng-switch-when="setCapa">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label class="label-control required">{{"comm.cntrl" | translate}}{{"comm.snsr" | translate}}</label>
+                            <select class="form-control" ng-model="vm.cntrlSnsr" ng-change="vm.setCapaBySnsr()"
+                                    ng-options="item.name for item in vm.cntrlSnsrList">
+                                <option value="">{{"comm.choise" | translate}}</option>
+                            </select>
+                            <div class="error">{{invalidMessage1}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label class="label-control required">Capability UI Type</label>
+                            <select class="form-control" ng-model="vm.capaBySnsr"
+                                    ng-options="item.code as item.name for item in vm.cpList">
+                                <option value="">{{"comm.choise" | translate}}</option>
+                            </select>
+                            <div class="error">{{invalidMessage2}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label class="label-control required">Value List</label>
+                            <textarea ng-model="vm.capaValue" ng-required="true"
+                                      placeholder='※{{"comm.mkeEx" | translate}} : [{"name":"ON","data":1,"order":1,"color":"red"},{"name":"OFF","data":0,"order":2,"color":"gray"}]'></textarea>
+                            <div class="error">{{invalidMessage3}}</div>
+                        </div>
+                    </div>
+                </capability-detail>
+                <!--//Capability-->
+                <!--tracker-->
+                <!--<tracker-detail ng-switch-when="setTracker">
+                    <div class="form-base-date">Last updated date : {{vm.amdDt}}</div>
+                    <div class="form-group row col-sm-12">
+                        <div class="table-type01">
+                            <table class="horizontal">
+                                <colgroup>
+                                    <col style="width:30%">
+                                    <col style="width:70%">
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th scope="col">{{"comm.trackerNm" | translate}}</th>
+                                    <td class="color-red1"><b>{{vm.selectedDev.devNm}}</b></td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.trackerId" | translate}}</th>
+                                    <td><b>{{vm.selectedDev.spotDevId}}</b></td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.org" | translate}}</th>
+                                    <td><input type="text" class="form-control" maxlength="30" ng-model="vm.org"/></td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.admin" | translate}}</th>
+                                    <td><input type="text" class="form-control" maxlength="30" ng-model="vm.admin"/></td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.latit" | translate}}</th>
+                                    <td>
+                                        <select class="form-control" ng-model="vm.latit" ng-options="item.name for item in vm.snsrList">
+                                            <option value="">{{"comm.choise" | translate}}</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.lngit" | translate}}</th>
+                                    <td>
+                                        <select class="form-control" ng-model="vm.lngit" ng-options="item.name for item in vm.snsrList">
+                                            <option value="">{{"comm.choise" | translate}}</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.btry" | translate}}</th>
+                                    <td>
+                                        <select class="form-control" ng-model="vm.btry" ng-options="item.name for item in vm.snsrList">
+                                            <option value="">{{"comm.choise" | translate}}</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">{{"comm.speed" | translate}}</th>
+                                    <td>
+                                        <select class="form-control" ng-model="vm.speed" ng-options="item.name for item in vm.snsrList">
+                                            <option value="">{{"comm.choise" | translate}}</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </tracker-detail>-->
+                <!--//tracker-->
+            </div>
+            <div class="modal-footer" ng-if="vm.currentModal=='setCapa'">
+                <button class="btn btn-normal" ng-click="vm.close()">{{"comm.cancel" | translate}}</button>
+                <input type="submit" class="btn btn-confirm" ng-click="vm.save()" value='{{"comm.save" | translate}}'>
+            </div>
+            <div class="modal-footer" ng-if="vm.currentModal!='setCapa'">
+                <button class="btn btn-normal" ng-click="vm.close()">{{"comm.exit" | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--// 테마 추가 모달 -->

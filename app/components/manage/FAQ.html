@@ -1,0 +1,44 @@
+<div id="contents">
+    <!-- Contents -->
+    <section>
+        <div class="contents-btn-group">
+            <!--<span class="subtitle">version 3.0</span>-->
+        </div>
+        <div class="subContents dashboard-settings">
+            <ul>
+                <li id="i1" class="i1" ui-sref="general">{{"dash.basInfo" | translate}}</li>
+                <li id="i2" class="i2" ui-sref="updHist">{{"dash.updHst" | translate}}</li>
+                <li id="i3" class="i3 on" ui-sref="faq">FAQ</li>
+            </ul>
+            <div class="generalContents faq">
+                <div class="findFaq">
+                    <input type="text" class="form-control" ng-model="vm.keyword" placeholder="{{'dash.findKywrd' | translate}}"/>
+                    <a class="btn btn-gray h30" ng-click="vm.search()">{{"comm.search" | translate}}</a>
+                </div>
+                <div class="faqTitle">
+                    <ul>
+                        <li ng-class="{on:vm.on('member')}" ng-click="vm.select('member')"><i class="far fa-address-card"></i><br/>{{"dash.userInfo" | translate}}</li>
+                        <li ng-class="{on:vm.on('license')}" ng-click="vm.select('license')"><i class="fas fa-layer-group"></i><br/>{{"dash.lcns" | translate}}</li>
+                        <li ng-class="{on:vm.on('dashbd')}" ng-click="vm.select('dashbd')"><i class="fas fa-chart-bar"></i><br/>{{"comm.dashbd" | translate}}</li>
+                        <li ng-class="{on:vm.on('etcFaq')}" ng-click="vm.select('etcFaq')"><i class="fas fa-ellipsis-h"></i><br/>{{"dash.etcFaq" | translate}}</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default" ng-repeat="item in vm.faqList | filter:searchText">
+                            <div class="panel-heading" role="tab" id="heading_{{$index}}">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse_{{$index}}" aria-expanded="true" aria-controls="collapseOne">
+                                        [{{item.pre}}] {{item.title}}
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse_{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_{{$index}}">
+                                <div class="panel-body" ng-bind-html="item.contents"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+</div>

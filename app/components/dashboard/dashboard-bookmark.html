@@ -1,0 +1,28 @@
+<div id="contents">
+    <!-- Contents -->
+    <section>
+        <div class="contents-btn-group">
+            <select class="form-control" ng-model="vm.selectedSbjtSeq" ng-options="list.sbjtSeq as list.sbjtNm for list in vm.notBmarkList">
+                <option value="">{{"comm.choise" | translate}}</option>
+            </select>
+            <a ng-click="vm.addBMarkDashbd()" class="btn btn-black h30">{{"dash.addBmark" | translate}}</a>
+        </div>
+        <div class="subContents dashboard-bookmark">
+            <ul class="bookmark list-group" ng-repeat="item in vm.bmarkList">
+                <li class="list-group-item" ng-click="vm.move(item.sbjtSeq)">
+                    <p><img ng-src="assets/images/{{::item.sbjtCtgEngNm}}_bookmark.png"/></p>
+                    <p>{{::item.sbjtNm}}</p>
+                </li>
+                <li class="list-group-item">
+                    <div><p>{{"comm.gubun" | translate}}</p><p><span class="pipe color-gray1">|</span>{{::"bmark."+item.sbjtCtgEngNm || "Default" | translate}}</p></div>
+                    <div><p>{{"comm.cretr" | translate}}</p><p><span class="pipe color-gray1">|</span>{{::item.cretrId}}</p></div>
+                    <div><p>{{"comm.amdDt" | translate}}</p><p><span class="pipe color-gray1">|</span>{{::item.amdDt || item.cretDt}}</p></div>
+                </li>
+            </ul>
+            <div class="noData transparent" ng-if="vm.bmarkList.length==0">
+                {{"comm.eMsgNoData" | translate}}
+            </div>
+        </div>
+    </section>
+    <!--// Contents -->
+</div>

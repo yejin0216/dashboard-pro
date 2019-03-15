@@ -1,0 +1,27 @@
+<div id="sensorImage" class="imageWdgt sensorImage" ng-controller="SENSOR_IMAGE_WIDGET_Ctrl" ng-init="getWdgtInfo(widget)" ng-switch on="content">
+    <!-- No Data -->
+    <div ng-switch-when="10" class="noData transparent">{{"comm.eMsgNoData" | translate}}</div>
+    <!--// No Data -->
+    <!--long content,수집-->
+    <long-content ng-switch-when="20">
+        <div class="devNm" ng-if="devList.devNm">{{devList.devNm}}</div>
+        <div class="snsrNm" ng-if="devList.snsrNm">{{devList.snsrNm}}</div>
+        <div class="lastVal">
+            <img ng-if="devList.icon" ng-click="updateIcon(devList)" ng-src="{{devList.icon}}" height="25" width="25"/>
+            <b ng-if="devList.lastVal">{{devList.lastVal||'-'|ctrlStr}}</b>
+        </div>
+        <div class="amdDtt" ng-if="devList.amdDtt">{{devList.amdDtt}}</div>
+    </long-content>
+    <!--//long content-->
+    <!--long content,제어-->
+    <long-content ng-switch-when="30">
+        <div class="devNm" ng-if="devList.devNm">>{{devList.devNm}}</div>
+        <div class="snsrNm" ng-if="devList.snsrNm">{{devList.snsrNm}}</div>
+        <div class="lastVal">
+            <img ng-if="devList.icon" ng-click="updateIcon(devList)" ng-src="{{devList.icon}}" height="25" width="25"/>
+            <capability-ui list="::allDevList" dev="::allDevList[0]"></capability-ui>
+        </div>
+        <!--<div class="amdDtt">{{devList.amdDtt}}</div>-->
+    </long-content>
+    <!--//long content-->
+</div>

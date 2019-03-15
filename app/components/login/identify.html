@@ -1,0 +1,56 @@
+<style>
+    .footer{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.1);color:#aaa;}
+</style>
+<div id="content" class="clear" ui-view>
+    <div class="loginWrap">
+        <div class="loginArea identify">
+            <div class="loginInfo" ng-if="vm.step==='id'">
+                <div class="welcomeMessage"><h2>{{"comm.findId" | translate}}</h2>{{"comm.eMsgEnterMbrInfo" | translate}}</div>
+                <div class="loginId">
+                    <input type="text" class="form-control" ng-model="vm.userNm" tabindex="1" placeholder='{{"comm.name" | translate}}'/>
+                    <span class="error" ng-if="vm.invalidNm">{{"comm.eMsgMustValueColumn" | translate}}</span>
+                </div>
+                <div class="loginPwd">
+                    <input type="text" class="form-control" ng-model="vm.userEmailAdr" tabindex="2" placeholder='{{"comm.emailAdr" | translate}}'/>
+                    <span class="error" ng-if="vm.invalidEmailAdr">{{"comm.eMsgMustValueColumn" | translate}}</span>
+                </div>
+                <span class="error">{{invalidMessage}}</span>
+                <div>
+                    <a class="btn large btn-black h30" ng-click="vm.find('0001')" tabindex="3">{{"comm.search" | translate}}</a>
+                </div>
+            </div>
+            <div class="loginInfo" ng-if="vm.step==='reslt'">
+                <div class="welcomeMessage"><h2>{{"comm.findIdReslt" | translate}}</h2></div>
+                <div class="findReslt" ng-if="vm.findIdReslt" ng-bind-html="vm.findIdReslt"></div><!--검색결과-->
+                <div>
+                    <a class="btn middle btn-gray h30" ui-sref="auth.findPwd" tabindex="1">{{"comm.findPwd" | translate}}</a>
+                    <a class="btn middle btn-black h30" ui-sref="auth.login" tabindex="2">{{"comm.signIn" | translate}}</a>
+                </div>
+            </div>
+            <div class="loginInfo"ng-if="vm.step==='fail'">
+                <div class="welcomeMessage"><h2>{{"comm.findIdReslt" | translate}}</h2></div>
+                <div class="findReslt" ng-if="vm.findIdReslt" ng-bind-html="vm.findIdReslt"></div><!--검색결과-->
+                <div>
+                    <a class="btn large btn-gray h30" ng-click="vm.hstBack()" tabindex="1">{{"comm.hstBack" | translate}}</a>
+                </div>
+            </div>
+            <div class="loginInfo" ng-if="vm.step==='pwd'">
+                <div class="welcomeMessage"><h2>{{"comm.findPwd" | translate}}</h2>{{"comm.eMsgEnterMbrInfo" | translate}}</div>
+                <div class="loginId">
+                    <input type="text" class="form-control" ng-model="vm.userId" tabindex="1" placeholder='{{"comm.id" | translate}}'/>
+                    <span class="error" ng-if="vm.invalidId">{{"comm.eMsgMustValueColumn" | translate}}</span>
+                </div>
+                <div class="loginPwd">
+                    <input type="text" class="form-control" ng-model="vm.userEmailAdr" tabindex="2" placeholder='{{"comm.emailAdr" | translate}}'/>
+                    <span class="error" ng-if="vm.invalidEmailAdr">{{"comm.eMsgMustValueColumn" | translate}}</span>
+                </div>
+                <span class="error">{{invalidMessage}}</span>
+                <div>
+                    <a class="btn large btn-black h30" ng-click="vm.find('0002')" tabindex="3">{{"comm.search" | translate}}</a>
+                </div>
+            </div>
+            <div class="inqrInfo" ng-if="vm.step==='id'" ng-bind-html="'comm.eMsgFindMbrIdError' | translate"></div>
+            <div class="inqrInfo" ng-if="vm.step==='pwd'" ng-bind-html="'comm.eMsgFindMbrPwdError' | translate"></div>
+        </div>
+    </div>
+</div>

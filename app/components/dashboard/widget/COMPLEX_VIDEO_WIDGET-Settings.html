@@ -1,0 +1,28 @@
+<div class="modal-dialog popSetWidget" id="myModal" ng-init="init()">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+            <h3>{{"dash.updWdgtDtl" | translate}}</h3>
+        </div>
+        <div class="modal-body arWdgt">
+            <!-- 모달 내부 컨텐츠 -->
+            <div class="form-group row">
+                <label class="label-control col-sm-3">{{"wdgt.title" | translate}}</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" ng-model="wdgtNm" maxlength="30" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="label-control required col-sm-3">{{"wdgt.video" | translate}} URL</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" ng-model="imgFilePath" placeholder="https://www.iotmakers.com/2018/01/zpOULjyy.mp4" />
+                </div>
+            </div>
+            <!-- //모달 내부 컨텐츠 -->
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-white-b h30" ng-click="close()">{{"comm.cancel" | translate}}</a>
+            <a class="btn btn-black h30" ng-click="save()">{{"comm.save" | translate}}</a>
+        </div>
+    </div>
+</div>

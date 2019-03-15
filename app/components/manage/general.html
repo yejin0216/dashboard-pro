@@ -1,0 +1,114 @@
+<div id="contents">
+    <!-- Contents -->
+    <section>
+        <div class="contents-btn-group">
+            <!--<span class="subtitle">version 3.0</span>-->
+        </div>
+        <div class="subContents dashboard-settings">
+            <ul>
+                <li id="i1" class="i1 on" ui-sref="general">{{"dash.basInfo" | translate}}</li>
+                <li id="i2" class="i2" ui-sref="updHist">{{"dash.updHst" | translate}}</li>
+                <li id="i3" class="i3" ui-sref="faq">FAQ</li>
+            </ul>
+            <div class="generalContents">
+                <md-content class="md-padding" layout-xs="column" layout="row">
+                    <div flex-xs="" flex-gt-xs="50" layout="column">
+                        <md-card id="user">
+                            <md-card-title>
+                                <md-card-title-text>
+                                    <span class="md-headline">{{"dash.updProfile" | translate}}</span>
+                                </md-card-title-text>
+                            </md-card-title>
+                            <md-card-content>
+                                <div>
+                                    <img ngf-thumbnail="vm.profileFile" title="profile" width="85" height="85" />
+                                </div>
+                                <div class="btn-list">
+                                    <a class="btn btn-gray h30" accept="image/*" ngf-select="vm.uploadProfileFile($file, $invalidFiles)">{{"dash.updPhoto" | translate}}</a>
+                                    <a class="btn btn-white h30" ng-click="vm.deleteProfileFile()">{{"comm.del" | translate}}</a>
+                                </div>
+                                <div class="table-type01">
+                                    <table class="horizontal">
+                                        <colgroup>
+                                            <col style="width:50%"/>
+                                            <col style="width:50%"/>
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{"comm.id" | translate}}</td>
+                                                <td>{{::vm.userNm}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p>
+                                    <a href="http://iotmakers.kt.com/openp/index.html#/login/checkPwd" target="_blank"><i class="fas fa-external-link-alt"></i> {{"dash.updUserInfoAtPortal" | translate}}</a>
+                                </p>
+                            </md-card-content>
+                        </md-card>
+                        <md-card id="language">
+                            <md-card-title>
+                                <md-card-title-text>
+                                    <span class="md-headline">{{"comm.lang" | translate}}</span>
+                                </md-card-title-text>
+                            </md-card-title>
+                            <md-card-content>
+                                <p>{{"dash.eMsgBasInfo01" | translate}}</p>
+                                <p>
+                                    <select class="form-control" ng-model="vm.selectedLang" ng-options="list.code as list.name for list in vm.langList">
+                                        <option value="">{{"comm.choise" | translate}}</option>
+                                    </select>
+                                </p>
+                                <div class="btn-list">
+                                    <a class="btn btn-gray h30" ng-click="vm.aplyLang()">{{"dash.aply" | translate}}</a>
+                                </div>
+                            </md-card-content>
+                        </md-card>
+                    </div>
+                    <div flex-xs="" flex-gt-xs="50" layout="column">
+                        <md-card id="license">
+                            <md-card-title>
+                                <md-card-title-text>
+                                    <span class="md-headline">{{"dash.myLcns" | translate}}</span>
+                                </md-card-title-text>
+                            </md-card-title>
+                            <md-card-content>
+                                <p>{{"dash.eMsgBasInfo02" | translate}} <span>{{"dash.eMsgBasInfo03" | translate}}</span></p>
+                                <div class="table-type01">
+                                    <table class="horizontal">
+                                        <colgroup>
+                                            <col style="width:30%"/>
+                                            <col style="width:70%"/>
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{"dash.contType" | translate}}</td>
+                                                <td>{{::vm.lcnsInfo.lcnsPurpTypeNm}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{"dash.auth" | translate}}</td>
+                                                <td>
+                                                    <span ng-repeat="auth in ::vm.lcnsInfo.bizContSvcTypeCd">
+                                                        [{{"comm.svc_"+auth | translate}}]
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{"dash.contNm" | translate}}</td>
+                                                <td>{{::vm.lcnsInfo.lcnsContNm}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{"dash.contTerm" | translate}}</td>
+                                                <td>{{::vm.lcnsInfo.lcnsContStDate}} ~ {{::vm.lcnsInfo.lcnsContEndDate}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </md-card-content>
+                        </md-card>
+                    </div>
+                </md-content>
+            </div>
+        </div>
+    </section>
+</div>

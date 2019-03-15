@@ -1,0 +1,22 @@
+<style type="text/css">
+	.popMemFind {
+  		max-width: 450px;
+	}
+</style>
+
+<div class="modal-dialog popMemFind">
+    <div class="modal-content"
+        <div class="modal-header type2 clearfix">
+            <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <!-- 모달 내부 컨텐츠 -->
+
+            <p class="msg" style="white-space: pre;">{{message}}</p>
+            <!-- //모달 내부 컨텐츠 -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="defaultBtn" class="btn btn-normal" ng-click="close()">{{"msgBox.BtOk"|translate}}</button>
+        </div>
+    </div>
+</div>

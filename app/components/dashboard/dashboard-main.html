@@ -1,0 +1,125 @@
+<head>
+    <meta charset="utf-8">
+</head>
+
+<div class="sbjtList">
+
+    <!-- 등록된 위젯이 있는 경우 -->
+    <div id="sbjtGrid" gridster="gridsterOptions" style="display:none;">
+        <ul>
+            <li gridster-item="widget" ng-repeat="widget in widgetlist" class="gridster-item">
+                <div class="box">
+                    <!--위젯별 헤더-->
+                    <div class="box-header">
+                        <div class="box-header-title" ng-if="widget.compCtgTypeCd!=='0006'">
+                            <div id="wdgt{{widget.wdgtSeq}}-title">{{widget.wdgtNm}}</div>
+                            <div id="wdgt{{widget.wdgtSeq}}-subtitle" class="box-header-subtitle">{{widget.wdgtSubnm}}</div>
+                        </div>
+                        <!-- PC버전 -->
+                        <div class="btn-group box-header-btns hidden-mobile">
+                            <i class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" ng-click="vm.updateWdgt(widget)">{{"dash.updWdgtDtl" | translate}}</a></li>
+                                <li ng-if="widget.wdgtTmpltId=='SENSOR_CHART_WIDGET'"> <!-- 센서차트 -->
+                                    <a href="#" ng-click="vm.updateOptn(widget)">{{"dash.updViewOptn" | translate}}</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="#" ng-click="vm.deleteWdgt(widget)">{{"dash.delWdgt" | translate}}</a></li>
+                            </ul>
+                        </div>
+                        <!--// PC버전 -->
+                    </div>
+                    <!--//위젯별 헤더-->
+                    <!--위젯별 컨텐츠-->
+                    <div class="box-content" ng-include="widget.wdgtTmpltPhysFilePath"></div>
+                    <!--//위젯별 컨텐츠-->
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- //등록된 위젯이 있는 경우 -->
+
+    <!-- 등록된 위젯이 없는 경우 -->
+    <div id="noSbjt" class="noDashboard" style="display:none;">
+        <div class="noMsg">
+            <h2><b>{{"dash.eMsgStDashbd" | translate}}</b></h2>
+            <h4>{{"dash.eMsgNoDashbd" | translate}}</h4>
+            <a class="btn btn-black h40" ng-click="vm.addwdgtModal()">{{"comm.addWdgt" | translate}}</a>
+            <h5 class="hidden-mobile">{{"dash.eMsgNeedGuide" | translate}}
+                <a class="a-guide" ng-click="vm.sumryGuide()"><u><b>{{"dash.eMsgChkShcs" | translate}}</b></u></a>
+                {{"dash.eMsgOr" | translate}}
+                <a class="a-guide" ng-click="vm.userGuide()"><u><b>{{"dash.eMsgChkGuide" | translate}}</b></u></a></h5>
+        </div>
+    </div>
+    <!--// 등록된 대시보드가 없는 경우-->
+
+    <!-- 위젯/탭 추가 모달 -->
+    <div kt-modal="wdgtAddModal" close="vm.closeWdgtAddModal()">
+        <div class="modal-dialog add-widget-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="vm.closeWdgtAddModal()"><span aria-hidden="true">&times;</span></button>
+                    <h3>{{"comm.addWdgt" | translate}}</h3><!--위젯/탭 추가-->
+                </div>
+                <div class="modal-body modal-right-body" ng-switch on="vm.currentStep">
+                    <div class="modal-title-first">{{"comm.sorc" | translate}}</div>
+                    <div>
+                        <ul class="ul-btn">
+                            <li ng-click="vm.nextstep('0001','0001')" ng-class="{'selected':selectedSorc==='0001'}"><i class="fas fa-cube"></i><br/><p>{{"comm.dev" | translate}}</p></li>
+                            <li ng-click="vm.nextstep('0001','0002')" ng-class="{'selected':selectedSorc==='0002'}"><i class="fas fa-thermometer-three-quarters"></i><br/><p>{{"comm.snsr" | translate}}</p></li>
+                            <li ng-click="vm.nextstep('0001','0003')" ng-class="{'selected':selectedSorc==='0003'}"><i class="fas fa-bolt"></i><br/><p>{{"comm.event" | translate}}</p></li>
+                            <li ng-click="vm.nextstep('0001','0004')" ng-class="{'selected':selectedSorc==='0004'}"><i class="fas fa-link"></i><br/><p>{{"comm.complex" | translate}}</p></li>
+                        </ul>
+                    </div>
+                    <div class="modal-title">{{"comm.component" | translate}}</div>
+                    <div>
+                        <ul class="ul-btn">
+                            <li ng-repeat="tmplt in vm.selectedTmplt" ng-click="vm.nextstep('0002',tmplt.compCtgTypeCd)" ng-class="{'selected':compCtgr===tmplt.compCtgTypeCd}">
+                                <i class="{{tmplt.compOtputIcon}}"></i><br/><p>{{tmplt.compCtgNm}}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--<div class="modal-title">{{"comm.wdgtType" | translate}}</div>-->
+                    <div class="noDisplay">
+                        <ul class="ul-list">
+                            <li ng-repeat="wt in vm.selectedComp">
+                                <label><input type="radio" ng-click="vm.nextstep('0003',wt.wdgtTmpltTypeCd)" ng-model="vm.selectedWdgtType" value="{{wt.wdgtTmpltTypeCd}}">&nbsp;{{wt.wdgtTmpltTypeNm}}</label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-title" ng-if="vm.selectedDs.length>0">{{"comm.dataset" | translate}}</div>
+                    <div ng-if="vm.selectedDs.length>0">
+                        <ul class="ul-list">
+                            <li ng-repeat="ds in vm.selectedDs">
+                                <label><input type="checkbox" ng-model="vm.dsId[ds.id]" ng-true-value="'Y'" ng-false-value="'N'">&nbsp;{{ds.name}}</label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-title" ng-if="vm.selectedOpts.length>0">{{"comm.optn" | translate}}</div>
+                    <div ng-if="vm.selectedOpts.length>0">
+                        <ul class="ul-list">
+                            <li ng-repeat="opt in vm.selectedOpts">
+                                <label><input type="checkbox" ng-model="vm.optId[opt.id]" ng-true-value="'Y'" ng-false-value="'N'" ng-click="vm.setOptnView(opt)">&nbsp;{{opt.name}}</label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="error">{{invalidMessage}}</div>
+                </div>
+                <div class="modal-body modal-left-body">
+                    <div class="modal-title-first">{{"comm.preview" | translate}}</div>
+                    <div class="no-preview" ng-if="!vm.previewData">
+                        <b><u>{{"comm.dataset" | translate}}</u></b> {{"dash.eMsgOr" | translate}} <b><u>{{"comm.optn" | translate}}</u></b>{{"dash.eMsgKorChoose" | translate}}
+                    </div>
+                    <div class="preview" ng-if="vm.previewData">
+                        <img ng-src="assets/images/preview/{{vm.previewData}}.jpg"> <!--미리보기 이미지-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-white-b h30" ng-click="vm.closeWdgtAddModal()" ng-disabled="disabledBtn">{{"comm.cancel" | translate}}</a>
+                    <a class="btn btn-black h30" ng-click="vm.addWdgt()" ng-disabled="disabledBtn">{{"comm.save" | translate}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--// 위젯/탭 추가 모달 -->
+</div>

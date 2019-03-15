@@ -1,0 +1,30 @@
+<div id="sensorTable" class="logWdgt tableWdgt" ng-controller="SENSOR_LOG_WIDGET_Ctrl" ng-init="getWdgtInfo(widget)">
+    <div class="table table-type01" ng-if="viewType=='list'"><!--목록형-->
+        <table>
+            <colgroup>
+               <col width="30%"/>
+               <col width="25%"/>
+               <col width="30%"/>
+               <col width="15%"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th width="30%">{{"wdgt.colecDt" | translate}}</th>
+                    <th width="25%">{{"comm.dev" | translate}}</th>
+                    <th width="30%">{{"comm.snsr" | translate}}</th>
+                    <th width="15%">VALUE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="log in logList track by $index">
+                    <td class="back-color-gray1">{{log.createOn}}</td>
+                    <td>{{log.devNm}}</td>
+                    <td>{{log.snsrNm}}</td>
+                    <td class="back-color-yellow1"><b>{{log.value}}</b></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="noData transparent" ng-if="logList.length==0">{{'comm.eMsgNoData' | translate}}</div>
+    </div>
+    <div log-chart ng-if="viewType=='chart'" widget="widget" class="fullSizeArea"></div><!--차트형-->
+</div>

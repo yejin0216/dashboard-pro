@@ -1,0 +1,57 @@
+<script type="text/javascript">
+    $(function(){
+        $('#datetimepicker1').datetimepicker({format:'YYYY-MM-DD HH:mm'});
+        $('#datetimepicker2').datetimepicker({format:'YYYY-MM-DD HH:mm'});
+        //prevent enter key
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+    });
+</script>
+<div class="modal-dialog popSetWidget">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+            <h3>{{"wdgt.updRetvPrd" | translate}}</h3><!--시각화옵션 편집-->
+        </div>
+        <!-- 모달 내부 컨텐츠 -->
+        <div class="modal-body log-date-modal">
+            <div class="form-group row">
+                <label class="label-control col-sm-3">{{"wdgt.retvPrd" | translate}}</label><!--조회기간-->
+                <div class="col-sm-9">
+                    <div class="form-inline">
+                        <div class="input-group date" id="datetimepicker1">
+                            <input type="text" id="dp1" class="form-control" ng-model="logInfo.retvStDt" options="{format:'YYYY-MM-DD HH:mm'}">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                        &nbsp;~&nbsp;
+                        <div class="input-group date" id="datetimepicker2">
+                            <input type="text" id="dp2" class="form-control" ng-model="logInfo.retvFnsDt" options="{format:'YYYY-MM-DD HH:mm'}">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row warningMsg" ng-if="warningMsg">
+                <div class="warnChart"><b class="color-red1"><i class="fas fa-exclamation"></i>
+                    {{invalidMessage}} <br/>{{"wdgt.eMsgRetvLogWarn02" | translate}}</b></div>
+                <div class="solvChart">
+                    <dl>
+                        <dt>{{"wdgt.eMsgRetvLogWarn03" | translate}}</dt>
+                        <dd>{{"wdgt.eMsgRetvLogWarn04" | translate}}</dd>
+                        <dd>{{"wdgt.eMsgRetvLogWarn05" | translate}}</dd>
+                    </dl>
+                    <div><b>{{"wdgt.eMsgRetvLogWarn07" | translate}}</b></div>
+                </div>
+            </div>
+        </div>
+        <!--// 모달 내부 컨텐츠 -->
+        <div class="modal-footer">
+            <a class="btn btn-white-b h30" ng-click="close()">{{"comm.cancel" | translate}}</a><!--취소-->
+            <a class="btn btn-black h30" ng-click="save()">{{"comm.save" | translate}}</a><!--저장-->
+        </div>
+    </div>
+</div>

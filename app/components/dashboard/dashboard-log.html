@@ -1,0 +1,147 @@
+<div id="contents">
+    <!-- Contents -->
+    <section>
+        <div class="contents-btn-group">
+            <b>{{today}}</b>
+            <blink><i class="fas fa-sync-alt" ng-click="refreshLog()" title="{{'comm.f5' | translate}}" aria-label="{{'comm.f5' | translate}}"></i></blink>
+        </div>
+        <!-- 검색조건 -->
+        <div class=""></div>
+        <!--// 검색조건 -->
+
+        <!-- 로그 목록 -->
+        <div class="subContents dashboard-log">
+
+            <div class="logInfo">
+                <i class="fas fa-exclamation-triangle"></i> {{"comm.eMsgEvetLogInfo" | translate}}
+            </div>
+
+            <div ng-repeat="list in eventLogs | orderBy:'-outbDtm' | limitTo:limit">
+                <div class="bs-callout">
+                    <div class="bs-callout-name"><div class="ellipsis"><b>[{{list.evetGdCd | eventGradeNm}}] {{list.evetNm}}</b></div><div><b>{{list.outbDtm}}</b></div></div>
+                    <div class="bs-callout-detail" aria-label="{{'comm.dtlView' | translate}}" title="{{'comm.dtlView' | translate}}">
+                        <div class="dtlView" ng-class="{active:$index==infoArea}" ng-click="showEventDetail($index,list,'info')">{{"comm.crrlInfo" | translate}} <i class="fas fa-angle-down"></i></div>
+                        <div class="dtlView" ng-class="{active:$index==logArea}" ng-click="showEventDetail($index,list,'log')">{{"comm.logView" | translate}} <i class="fas fa-angle-down"></i></div>
+                        <!--로그보기-->
+                        <div class="dtlContent listEventDetail log" ng-if="$index==logArea">
+                            <p><span class="color-red1">[{{list.evetNm}}]</span> {{"dash.eMsgOccEvet" | translate}}</p>
+                            <p>({{"dash.logData" | translate}} : <span class="color-red1">{{eventDetail}}</span>)</p>
+                            <p><span class="color-gray2">{{list.outbDtm}}</span></p>
+                        </div>
+                        <!--//로그보기-->
+                        <!--연관정보-->
+                        <div class="dtlContent listEventDetail" ng-if="$index==infoArea">
+                            <div class="elInfo table-type02" ng-if="deviceRelList.length>0">
+                                <h4>{{"event.relSpotDevNm" | translate}}</h4>
+                                <table>
+                                    <colgroup>
+                                        <col/>
+                                        <col/>
+                                        <col/>
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>{{"event.num" | translate}}</th>
+                                        <th>{{"event.relDevModelNm" | translate}}</th>
+                                        <th>{{"event.relDevNm" | translate}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in deviceRelList">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.devModelNm}}</td>
+                                        <td>{{item.devNm}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="elInfo table-type02" ng-if="tagStrmRelList.length>0">
+                                <h4>{{"event.relSnsr" | translate}}</h4>
+                                <table>
+                                    <colgroup>
+                                        <col/>
+                                        <col/>
+                                        <col/>
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>{{"event.num" | translate}}</th>
+                                        <th>{{"event.relDevModelNm" | translate}}</th>
+                                        <th>{{"comm.snsrNm" | translate}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in tagStrmRelList">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.devModelNm}}</td>
+                                        <td>{{item.tagStrmId}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="elInfo table-type02" ng-if="evetRelList.length>0">
+                                <h4>{{"event.relEvet" | translate}}</h4>
+                                <table>
+                                    <colgroup>
+                                        <col/>
+                                        <col/>
+                                        <col/>
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>{{"event.num" | translate}}</th>
+                                        <th>{{"event.id" | translate}}</th>
+                                        <th>{{"event.name" | translate}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in evetRelList">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.eventId}}</td>
+                                        <td>{{item.statEvetNm}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="elInfo table-type02" ng-if="evetActScrtBasList.length>0">
+                                <h4>{{"event.relWorkflow" | translate}}</h4>
+                                <table>
+                                    <colgroup>
+                                        <col/>
+                                        <col/>
+                                        <col/>
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>{{"event.num" | translate}}</th>
+                                        <th>Type</th>
+                                        <th>{{"event.rmark" | translate}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in evetActScrtBasList">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.wrkDivCd}}</td>
+                                        <td ng-if="item.wrkDivCd == 04">{{"comm.cntrl" | translate}}</td>
+                                        <td ng-if="item.wrkDivCd != 04">{{item.evetActScrtDesc}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--//연관정보-->
+                </div>
+            </div>
+
+            <div class="moreData" ng-if="moreData" ng-click="getMoreData();">
+                {{"dash.moreInfo" | translate}} <i class="fas fa-angle-down"></i> <!--더보기-->
+            </div>
+            <div class="noData transparent" ng-if="eventLogs.length==0">
+                {{"comm.eMsgNoData" | translate}} <!--데이터가 없습니다.-->
+            </div>
+        </div>
+        <!--// 로그 목록 -->
+
+    </section>
+</div>

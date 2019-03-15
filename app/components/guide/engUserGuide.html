@@ -1,0 +1,503 @@
+<div id="contents" ui-view>
+    <section>
+        <div class="guideBasic">
+            <!-- 문서 정보 -->
+            <div class="docHead">
+                <div class="func">
+                    <dl class="info">
+                        <dt>Version.</dt>
+                        <dd>1.0.0</dd>
+                        <dt>Date.</dt>
+                        <dd>2019.04</dd>
+                    </dl>
+                </div>
+            </div>
+            <!-- //문서 정보 -->
+            <section class="guideCon">
+                <!-- 목차 -->
+                <button type="button" class="guide_lnb_btn" onclick="lnbFuc(this);"></button>
+                <div class="tableOfCon" id="tbCon">
+                    <h1>Contents</h1>
+                    <div class="tbConList">
+                        <ol>
+                            <li>
+                                <a href="#" onclick="portal.ui.scrollTo('c1');return false;">Introduce</a>
+                                <ol>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c1-1');return false;">Features</a></li>
+                                    <!--<li><a href="#" onclick="portal.ui.scrollTo('c1-2');return false;">반응형 웹</a></li>-->
+                                </ol>
+                          </li>
+                            <li>
+                                <a href="#" onclick="portal.ui.scrollTo('c2');return false;">Main Menu</a>
+                                <ol>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c2-1');return false;">Bookmark</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c2-2');return false;">My devices</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c2-3');return false;">Dashboard(list)</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c2-4');return false;">Event Timeline</a></li>
+                                </ol>
+                          </li>
+                            <li>
+                                <a href="#" onclick="portal.ui.scrollTo('c3');return false;">Features</a>
+                                <ol>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c3-1');return false;">Dashboard</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c3-2');return false;">Widget</a></li>
+                                </ol>
+                          </li>
+                            <li>
+                                <a href="#" onclick="portal.ui.scrollTo('c5');return false;">Widget type</a>
+                                <ol>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-1');return false;">Device list</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-2');return false;">Device image</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-3');return false;">Device Maps</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-4');return false;">Sensor list</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-5');return false;">Sensor image</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-6');return false;">Sensor chart</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-7');return false;">Sensor log(list type)</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-8');return false;">Sensor log(chart type)</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-9');return false;">Event List</a></li>
+                                    <!--<li><a href="#" onclick="portal.ui.scrollTo('c5-10');return false;">Event Chart</a></li>-->
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-11');return false;">composite image</a></li>
+                                    <li><a href="#" onclick="portal.ui.scrollTo('c5-12');return false;">Composite Maps</a></li>
+                                </ol>
+                          </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- //목차 -->
+
+                <!-- 가이드 컨텐츠 -->
+                <div class="docCon" id="docCon">
+                    <ul class="docConWrap">
+                        <h1 class="d1" id="c1">Introduce</h1>
+                        <p class="d1">
+                            Dashboard Pro2 is a UI(User Interface) service for visualizing IoT data such as devices, sensors, and events.<br/>
+                            Customize your dashboards and widgets to create your own IoT service UI.<br/>
+                        </p>
+                        <h2 class="d2" id="c1-1">Features</h2>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>1) Real-time monitoring and control</b></div>
+                                <img src="assets/images/guide/guide_dash_1-1_1_1.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>You can collect and control various resource<sub>(device, sensor, event, etc.)</sub> information of IoT device in real time.</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>2) Configuring User-customized UI</b></div>
+                                <img src="assets/images/guide/guide_dash_1-1_2.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>Widgets can be deployed to configure the UI for a variety of purposes.</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>3) Free widget resizing and placement</b></div>
+                                <img src="assets/images/guide/guide_dash_1-1_3.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>You can change the size of the created widget to be larger or smaller, and change the position of the widget freely.</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>4) Responsive web design</b></div>
+                                <img src="assets/images/guide/guide_dash_1-1_4.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>Dashboard Pro2 can be accessed through a browser on a variety of devices, including PCs, Tablets, and Smart Phones.</li>
+                                </ul>
+                          </li>
+                        </ul>
+
+                        <h1 class="d1" id="c2">Main Menu</h1>
+                        <h2 class="d2" id="c2-1">Bookmark</h2>
+                        <p class="d2">A collection of shortcuts to frequently used or important devices. 2)Click on the area to move to the selected dashboard.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_2_1.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) Add to Bookmarks: You can add a dashboard to your bookmarks list by selecting it and clicking the Add bookmarks button.</li>
+                                    <li>2) Bookmark Name: This is the area where the name of the dashboard added to bookmarks is displayed. Click to go to that dashboard.</li>
+                                    <li>3) Bookmark Information: You can see the details of the dashboard such as dashboard breakdown, worker(creator), and latest modification date.</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c2-2">My devices</h2>
+                        <p class="d2">You can inquire device and sensor information registered in IoTMakers, and define sensor attributes such as Group tag and Capability.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_2_2.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) Device List: List of my devices registered in IoTMakers.</li>
+                                    <li>2) Device information: Device name, model, and brief information of device can be checked.</li>
+                                    <li>3) Details: Click the [Details] button to check device details.</li>
+                                    <li>4) Sensor View: Click the [View Sensor] button to check sensor information that is dependent on the device.</li>
+                                    <li>5) Capability Setting: Click the [Capability Setting] button to set the UI type of the control sensor that is dependent on the device model. The set UI type is applied to "Device image widget".</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c2-3">Dashboard(list)</h2>
+                        <p class="d2">You can register, edit, or delete new dashboards.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_2_3.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) Add Dashboard: You can create a new dashboard by clicking the Add Dashboard button.</li>
+                                    <li>2) Dashboard list: A list of dashboards you have created.</li>
+                                    <li>3) Dashboard Information: Details of the dashboard, including dashboard names, dashboard breaks, etc.</li>
+                                    <li>4) Details: Go to the selected dashboard screen.</li>
+                                    <li>5) Edit: allows you to edit the name of the selected dashboard, etc.</li>
+                                    <li>6) Delete: You can delete the selected dashboard.</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c2-4">Event Timeline</h2>
+                        <p class="d2">You can check the log information of events registered in IoTMakers. They are displayed in reverse order from the point of view, and you can refresh the list by clicking the Refresh button.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_2_4.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) Refresh: You can see the new log by clicking the <i class = "fas fa-sync-alt"></i>
+                                    <li>2) Informational message: Up to 100 events can be displayed per event from today's events.</li>
+                                    <li>3) Event list: List of recent event logs (in reverse order)</li>
+                                    <li>4) Event information: You can check event class and event name.</li>
+                                    <li>5) Occurrence: Date and time of the selected event</li>
+                                    <li>6) Associated information: You can check the details of the selected event.</li>
+                                    <li>7) View log: You can see detailed information of selected event log.</li>
+                                </ul>
+                          </li>
+                        </ul>
+
+                        <h1 class="d1" id="c3">Features</h1>
+                        <h2 class="d2" id="c3-1">Dashboard</h2>
+                        <p class="d2">A dashboard is a collection of widgets, and you can register up to five.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Screen description</b></div>
+                                <img src = "assets/images/guide/guide_dash_3_1_1.jpg" class = "imgCon50">
+                                <ul class = "noBul">
+                                   <li>1) Navigation: Dashboard / {dashboard name}, where dashboard names can be changed freely.</li>
+                                   <li>2) Dashboard Add-on: Adds widgets to your dashboard, replicates, and more.</li>
+                                   <li>3) Event Inbox: Accumulate recent event push alarm (recent 5).</li>
+                               </ul>
+                                <!--<div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_3_1.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) Navigation: Dashboard / {dashboard name}, where dashboard names can be changed freely</li>
+                                    <li>2) Add widgets: you can select and add new widgets.</li>
+                                    <li>3) Favorites: You can add dashboards to your favorites list.</li>
+                                    <li>4) Delete Dashboard: Delete the Dashboard.</li>
+                                    <li>5) Dashboard clone: ​​You can create a new dashboard cloned dashboard.</li>
+                                    <li>6) Dashboard Performance Tester: Examines and suggests the performance of your dashboard.</li>
+                                    <li>7) Data connection: You can select the data connection type<sub>(fixed, periodic)</sub> of the dashboard.
+                                        <ul>
+                                            <li>Fixed: Queries widget based on connection time.</li>
+                                            <li>Cycle: update data every set period<sub>(eg 30 seconds, 60 seconds, 90 seconds, etc.)</sub></li>
+                                        </ul>
+                                  </li>
+                                </ul>-->
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c3-2">Widget</h2>
+                        <p class="d2">It is an authoring tool that can create customizing widgets to control IoT data.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [Add Widget] Description</b></div>
+                                <img src="assets/images/guide/guide_dash_3_2_1.jpg" class="imgCon50">
+                                <ul class="noBul">
+                                    <li>1) Resources: IoT resources<sub>(devices, sensors, events, etc.) registered with IoTMakers</sub></li>
+                                    <li>2) Component: Type of UI visualization to represent IoT resources</li>
+                                    <li>3) Dataset: the type of IoT data to configure the component</li>
+                                    <li>4) Preview: Selected resource, component Preview result widget</li>
+                                </ul>
+                          </li>
+                            <li>
+                                <div><b>◎ [Widget] Description</b></div>
+                                <img src="assets/images/guide/guide_dash_3_2_2.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) Title: Widget title and subtitle display area</li>
+                                    <li>2) Edit: widget title, content edit area</li>
+                                    <li>3) Content: widget's content display area</li>
+                                </ul>
+                          </li>
+                            <li>
+                                <div><b>◎ [Widget] Description</b></div>
+                                <img src="assets/images/guide/guide_dash_3_2_3.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) Edit details: You can edit the title, subtitle, and content of the widget.</li>
+                                    <li>2) Edit visualization options: You can apply additional visualization options<sub>(effects, best values, baseline etc.)</sub>
+                                    <li>3) Delete widgets: Delete widgets.</li>
+                                </ul>
+                          </li>
+                        </ul>
+
+                        <h1 class="d1" id="c5">Widget type</h1>
+                        <p class="d1">Users can create widgets by selecting Resources, Components, Datasets, and Visualization options in Add Widget.</p>
+                        <h2 class="d2" id="c5-1">Device list</h2>
+                        <p class="d2">You can monitor the real-time connection status of multiple devices, and the date of last collection.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_1.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) Order: Order of the list</li>
+                                    <li>2) Connection status: Connection status between IoTMakers and device</li>
+                                    <li>3) Device name: Name of device</li>
+                                    <li>4) Last collected date and time: Last data transfer date of IoTMakers reference device</li>You can monitor the connection status, recent collection date, and so on.
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c5-2">Device image</h2>
+                        <p class="d2">You can monitor the device's real-time connection status, and the date and time it was last collected.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_2.jpg" class="imgCon15">
+                                <ul class="noBul">
+                                    <li>1) Device name: The name of the device</li>
+                                    <li>2) Icon: Representative image of device</li>
+                                    <li>3) Connection status: Connection status between IoTMakers and device</li>
+                                    <li>4) Date and time of last collection: Date and time of latest data transfer for IoTMakers reference devices</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c5-3">Device Maps</h2>
+                        <p class="d2">
+                            You can check the device's real-time connection status, latest collection date and time, and check the device (fixed) location with KT Map. <br/>
+                            The device (fixed) position information can be modified on the device registration screen.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_3.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) Connection status: Connection status between IoTMakers and device</li>
+                                    <li>2) Device name: The name of the device</li>
+                                    <li>3) Device address: Device location address</li>
+                                    <li>4) Date and time of last collection: Date and time of latest data transfer for IoTMakers reference devices</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c5-4">Sensor list</h2>
+                        <p class="d2">
+                            You can monitor real-time values ​​of multiple sensors, recent collection times, and more. <br/>
+                            You can freely customize the icon by clicking the [Sensor icon] area.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_4_1.jpg" class="imgCon65">
+                                <ul class="noBul">
+                                    <li>1) Order: Order of the list</li>
+                                    <li>2) Icon: Representative image of sensor</li>
+                                    <li>3) Device name: Name of device</li>
+                                    <li>4) Sensor type: Sensor type (collection / control)</li>
+                                    <li>5) Sensor name: The name of the sensor</li>
+                                    <li>6) Final value: Sensor's last acquisition / control value</li>
+                                    <li>7) Last collected date: IoTMakers baseline sensor's latest data transfer date</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [Change Icon] Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_4_2.jpg" class="imgCon45">
+                                <ul class="noBul">
+                                    <li>1) Color icons: Built-in RGB color icons</li>
+                                    <li>2) Mono Icon: Built-in grayscale icons</li>
+                                    <li>3) Custom Icon: Customizing user icon</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c5-5">Senser image</h2>
+                        <p class="d2">
+                            You can monitor the sensor's real-time values, recent collection times, and more. <br/>
+                            You can freely customize the icon by clicking the [Sensor icon] area.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_5.jpg" class="imgCon15">
+                                <ul class="noBul">
+                                    <li>1) Device name: The name of the device</li>
+                                    <li>2) Sensor name: Name of the sensor</li>
+                                    <li>3) Icon: Representative image of sensor</li>
+                                    <li>4) Last value: Last collection / control value of sensor</li>
+                                    <li>5) Last collected date: IoTMakers reference sensor's latest data transfer date</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c5-6">Sensor chart</h2>
+                        <p class="d2">
+                            Real-time values ​​of sensors can be visualized in various charts. After you select the appropriate chart, you can add chart options as needed.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_6.jpg" class="imgCon100">
+                          </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [Edit visualization options] Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_6_6.jpg" class="imgCon45">
+                                <ul class="noBul">
+                                    <li>You can set up additional data representations such as visualization effects, reference intervals, and optimal values.</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c5-7">Sensor log(list type)</h2>
+                        <p class="d2">You can check the latest 100 log information of the selected sensor.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_7.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) Date and time of collection: Date and time of logging of sensors collected from IoTMakers</li>
+                                    <li>2) Device: The name of the device</li>
+                                    <li>3) Sensor: Name of the sensor</li>
+                                    <li>4) VALUE: recent value from sensor</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c5-8">Sensor log(chart type)</h2>
+                        <p class="d2">You can check the log information of the selected sensor in a chart.</p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_8_1.jpg" class="imgCon65">
+                                <ul class="noBul">
+                                    <li>1) View Duration: Display data in the chart for as long as the view duration. The default value is 1 hour.</li>
+                                    <li>2) You can change the lookback window by clicking the [<i class = "far fa-calendar-alt"></i>
+                                </ul>
+                          </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [Edit view dates] Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_8_2.jpg" class="imgCon45">
+                                <ul class="noBul">
+                                    <li>You can modify the lookup period of the Sensor log.</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c5-9">이벤트 목록</h2>
+                        <p class="d2">
+                            You can check the latest date and time of the events registered in IoTMakers. Click the toggle button to turn the event on or off.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_9.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) Order: Order of the list</li>
+                                    <li>2) Event: The name of the event</li>
+                                    <li>3) Date and time of last occurrence:</li>
+                                    <li>4) Status: Event On / Off status</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <!--<h2 class="d2" id="c5-10">Event chart</h2>
+                        <p class="d2">
+                            You can check the latest date and time of the events registered in IoTMakers. Click the toggle button to turn the event on or off.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_9.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) Order: Order of the list</li>
+                                    <li>2) Event: The name of the event</li>
+                                    <li>3) Date and time of last occurrence:</li>
+                                    <li>4) Status: Event On / Off status</li>
+                                </ul>
+                          </li>
+                        </ul>-->
+                        <h2 class="d2" id="c5-11">composite image</h2>
+                        <p class="d2">
+                            You can upload images to your dashboard and customize your text, background color, font color, and more.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_11_1.jpg" class="imgCon30">
+                                <ul class="noBul">
+                                    <li>1) Title: Title of the image</li>
+                                    <li>2) Subtitle / Content: Subtitle or content of image</li>
+                                    <li>3) Image: Image file</li>
+                                    <li>4) Logo / bottom: bottom of logo or image</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [Edit details] Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_11_2.jpg" class="imgCon45">
+                                <ul class="noBul">
+                                    <li>1) Background image: space for customizing the image</li>
+                                    <li>2) Title: Enter the title of the image</li>
+                                    <li>3) Subtitle / Content: Enter the subtitle or content of the image</li>
+                                    <li>4) Image: Space where attached image is displayed</li>
+                                    <li>5) Bottom: Enter footer of image</li>
+                                    <li>6) Attach image: You can attach a new image by clicking the button.</li>
+                                    <li>7) Background color: Click the button to change the background color and transparency of the image.</li>
+                                    <li>8) Font color: Click the button to change the title, subtitle / content, font color of the bottom.</li>
+                                    <li>9) Image size: You can toggle the image size<sub>(original size, background size)</sub>
+                                </ul>
+                          </li>
+                        </ul>
+                        <h2 class="d2" id="c5-12">composite Map</h2>
+                        <p class="d2">
+                            It can track the location of vehicles such as vehicles and trackers in real time and manage asset information of moving objects.
+                        </p>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_12_1.jpg" class="imgCon65">
+                                <ul class="noBul">
+                                    <li>1) Connection Status: IoTMakers to Mobile Status</li>
+                                    <li>2) Device name: Name of mobile object</li>
+                                    <li>3) Device address: Mobile location address</li>
+                                    <li>4) Date of latest collection: Date of latest data transmission of IoTMakers reference mobile</li>
+                                    <li>5) Learn more: View mobile details</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [Details] Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_12_2.jpg" class="imgCon65">
+                                <ul class="noBul">
+                                    <li>1) Mobile name: The name of the mobile</li>
+                                    <li>2) Edit: Click the [Edit] button to edit the asset information of the mobile.</li>
+                                    <li>3) Detailed information on moving objects: Detailed information such as mobile image, name, ID, etc.</li>
+                                    <li>4) Asset Information: Displaying Asset Information of Moving Objects</li>
+                                    <li>5) Search: You can search the location history of the mobile object for up to 2 days by entering the query period and clicking the [Search] button.</li>
+                                    <li>6) Location History: Displays the location history of the moving object in the KT Map for the lookup period.</li>
+                                </ul>
+                          </li>
+                        </ul>
+                        <ul class="d2 noBul">
+                            <li>
+                                <div><b>◎ [Edit details] Description</b></div>
+                                <img src="assets/images/guide/guide_dash_5_12_3.jpg" class="imgCon45">
+                                <ul class="noBul">
+                                    <li>1) Asset name: Asset information of mobile entity</li>
+                                    <li>2) Asset Details: Enter title of image</li>
+                                    <li>3) Add row: add row</li>
+                                    <li>3) Delete rows: Delete rows</li>
+                                </ul>
+                          </li>
+                        </ul>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </section>
+</div>

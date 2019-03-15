@@ -1,0 +1,64 @@
+<div class="modal-dialog popSetWidget">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+            <h3>{{"dash.updViewOptn" | translate}}</h3><!--시각화옵션 편집-->
+        </div>
+        <!-- 모달 내부 컨텐츠 -->
+        <div class="modal-body chart-tool-widget" ng-switch on="uiCode">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label class="label-control required">{{"wdgt.visualEffct" | translate}}</label><!--시각화 효과-->
+                    <div>
+                        <ul class="ul-btn">
+                            <li ng-repeat="item in ::allEffectList" ng-class="{'selected':savedAttr==item.attr}"
+                                ng-click="selectedEffect(item)"><img ng-src="{{item.src}}"><p class="hidden-mobile">{{item.name}}</p></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" ng-switch-when="10">
+                <div class="col-sm-12">
+                    <label class="label-control">{{"wdgt.setOptmVal" | translate}}</label><!--최적값-->
+                    <div class="selList" ng-repeat="list in ::snsrList">
+                        <p>[{{list.devNm}}] {{list.snsrNm}}</p>
+                        <input type="number" string-to-number class="form-control" ng-model="list.optmVal"/>
+                    </div>
+                    <div class="noData" ng-if="::snsrList.length === 0">
+                        <span>{{"comm.eMsgNoData" | translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" ng-switch-when="20">
+                <label class="label-control col-sm-12">{{"wdgt.setPlotBand" | translate}}</label>
+                <div class="col-sm-6"><input type="number" string-to-number class="form-control" ng-model="plotBands[0]['from']" placeholder="From"/></div>
+                <div class="col-sm-6"><input type="number" string-to-number class="form-control" ng-model="plotBands[0]['to']" placeholder="To"/></div>
+            </div>
+            <div class="form-group row" ng-switch-when="30">
+                <label class="label-control col-sm-12 required">{{"wdgt.setPlotBand" | translate}}</label>
+                <div class="form-group" ng-repeat="item in ::valueBand">
+                    <div class="col-sm-6"><input type="number" string-to-number class="form-control" ng-model="item['min']" placeholder="From"/></div>
+                    <div class="col-sm-6"><input type="number" string-to-number class="form-control" ng-model="item['max']" placeholder="To"/></div>
+                </div>
+            </div>
+            <div class="form-group row" ng-switch-when="30">
+                <label class="label-control col-sm-12">{{"wdgt.setPlotBandDtl" | translate}}</label>
+                <div ng-repeat="item in ::plotBands">
+                    <div class="col-sm-2 plotband-inputs plotband-title-group">
+                        <p class="plotband-signal" ng-style="{'background-color':item['color']}"></p>
+                        <p class="plotband-title">{{"comm."+item['type'] | translate}}</p>
+                    </div>
+                    <div class="col-sm-5 plotband-inputs"><input type="number" string-to-number class="form-control" ng-model="item['from']" placeholder="From"/></div>
+                    <div class="col-sm-5 plotband-inputs"><input type="number" string-to-number class="form-control" ng-model="item['to']" placeholder="To"/></div>
+                </div>
+                <div ng-if="noData">{{"comm.eMsgNoData" | translate}}</div>
+            </div>
+        </div>
+        <div class="validator">{{invalidMessage}}</div> <!--유효성 검증 메시지-->
+        <!--// 모달 내부 컨텐츠 -->
+        <div class="modal-footer">
+            <a class="btn btn-white-b h30" ng-click="close()">{{"comm.cancel" | translate}}</a>
+            <a class="btn btn-black h30" ng-click="save()">{{"comm.save" | translate}}</a>
+        </div>
+    </div>
+</div>

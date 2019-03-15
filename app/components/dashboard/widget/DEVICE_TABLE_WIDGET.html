@@ -1,0 +1,26 @@
+<div id="deviceTable" class="tableWdgt" ng-controller="DEVICE_TABLE_WIDGET_Ctrl" ng-init="getWdgtInfo(widget)">
+    <div class="table-type01">
+        <table>
+            <colgroup>
+                <col ng-repeat="g in ::gridCol | orderBy:'ordr'" ng-class="colWidth(g)">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th ng-repeat="g in ::gridCol | orderBy:'ordr'" scope="col">{{"wdgtCol.ds."+g.id | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in devList track by $index" ng-class-odd="'back-color-gray1'">
+                    <td ng-if="showThisTd('seq')">{{$index+1}}</td>
+                    <td ng-if="showThisTd('sttus')">
+                        <i ng-if="item.sttus" class="fas fa-circle color-red1"></i>
+                        <i ng-if="!item.sttus" class="fas fa-ban color-gray2"></i>
+                    </td>
+                    <td ng-if="showThisTd('devNm')">{{item.devNm}}</td>
+                    <td ng-if="showThisTd('amdDtt')">{{item.amdDtt}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="noData transparent">{{noData}}</div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div id="deviceImage" class="imageWdgt deviceImage" ng-controller="DEVICE_IMAGE_WIDGET_Ctrl" ng-init="getWdgtInfo(widget)">
+    <!--아이콘이 없는 경우-->
+    <non-icon-content ng-if="!iconOtPut && devInfo">
+        <div class="text-center devNm" ng-if="showThisDiv('devNm')">{{devInfo.devNm}}</div>
+        <div class="text-center devSttus" ng-if="showThisDiv('sttus')">
+            <i ng-if="devInfo.sttus" class="fas fa-circle color-red1"></i>
+            <i ng-if="!devInfo.sttus" class="fas fa-ban color-gray2"></i>
+            <span class="amdDtt"  ng-if="showThisDiv('amdDtt')">{{devInfo.amdDtt}}</span>
+        </div>
+    </non-icon-content>
+    <!--//아이콘이 없는 경우-->
+    <!--아이콘이 있는 경우-->
+    <icon-content ng-if="iconOtPut && devInfo">
+        <div class="text-center devNm" ng-if="showThisDiv('devNm')">{{devInfo.devNm}}</div>
+        <div class="devIcon" ng-if="showThisDiv('icon')">
+            <img ng-if="devInfo.icon" ng-src="data:image/jpg;base64,{{devInfo.icon}}">
+            <img ng-if="!devInfo.icon" src="assets/images/svg/img_device_none.svg">
+        </div>
+        <div class="text-center devSttus" ng-if="showThisDiv('sttus')">
+            <i ng-if="devInfo.sttus" class="fas fa-circle color-red1"></i>
+            <i ng-if="!devInfo.sttus" class="fas fa-ban color-gray2"></i>
+            <span class="amdDtt"  ng-if="showThisDiv('sttus')">{{devInfo.amdDtt}}</span>
+        </div>
+    </icon-content>
+    <!--//아이콘이 있는 경우-->
+    <div ng-if="!devInfo" class="noData transparent">{{"comm.eMsgNoData" | translate}}</div>
+</div>

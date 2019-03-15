@@ -1,0 +1,98 @@
+<div id="contents">
+    <!-- Contents -->
+    <section>
+        <div class="contents-btn-group">
+            <a ng-click="vm.openModal()" class="btn btn-black h30">{{"dash.addDashbd" | translate}}</a>
+        </div>
+        <div class="subContents dashboard-list">
+            <div class="bs-callout" ng-repeat="item in vm.sbjtList track by $index">
+                <!-- 웹 영역 -->
+                <div class="hidden-mobile">
+                    <div>
+                        <div class="bs-callout-name">
+                            <span ng-if="vm.updateMode && item.sbjtSeq==vm.selectedSbjtSeq"><input type="text" class="form-control-30" ng-model="vm.sbjtNm" maxlength="25"/></span>
+                            <span ng-if="item.sbjtSeq!=vm.selectedSbjtSeq">{{item.sbjtNm}}</span>
+                        </div>
+                        <div class="bs-callout-detail">
+                            <p>
+                                {{"comm.gubun" | translate}} :
+                                <span ng-if="item.sbjtSeq!=vm.selectedSbjtSeq">{{"bmark."+item.sbjtCtgEngNm || "Default" | translate}}</span>
+                                <span ng-if="vm.updateMode && item.sbjtSeq==vm.selectedSbjtSeq">
+                                    <select class="form-control" ng-model="vm.sbjtCtgTypeCd" ng-options="list.code as list.name for list in vm.commList">
+                                        <option value="">{{"comm.choise" | translate}}</option>
+                                    </select>
+                                </span>
+                                <span class="pipe color-gray1">|</span>{{"comm.cretr" | translate}} : {{item.cretrId}}
+                                <span class="pipe color-gray1">|</span>{{"comm.amdDt" | translate}} : {{item.amdDt || item.cretDt}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="btn-list">
+                        <a class="btn btn-white h30" ng-click="vm.move(item.sbjtSeq)" ng-if="item.sbjtSeq!=vm.selectedSbjtSeq">{{"comm.dtlView" | translate}}</a> <!--자세히보기-->
+                        <a class="btn btn-gray h30" ng-click="vm.update(item)" ng-if="item.sbjtSeq!=vm.selectedSbjtSeq">{{"comm.upd" | translate}}</a> <!--수정-->
+                        <a class="btn btn-gray h30" ng-click="vm.save(item)" ng-if="vm.updateMode && item.sbjtSeq==vm.selectedSbjtSeq">{{"comm.save" | translate}}</a> <!--저장-->
+                        <a class="btn btn-gray h30" ng-click="vm.cancel()" ng-if="vm.updateMode && item.sbjtSeq==vm.selectedSbjtSeq">{{"comm.cancel" | translate}}</a> <!--취소-->
+                        <a class="btn btn-gray h30" ng-click="vm.delete(item.sbjtSeq)" ng-if="item.sbjtSeq!=vm.selectedSbjtSeq">{{"comm.del" | translate}}</a> <!--삭제-->
+                    </div>
+                </div>
+                <!--// 웹 영역 -->
+                <!-- 모바일 영역 -->
+                <div class="visible-mobile">
+                    <div>
+                        <div class="bs-callout-name hover-underline">
+                            <p>
+                                <span ng-if="vm.updateMode && item.sbjtSeq==vm.selectedSbjtSeq"><input type="text" class="form-control" ng-model="vm.sbjtNm" maxlength="25" /></span>
+                                <span ng-if="item.sbjtSeq!=vm.selectedSbjtSeq" ng-click="vm.move(item.sbjtSeq)">{{item.sbjtNm}}</span>
+                            </p>
+                            <p>{{"comm.gubun" | translate}} :
+                                <span ng-if="item.sbjtSeq!=vm.selectedSbjtSeq">{{"bmark."+item.sbjtCtgEngNm || "Default" | translate}}</span>
+                                <span ng-if="vm.updateMode && item.sbjtSeq==vm.selectedSbjtSeq">
+                                    <select class="form-control" ng-model="vm.sbjtCtgTypeCd" ng-options="list.code as list.name for list in vm.commList">
+                                        <option value="">{{"comm.choise" | translate}}</option>
+                                    </select>
+                                </span>
+                                <span class="pipe color-gray1">|</span>{{"comm.cretr" | translate}} : {{item.cretrId}}</p>
+                            <p>{{"comm.amdDt" | translate}} : {{item.amdDt}}</p>
+                        </div>
+                        <div class="bs-callout-btn-group">
+                            <ul class="bs-callout-btn">
+                                <li ng-click="vm.update(item)" ng-if="item.sbjtSeq!=vm.selectedSbjtSeq"><i class="fas fa-edit pointer"></i></li>
+                                <li ng-click="vm.delete(item.sbjtSeq)" ng-if="item.sbjtSeq!=vm.selectedSbjtSeq"><i class="fas fa-trash-alt pointer"></i></li>
+                                <li ng-click="vm.save(item)" ng-if="vm.updateMode && item.sbjtSeq==vm.selectedSbjtSeq"><i class="fas fa-check pointer"></i></li>
+                                <li ng-click="vm.cancel()" ng-if="vm.updateMode && item.sbjtSeq==vm.selectedSbjtSeq"><i class="fas fa-undo pointer"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--// 모바일 영역 -->
+            </div>
+        </div>
+    </section>
+    <!--// Contents -->
+</div>
+
+<!-- 테마 추가 모달 -->
+<div kt-modal="sbjtAddModal" close="closeModal()">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="closeModal()"><span aria-hidden="true">&times;</span></button>
+                <h3>{{"dash.addDashbd" | translate}}</h3><!--위젯/탭 추가-->
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="label-control col-sm-3">{{"dash.inputDashbdNm" | translate}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" ng-model="vm.sbjtNm" maxlength="25"/>
+                        <span class="error" id="inputSbjtNm" style="display:none;">{{"comm.eMsgMustValueColumn" | translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-normal" ng-click="vm.closeModal()">{{"comm.cancel" | translate}}</button>
+                <input type="submit" class="btn btn-confirm" ng-click="vm.saveModal()" value='{{"comm.save" | translate}}'>
+            </div>
+        </div>
+    </div>
+</div>
+<!--// 테마 추가 모달 -->

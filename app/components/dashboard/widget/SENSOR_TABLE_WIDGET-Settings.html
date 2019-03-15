@@ -1,0 +1,55 @@
+<div class="modal-dialog popSetWidget">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+            <h3>{{"dash.updWdgtDtl" | translate}}</h3>
+        </div>
+        <!-- 모달 내부 컨텐츠 -->
+        <div class="modal-body">
+            <div class="form-group row">
+                <label class="label-control col-sm-3">{{"wdgt.title" | translate}}</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" ng-model="wdgtNm" maxlength="30" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="label-control col-sm-3">{{"wdgt.subtitle" | translate}}</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" ng-model="wdgtSubnm" maxlength="30" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label class="label-control required">{{"comm.dev" | translate}}</label>
+                    <select class="form-control" ng-model="selectedDev" ng-options="item.devNm for item in ::devList track by item.spotDevSeq" ng-change="getSnsrByDev(selectedDev)">
+                        <option value="">{{"comm.choise" | translate}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label-control required">{{"comm.snsr" | translate}}</label>
+                    <select class="form-control" ng-model="selectedSnsr" ng-options="item.name for item in snsrList track by item.code" ng-change="setSelectedList()">
+                        <option value="">{{"comm.choise" | translate}}</option>
+                    </select>
+                    <div class="error">{{invalidMessage}}</div>
+                </div>
+            </div>
+            <h4 class="divider"></h4> <!-- divider -->
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label class="label-control">{{"wdgt.addedSnsrList" | translate}}</label>
+                    <div class="selList" ng-repeat="item in selectedList">
+                        <p>{{item.devNm}} / {{item.snsrNm}}<span class="pointer" ng-click="delRow($index)" aria-hidden="true">&times;</span></p>
+                    </div>
+                    <div class="noData" ng-if="selectedList.length==0">
+                        <span>{{"comm.eMsgNoData" | translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--// 모달 내부 컨텐츠 -->
+        <div class="modal-footer">
+            <a class="btn btn-white-b h30" ng-click="close()">{{"comm.cancel" | translate}}</a>
+            <a class="btn btn-black h30" ng-click="save()">{{"comm.save" | translate}}</a>
+        </div>
+    </div>
+</div>
