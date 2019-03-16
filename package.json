@@ -1,0 +1,28 @@
+{
+  "name": "dashboard-pro",
+  "version": "1.0.0",
+  "description": "Dashboard Pro2 패키지",
+  "main": "none",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yejin0216/dashboard-pro.git"
+  },
+  "keywords": [
+    "dashboard"
+  ],
+  "author": "yejin kim (yejin0216@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yejin0216/dashboard-pro/issues"
+  },
+  "homepage": "https://github.com/yejin0216/dashboard-pro#readme",
+  "devDependencies": {
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {}
+}
