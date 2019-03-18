@@ -1,0 +1,238 @@
+<!doctype html>
+<html ng-app="comp">
+  <head>
+	  <link rel="stylesheet" href="../vendor/bootstrap/docs/assets/css/bootstrap.css">
+  	<link rel="stylesheet" href="../vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="../vendor/jqgrid/css/ui.jqgrid.css" />
+	 	<link rel="stylesheet" type="text/css" href="../build/css/kt3m-ui-white.css">
+  	<style type="text/css">
+		.kt-table {
+	    border: 1px solid #000;
+		}
+		</style>
+		<script src="../vendor/jquery/dist/jquery.js"></script>
+		<script src="../vendor/jquery-ui/jquery-ui.js"></script>
+		<script src="../vendor/underscore/underscore.js"></script>
+		<script src="../vendor/angular/angular.js"></script>
+		<script src="../vendor/jqgrid/js/i18n/grid.locale-en.js"></script>
+		<script src="../vendor/jqgrid/js/minified/jquery.jqGrid.min.js"></script>
+    <script src="../vendor/raphael/raphael-min.js"></script>
+    <script src="../build/kt3m-ui.js"></script>
+  </head>
+  <body ng-controller="testCtrl">
+
+  	<div kt-box-gague data="value" min="1" max="6" width="80" height="150" vertical="true" style="margin:1px;" box-color="red"></div>
+  	<div style="margin:10px;">
+	  	<p>{{value}}, 최소 : 1, 최대 : 6</p>
+	  	<input type="number" ng-model="value">
+  	</div>
+
+  <!-- 	<div kt-box-gague data="value2" min="0" max="200" width="200" height="100" num-of-box="20" spacing="2"></div>
+  	<div style="margin:10px;">
+  		<p>{{value2}}, 최소 : 0, 최대 : 200</p>
+  		<input type="number" ng-model="value2">
+  	</div> -->
+  	
+  </body>
+  <script type="text/javascript">
+  /**
+  * comp Module
+  *
+  * Description
+  */
+  angular.module('comp', ['kt.ui']).
+  	controller('testCtrl', ['$scope', function ($scope) {
+  		$scope.value = 2;
+
+  		$scope.value2 = 40;
+
+  		$scope.change = function (newValue) {
+  			$scope.value = newValue;
+  		} 		
+
+  		$scope.change2 = function () {
+  			$scope.value2 = 80;
+  		} 		
+  	}]).
+  	directive('ktBoxGague', ['$log','BoxGague','$timeout',function ($log,BoxGague,$timeout) {
+  		return {
+  			restrict: 'AE',
+  			scope: {
+  				data : "="
+  			},
+  			// template : "<div class='ktBoxGague'></div>",
+  			link: function ($scope, iElement, iAttrs) {
+  				if(!!!iAttrs.width) iAttrs.width = 300;
+  				if(!!!iAttrs.height) iAttrs.height = 300;
+  				var nob = iAttrs.numOfBox || 5,
+  						rect = {
+  							options: {
+  								fill: 'white',
+			  					stroke : 'black',
+			  					'stroke-width' : 1
+  							}
+  						},
+  						boxColor = iAttrs.boxColor || "black",
+  						spacing  = (iAttrs.spacing) ? Number(iAttrs.spacing) : 5,
+  						isVertical = (iAttrs.vertical === "true") ? true : false,
+  						lastRectX = 1,
+							lastRectY = 1,
+							min = (iAttrs.min) ? Number(iAttrs.min) : 0,
+							max = (iAttrs.max) ? Number(iAttrs.max) : 100,
+							lastIndex = 0,
+							blinkPromise = null,
+							toctak;
+
+
+  				if(isVertical){
+  					rect.height = (((iAttrs.height-(rect.options["stroke-width"]*nob))-((nob-1)*spacing))/nob);
+  					rect.width = iAttrs.width-2;
+						lastRectY = iAttrs.height-rect.height;
+  				}else{
+						rect.width = (((iAttrs.width-(rect.options["stroke-width"]*nob))-((nob-1)*spacing))/nob);
+  					rect.height = iAttrs.height-2;
+						lastRectX = 1;
+						lastRectY = 1;
+  				}
+
+  				var pager = Raphael(iElement.get(0), iAttrs.width, iAttrs.height);
+					var rectInstances = [];
+
+					for (var i = 0; i < nob; i++) {
+						var ri = pager.rect(lastRectX, lastRectY, rect.width, rect.height);
+						ri.attr(rect.options);
+						rectInstances.push(ri);
+
+						if(isVertical){
+							lastRectY= lastRectY - (rect.height + spacing);
+						}else{
+							lastRectX= lastRectX + rect.width + spacing;
+						}
+
+					};
+
+					function fill(newIndex) {
+						var diffIndex = lastIndex - newIndex;
+						if(newIndex === nob){
+							for (var i = 0; i < nob-1; i++) {
+								rectInstances[i].animate({
+									fill : boxColor
+								},100*i);
+							}
+
+							rectInstances[nob-1].animate({
+								fill : boxColor
+							},100*(nob-1),null,function(){
+								blink(rectInstances[newIndex-1]);
+							});
+
+							return;
+						}
+
+						if(newIndex === 0){
+							for (var i = 0; i < nob; i++) {
+								rectInstances[i].attr({
+									fill : "white"
+								});
+							}
+
+							blink(rectInstances[0]);
+							return;
+						}
+
+						if(diffIndex>0){
+							console.log("diffIndex", diffIndex);
+							console.log("lastIndex", lastIndex);
+							for (var i = 0; i < diffIndex; i++) {
+								var j = lastIndex-1-i;
+								console.log("j",j);
+								rectInstances[j].animate({
+							 			fill : "white"
+							 		},100);
+							};
+							blink(rectInstances[newIndex-1]);
+						}else{
+							for (var i = 0; i < newIndex-1; i++) {
+								rectInstances[i].animate({
+									fill : boxColor
+								},100*i);
+							};
+							rectInstances[newIndex-1].animate({
+								fill : boxColor
+							},100*(newIndex-1),null,function(){
+								blink(rectInstances[newIndex-1]);
+							});
+							
+						}
+					}
+
+					function blink(el){
+						if(blinkPromise) {
+							$timeout.cancel(blinkPromise);
+						}
+						console.log(el);
+						if(toctak === 0){
+							el.animate({
+								fill : "white",
+							},500);
+							toctak = 1;
+						}else{
+							el.animate({
+								fill : boxColor,
+							},500);
+
+							toctak = 0;
+						}
+
+
+
+						blinkPromise = $timeout(function(){
+							blink(el);
+						},1000);
+					}
+
+
+					// fill();
+
+					function calIndex (min, max, value) {
+						var range = max-min,
+								boxVarient = range/nob,
+								index = 1;
+
+						if(value >= max) {
+							return nob;
+						}
+
+						if(value < min){
+							return 0;
+						}
+
+						for (var i = 1; i <= nob; i++) {
+							if((i*boxVarient)+min > value) {
+								index = i;
+								break;
+							}
+						}
+
+						return index;
+					}
+
+  				$scope.$watch('data',function (newData, beforeData) {
+  					newIndex = calIndex(min,max,newData);
+  					fill(newIndex);
+  					lastIndex = newIndex;
+  				});
+  			}
+  		};
+  	}]).
+		factory('BoxGague', [function () {
+			function _init() {
+				// body...
+			}
+
+			return {
+				init : _init
+			}
+		}]);
+  </script>
+</html>

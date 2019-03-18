@@ -1,0 +1,67 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h3>
+		설명
+	</h3>
+	<p class="description">
+		
+	</p>
+	<h3>사용법</h3>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h3>속성별 설명</h3>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>필수 속성</code>
+				<p></p>
+			</li>
+			<li>
+				<code>옵셔널 속성</code> <small>- optional</small>
+				<p></p>
+			</li>
+		</ul>
+	</div>
+	<h3>예제</h3>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h3>Preview</h3>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl">꼭 붙여서 쓰시오</script>
+
+<script id="exapmleTpl" type="text/tpl">꼭 붙여서 쓰시오</script>
+

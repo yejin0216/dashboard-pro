@@ -1,0 +1,146 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		로우 에디트 예제 - 작업중.
+	</p>
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="gridTest">
+  <head>
+  	<link href="css/style.css" rel="stylesheet" />
+  	<link href="css/style-theme-default.css" rel="stylesheet" />
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+	<link rel="stylesheet" href="build/css/kt3m-ui.css">
+
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jqgrid/js/i18n/grid.locale-en.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jqgrid/js/minified/jquery.jqGrid.min.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+    /**
+    * gridTest Module
+    *
+    * Description
+    */
+    angular.module('gridTest', ['kt.ui']).
+    	controller('Ctrl',['$scope',function($scope){
+			var userList = {
+				rows:[
+						{ name : "고재도", email : "3@gmail.com", regDate : "2003-01-24" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "김민우", email : "1@gmail.com", regDate : "2000-03-24" }
+					]
+			};
+      
+			$scope.userList = userList;  
+
+			$scope.select = function(data) {
+				$scope.selectedData = data;
+			};
+
+			$scope.deletSelectedRow = function(){
+				var s=$scope.grid1.getGridParam('selarrrow');
+				var d = [];
+				angular.copy(s, d);
+				angular.forEach(d, function(value, key){
+					$scope.grid1.delRowData(value);
+					
+				});
+				alert(s);
+			};
+
+			$scope.restoreSelectedRow = function(){
+				var s=$scope.grid1.getGridParam('selarrrow');
+				if(s) $scope.isEditing = false;
+				angular.forEach(s, function(value, key){
+					$scope.grid1.saveRow(value,false, 'clientArray');
+				});
+			};
+
+			$scope.editSelectedRow = function(){
+				var s=$scope.grid1.getGridParam('selarrrow');
+				if(s) $scope.isEditing = true;
+				angular.forEach(s, function(value, key){
+					$scope.grid1.editRow(value);
+				});
+			};
+    	}]);
+    &lt;/script&gt;
+</head>
+  <body ng-controller="Ctrl">
+  	{{userList.rows}}
+  		<div>
+  			<button class="btn btn-default">로우 추가</button>
+  			<button class="btn btn-default" ng-click="deletSelectedRow()">선택 로우 삭제</button>
+  			<button class="btn btn-default" ng-click="editSelectedRow()" ng-hide="isEditing">로우 편집</button>
+  			<button class="btn btn-default" ng-click="restoreSelectedRow()" ng-show="isEditing">로우 편집 완료</button>
+  			<button class="btn btn-default">로우 상세보기</button>
+  		</div>
+		<table kt-grid="grid1" data="userList" grid-height="200" grid-width="980" autowidth="true" row-num="15" multiselect="true" sortable="true">
+			<thead>
+				<tr>
+					<th>이름</th>
+					<th>이메일</th>
+					<th>등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr on-select-row="select()">
+					<td width="33%" align="center" sorttype="text" editable="true">{{name}}</td>
+					<td width="33%" align="center"  editable="true">{{email}}</td>
+					<td width="34%" align="center">{{regDate}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>선택한 로우 : {{selectedData.name}} {{selectedData.email}} {{selectedData.regDate}}</p>
+  </body>
+</html>
+</script>
+

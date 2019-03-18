@@ -1,0 +1,42 @@
+{
+  "name": "kt3m",
+  "version": "1.0.1",
+  "authors": [
+    "jeado ko <haibane84@gmail.com>"
+  ],
+  "license": "kt",
+  "dependencies": {
+    "angular-resource": "1.4.0",
+    "angular": "1.4.0",
+    "angular-route": "1.4.0",
+    "jquery": "1.11.2",
+    "underscore": "~1.4.4",
+    "angular-ui-codemirror": "~0.2.3",
+    "angular-ui-date": "~0.0.7",
+    "jquery-ui": "~1.11.4",
+    "jqgrid": "~4.7.1",
+    "angular-ui-bootstrap": "~0.12.1",
+    "highcharts": "~3.0.1",
+    "angular-strap": "~2.2.1",
+    "angular-translate": "~2.6.1",
+    "angular-translate-loader-static-files": "~2.6.1",
+    "bootstrap": "~3.3.4",
+    "fullcalendar": "~2.3.1",
+    "select2": "~3.5.2",
+    "angular-ui-select2": "~0.0.5"
+  },
+  "ignore": [
+    "**/.*",
+    "src",
+    "/css/*",
+    "less",
+    "edu",
+    "node_modules",
+    "vendor"
+  ],
+  "main": [
+    "build/kt3m-ui.js",
+    "build/css/kt3m-ui.css",
+    "build/css/kt3m-ui-white.css"
+  ]
+}

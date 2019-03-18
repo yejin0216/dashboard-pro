@@ -1,0 +1,211 @@
+<style>
+	.kt-item-selector button{
+		display: block;
+		margin-bottom: 5px;
+	}
+
+	.kt-item-selector .left-select{
+		margin-right: 10px;	
+		height: 100%;
+	}
+
+	.kt-item-selector .right-select{
+		margin-left: 10px;
+		height: 100%;
+	}
+
+</style>
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+
+
+		$scope.leftItems = [
+			{name:'orange', shade:'dark'},
+	    {name:'marinblue', shade:'light'},
+	    {name:'pink', shade:'dark'},
+	    {name:'brown', shade:'dark'},
+	    {name:'red', shade:'light'}
+		];
+
+		$scope.rightItems = [
+			{name:'black', shade:'dark'},
+	    {name:'white', shade:'light'},
+	    {name:'red', shade:'dark'},
+	    {name:'blue', shade:'dark'},
+	    {name:'yellow', shade:'light'}
+		];
+
+		$scope.a = [$scope.leftItems[2]];
+		$scope.b = [$scope.rightItems[2]];
+	}
+</script>
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		두 멀티 셀렉트의 아이템들을 좌 우로 움직일 수 있게 하는 컴포넌트이다.
+	</p>
+	<h2>사용법</h2>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h2>속성별 설명</h2>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>kt-item-selector</code>
+				<p>아이템 셀렉터 컴포넌트를 선언하며 $scope에 바인딩된 옵션을 제공할 수 있다. 없으면 공 문자열 입력</p>
+				<p>
+					- 옵션 리스트 - 
+					<ul>
+						<li>
+							showMoveButton : true/false
+							<p>아이템을 이동하는 버튼을 보여준다. (기본 : true)</p>
+						</li>
+						<li>
+							showCopyButton : true/false
+							<p>아이템을 복사하는 버튼을 보여준다. (기본 : true)</p>
+						</li>
+					</ul>
+				</p>
+			</li>
+			<li>
+				<code>left-model</code>
+				<p>왼쪽 멀티 셀렉트에서 선택한 모델과 바이딩될 모델명을 적어 준다.</p>
+			</li>
+			<li>
+				<code>right-model</code>
+				<p>오른쪽 멀티 셀렉트에서 선택한 모델과 바이딩될 모델명을 적어 준다.</p>
+			</li>
+			<li>
+				<code>left-items</code>
+				<p>왼쪽 멀티 셀렉트를 채워줄 $scope에 바인딩된 배열을 적어 준다.</p>
+			</li>
+			<li>
+				<code>right-items</code>
+				<p>오른쪽 멀티 셀렉트를 채워줄 $scope에 바인딩된 배열을 적어 준다.</p>
+			</li>
+			<li>
+				<code>left-options</code>
+				<p>왼쪽 멀티 셀렉트의 셀렉트 옵션을 적어 준다.</p>
+			</li>
+			<li>
+				<code>right-options</code>
+				<p>오른쪽 멀티 셀렉트의 셀렉트 옵션을 적어 준다.</p>
+			</li>
+			<!-- 
+			<li>
+				<code>옵셔널 속성</code> <small>- optional</small>
+				<p></p> 
+			</li>
+			-->
+		</ul>
+	</div>
+
+	<h2>예제</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h2>Preview</h2>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><div kt-item-selector="{options}"
+  left-model="{string}"
+  right-model="{string}"
+  left-items="{string}"
+  right-items="{string}"
+  left-options="{string}"
+  right-options="{string}">
+ </div></script>
+
+<script id="exapmleTpl" type="text/tpl">&lt;!doctype html&gt;
+&lt;html ng-app="myApp"&gt;
+  &lt;head&gt;
+  	&lt;link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet"&gt;
+	<style>
+	form {
+		padding: 10px;
+	}
+	.kt-item-selector button{
+		display: block;
+		margin-bottom: 5px;
+	}
+
+	.kt-item-selector .left-select{
+		margin-right: 10px;	
+		height: 100%;
+	}
+
+	.kt-item-selector .right-select{
+		margin-left: 10px;
+		height: 100%;
+	}
+	</style>
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+	angular.module('myApp', ['kt.ui']).controller('Ctrl', function ($scope) {
+      $scope.leftItems = [
+       {name:'black', shade:'dark'},
+       {name:'white', shade:'light'},
+       {name:'red', shade:'dark'},
+       {name:'blue', shade:'dark'},
+       {name:'yellow', shade:'light'}
+      ];
+      
+      $scope.rightItems = [
+       {name:'black', shade:'dark'},
+       {name:'white', shade:'light'},
+       {name:'red', shade:'dark'},
+       {name:'blue', shade:'dark'},
+       {name:'yellow', shade:'light'}
+      ];
+      
+      $scope.a = [$scope.leftItems[2]];
+      $scope.b = [$scope.leftItems[2]];
+    });
+    &lt;/script&gt;
+  </head>
+  <body>
+    <form name="myForm" ng-controller="Ctrl">
+      <div kt-item-selector="{showCopyButton : false, showMoveButton: true}" left-model="a" right-model="b" left-items="leftItems" 
+      right-items="rightItems" left-options="c.name for c" right-options="c.name for c">
+      </div>
+      <br>
+      <p>왼쪽 선택한 값 : {{a}}</p>
+      <p>오른쪽 선택한 값 : {{b}}</p>
+    </form>
+  </body>
+</html>
+</script>
+

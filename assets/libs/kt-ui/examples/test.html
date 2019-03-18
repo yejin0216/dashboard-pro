@@ -1,0 +1,157 @@
+<!doctype html>
+<html ng-app="test">
+  <head>
+    <link href="../vendor/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../build/css/kt3m-ui.css">
+    <script src="../vendor/jquery/dist/jquery.js"></script>
+    <script src="../vendor/jquery-ui/jquery-ui.js"></script>
+    <script src="../vendor/underscore/underscore.js"></script>
+    <script src="../vendor/angular/angular.js"></script>
+    <!-- // <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.js"></script> -->
+    <!-- // <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script> -->
+    <script src="../build/kt3m-ui.js"></script>
+    <script type="text/javascript">
+    /**
+    * test Module
+    *
+    * Description
+    */
+    angular.module('test', []).
+      controller('Ctrl', ['$scope', function ($scope) {
+        $scope.open = function () {
+         $scope.templateUrl= 'myModalContent.html';
+        };
+
+        $scope.text = 'guest';
+        $scope.word = /^\w*$/;
+        $scope.dollor = 2000;
+      }])
+      .directive('window', [function () {
+        return {
+          restrict: 'A',
+          transclude: true,
+          // scope:false,
+          controller: function ($scope, $element, $attrs, $transclude) {
+            $transclude(function (t,b,c) {
+              return $scope;
+              // t=$scope;
+              console.log(t);
+              console.log($scope);
+            })
+            // console.log($transclude());
+          },
+          template : '<div class="{{ windowClass }}" ng-class="{in: animate}" ng-style="{\'z-index\': 1050 + index*10}" ng-transclude></div>',
+          link: function (scope, iElement, iAttrs) {
+             scope.windowClass = iAttrs.windowClass || '';
+          }
+        };
+      }])
+      .directive('modal', ['$compile',function ($compile) {
+        return {
+          restrict: 'A',
+          scope:false,
+          link: function (scope, iElement, iAttrs) {
+           
+            var angularDomEl = angular.element('<div window></div>');
+            // console.log($("#myModalContent").html());
+            angularDomEl.html($("#myModalContent").html());
+            // console.log(scope);
+            var modalDomEl = $compile(angularDomEl)(scope);
+            $("body").append(modalDomEl);
+          }
+        };
+      }]);
+    </script>
+  </head>
+  <body ng-controller="Ctrl">
+    <button class="btn" ng-click="open()">Open</button>
+    <p>{{text}}</p>
+    <input ng-model="text">
+    <script type="text/ng-template" id="myModalContent">
+      <div class="modal-header">
+          <h3>모달 창</h3>
+      </div>
+      <div class="modal-body">
+        <form name="myForm" >
+        영문 한 단어: <input type="text" name="input" ng-model="text"
+                            ng-pattern="word" required>
+        <br>
+        <input type="password" name="input" ng-model="text"
+                            ng-pattern="word" required>
+        <br>
+        <input type="text" ng-disabled="true" name="input" ng-model="text"
+                            ng-pattern="word" required>
+        <br>
+        <div class="input-prepend input-append">
+          <span class="add-on">$</span>
+          <input class="span2" type="text" ng-model="dollor">
+          <span class="add-on">.00</span>
+        </div>
+        <br>
+        <input name="masked" kt-mask="999-99-9999" ng-model="maskedValue"
+                     class="input-large" style="vertical-align: top;"> 입력된 값 : {{maskedValue}}
+        <span class="error" ng-show="myForm.input.$error.required">
+          필수 값입니다.!</span>
+        <span class="error" ng-show="myForm.input.$error.pattern">
+          영문 한 단어만 입력 가능!</span>
+        <br>
+        <tt>입력하여 메모리상에 있는 값 = {{text}}</tt><br/>
+        <br>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+        <tt>myForm.$error = {{myForm.$error}}</tt><br/>
+       </form>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-warning cancel" ng-click="click()">Cancel</button>
+      </div>
+    </script>
+    <div window>
+      <div class="modal-header">
+          <h3>모달 창</h3>
+      </div>
+      <div class="modal-body">
+        <form name="myForm" >
+        영문 한 단어: <input type="text" name="input" ng-model="text"
+                            ng-pattern="word" required>
+        <br>
+        <input type="password" name="input" ng-model="text"
+                            ng-pattern="word" required>
+        <br>
+        <input type="text" ng-disabled="true" name="input" ng-model="text"
+                            ng-pattern="word" required>
+        <br>
+        <div class="input-prepend input-append">
+          <span class="add-on">$</span>
+          <input class="span2" type="text" ng-model="dollor">
+          <span class="add-on">.00</span>
+        </div>
+        <br>
+        <input name="masked" kt-mask="999-99-9999" ng-model="maskedValue"
+                     class="input-large" style="vertical-align: top;"> 입력된 값 : {{maskedValue}}
+        <span class="error" ng-show="myForm.input.$error.required">
+          필수 값입니다.!</span>
+        <span class="error" ng-show="myForm.input.$error.pattern">
+          영문 한 단어만 입력 가능!</span>
+        <br>
+        <tt>입력하여 메모리상에 있는 값 = {{text}}</tt><br/>
+        <br>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+        <tt>myForm.$error = {{myForm.$error}}</tt><br/>
+       </form>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-warning cancel" ng-click="click()">Cancel</button>
+      </div>
+    </div>
+    <!-- <div modal> -->
+      
+
+    </div>
+  </body>
+</html>

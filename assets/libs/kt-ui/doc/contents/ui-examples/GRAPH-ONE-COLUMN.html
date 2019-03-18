@@ -1,0 +1,142 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<style type="text/css">
+	iframe {
+	  height: 420px;
+	}	
+</style>
+
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		컬럼 그래프의 스텍을 설정하여 보여준다. kt-chart가 적용된 DOM에 plot-options 속성을 주어 그래프의 plot옵션을 줄 수 있다. plot-options에는 표현식이 오게된다. 표현식의 결과가 다음과 같이 설정객체여야 한다.
+		<br>
+		{ column : { animation : .., cursor : ..., stacking : ..., ...} }
+		<br>
+		설정에 대한 자세한 내용은 <a href="http://api.highcharts.com/highcharts#plotOptions">하이차트 옵션 레퍼런스 문서</a>에서 참고 바란다.
+	</p>
+
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+
+  	&lt;script type="text/javascript"&gt;
+   //Highchart가 전역으로 한번만 존재해야 되기때문에 라이브 리로드시는 전역초기화 해야한다. 
+   //해당 코드는 라이브리로드에서만 사용하고 실제는 사용해서는 안된다.
+	if(window.Highcharts){
+		delete window.Highcharts;
+		delete window.HighchartsAdapter;
+	}
+	&lt;/script&gt;
+
+  	&lt;link href="css/style.css" rel="stylesheet"&gt;
+  	&lt;link href="css/style-theme-default.css" rel="stylesheet"&gt;
+  	&lt;link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet"&gt;
+  	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+  
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	&lt;script type="text/javascript" src="vendor/highcharts/highcharts.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+		angular.module('myApp', ['kt.ui']).controller('Ctrl', function ($scope) {
+    	$scope.plotOpts = {
+    		column: {
+    			animation: false,
+    			stacking : "normal",
+    			dataLabels:{
+        		enabled: true,
+            align: 'center',
+            distance: -22,
+            style: {
+            	fontWeight: 'bold',
+              color: 'white',
+              textShadow: '0px 1px 2px black'
+            },
+            formatter: function(){
+            	return this.y+"건";
+            },
+            verticalAlign: 'middle'
+          }
+    		}
+    	};
+
+    	$scope.chagneData = function chagneData () {
+    		$scope.chartData[2].data[0]++;
+    	}
+			
+			$scope.chartData = [
+		    {
+		    	color: '#FF0000',
+		        name: '종료',
+		        data: [7.0]
+		    },{
+		    	color: '#00FF00',
+		        name: '해제',
+		        data: [11]
+		    }, {
+		    	color: '#0000FF',
+		        name: '조치',
+		        data: [2]
+		    }
+  		];
+  });
+   &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+  	<button ng-click="chagneData()">데이터 변경</button>
+		<div kt-chart="chart1" type="column" data="chartData" plot-options="plotOpts" height="400"  width="200" marginright="30">
+			<k-chart-legend enabled="true" bordercolor="white" layout="vertical" align="right" verticalalign="middle" x="10" y="10" ></k-chart-legend>
+		</div>			
+  </body>
+</html>
+</script>
+

@@ -1,0 +1,389 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<style type="text/css">
+	iframe {
+	  
+	  height: 420px;
+	}	
+</style>
+
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		기본적인 차트 예제.<br>
+		kt-chart 디렉티브에 type = "charType", data ="chartData" 를 이용하여 그래프를 나타낸다. <br>
+		type 종류 : line, column, bar, pie<br>
+		data는 color, name, data배열의 요소가 한쌍을 이뤄야 한다.
+	</p>
+
+
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+
+  	&lt;script type="text/javascript"&gt;
+   //Highchart가 전역으로 한번만 존재해야 되기때문에 라이브 리로드시는 전역초기화 해야한다. 
+   //해당 코드는 라이브리로드에서만 사용하고 실제는 사용해서는 안된다.
+	if(window.Highcharts){
+		delete window.Highcharts;
+		delete window.HighchartsAdapter;
+	}
+	&lt;/script&gt;
+
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+  	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+  	<style>
+  	ul li {
+  		float: left;
+  	}
+  	</style>
+		&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+		&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+		&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+		&lt;script type="text/javascript" src="vendor/highcharts/highcharts.js"&gt;&lt;/script&gt;
+		&lt;script type="text/javascript" src="vendor/highcharts/highcharts-more.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+    angular.module('myApp', ['kt.ui']).controller('Ctrl', function ($scope) {
+			$scope.plotOpts1 = {
+				gauge : {
+					dial : {
+						baseWidth: 4,
+						backgroundColor: '#C33',
+            borderColor: '#900',
+            borderWidth: 1,
+            rearLength: 20,
+            baseLength: 10,
+            radius: 80
+					}
+				}
+			};
+
+			$scope.gaugePanelOpts1 = {
+				background : [],
+        size: '90%',
+        startAngle: -90,
+        endAngle: 90
+			};
+
+			$scope.yAxisOpts1 = { 
+				min: 0,
+        max: 100,
+        lineWidth: 0,
+        lineColor: '',
+        gridLineWidth: 0,
+        minPadding: 0,
+        maxPadding: 0,
+        endOnTick: false,
+        startOnTick: false,
+        
+        minorTickInterval: 'auto',
+        minorTickWidth: 0,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorGridLineWidth: 0,
+        minorTickColor: '#666',
+
+        tickPixelInterval: 30,
+        tickWidth: 0,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#666',
+        labels: {
+            step: 2,
+            rotation: 'auto',
+            distance: 10
+        },
+        background: [{
+            // shape: 'cutoff'
+        }], 
+        plotBands: [{
+            from: 0,
+            to: 20,
+            label : {
+            	text: "양호",
+            	align: "left",
+            	verticalAlign: "bottom",
+            	x : 35,
+            	y : -25
+            },
+            thickness : '40%', 
+            color: '#55BF3B' // green
+        }, {
+            from: 20,
+            to: 40,
+            label : {
+            	text: "경고",
+            	align: "left",
+            	verticalAlign: "bottom",
+            	x : 65,
+            	y : 0
+            },
+            thickness : '40%', 
+            color: '#DDDF0D' // yellow
+        }, {
+            from: 40,
+            to: 100,
+            label : {
+            	text: "위험",
+            	verticalAlign: "bottom",
+            	x : 165,
+            	y : 35
+            },
+            thickness : '40%',
+            color: '#DF5353' // red
+        }] 
+      };
+
+			$scope.plotOpts2 = {
+
+				gauge : {
+
+					dial : {
+						baseWidth: 4,
+						backgroundColor: '#C33',
+            borderColor: '#900',
+            borderWidth: 1,
+            rearLength: 20,
+            baseLength: 10,
+            radius: 80
+					}
+				}
+			};
+
+			$scope.gaugePanelOpts2 = {
+        size: '90%',
+        startAngle: -90,
+        endAngle: 90,
+				background: [{
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#FFF'],
+                        [1, '#333']
+                    ]
+                },
+                borderWidth: 0,
+                outerRadius: '109%'
+            }, {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#333'],
+                        [1, '#FFF']
+                    ]
+                },
+                borderWidth: 1,
+                outerRadius: '107%'
+            }, {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#666'],
+                        [1, '#0c0c0c']
+                    ]
+                },
+                borderWidth: 1,
+                outerRadius: '107%'
+            }, {
+                backgroundColor: '#DDD',
+                borderWidth: 1,
+                outerRadius: '105%',
+                innerRadius: '104%'
+            }]
+			};
+
+			$scope.yAxisOpts2 = {
+            min: 0,
+            max: 100,
+            lineColor: '#fff',
+            tickColor: '#fff',
+            minorTickColor: '#fff',
+            minorTickPosition: 'inside',
+            tickLength: 10,
+            tickWidth: 4,
+            minorTickLength: 5,
+            offset: -2,
+            lineWidth: 2,
+            labels: {
+                distance: -25,
+                rotation: 0,
+                style: {
+                    color: '#fff',
+                    size: '120%',
+                    fontWeight: 'bold'
+                }
+            }
+        };
+
+			$scope.plotOpts3 = {
+				gauge : {
+					dial : {
+						baseWidth: 4,
+						backgroundColor: '#C33',
+            borderColor: '#900',
+            borderWidth: 1,
+            rearLength: 20,
+            baseLength: 10,
+            radius: 80
+					}
+				}
+			};
+
+			$scope.gaugePanelOpts3 = {
+        size: '100%'
+			};
+
+			$scope.yAxisOpts3 = { 
+				min: 0,
+        max: 200,
+        lineWidth: 0,
+        lineColor: 'gray',
+        gridLineWidth: 0,
+        minPadding: 0,
+        maxPadding: 0,
+        endOnTick: false,
+        startOnTick: false,
+        
+        minorTickInterval: 'auto',
+        minorTickWidth: 1,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorGridLineWidth: 0,
+        minorTickColor: '#666',
+
+        tickPixelInterval: 30,
+        tickWidth: 2,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#666',
+        labels: {
+            step: 2,
+            rotation: 'auto',
+            distance: 10
+        },
+        title: {
+            text: 'km/h'
+        },
+        background: [{
+            shape: 'cutoff'
+        }], 
+        plotBands: [{
+            from: 0,
+            to: 120,
+            color: '#55BF3B' // green
+        }, {
+            from: 120,
+            to: 160,
+            color: '#DDDF0D' // yellow
+        }, {
+            from: 160,
+            to: 200,
+            color: '#DF5353' // red
+        }] 
+      };
+
+		$scope.chartData = [{
+      name: 'Value',
+      data: [0],
+      dataLabels: {
+          formatter: function () {
+              var kmh = this.y;
+              return '<span style="color:#339">'+ kmh + '%</span>';
+          },
+          backgroundColor: {
+              linearGradient: {
+                  x1: 0,
+                  y1: 0,
+                  x2: 0,
+                  y2: 1
+              },
+              stops: [
+                  [0, '#DDD'],
+                  [1, '#FFF']
+              ]
+          },
+          offset: 10
+      }
+    }];
+
+    $scope.changeData = function (v) {
+    	if($scope.chartData[0].data[0] <100) $scope.chartData[0].data[0]= $scope.chartData[0].data[0]+v;
+    }   
+  });
+   &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+  	<ul>
+  		<li>
+		  	<div kt-chart="chart1" type="gauge" data="chartData" plot-options="plotOpts1" width="300" height="300" margintop="20" marginright="50">
+					<div gauge-pane="gaugePanelOpts1"></div>
+					<div k-chart-yaxis options="yAxisOpts1"></div>
+				</div>
+  		</li>
+  		<li>
+  			<div kt-chart="chart2" type="gauge" data="chartData" plot-options="plotOpts2" width="300" height="300" margintop="20" marginright="50">
+					<div gauge-pane="gaugePanelOpts2"></div>
+					<div k-chart-yaxis options="yAxisOpts2"></div>
+				</div>
+			</li>
+  		<li>
+  			<div kt-chart="chart3" type="gauge" data="chartData" plot-options="plotOpts3" width="300" height="300" margintop="20" marginright="50">
+					<div gauge-pane="gaugePanelOpts3"></div>
+					<div k-chart-yaxis options="yAxisOpts3"></div>
+				</div>
+  		</li>
+  		<button ng-click="changeData(10)">+10</button>
+  		<button ng-click="changeData(-10)">-10</button>
+  	</ul>
+  </body>
+</html>
+</script>
+

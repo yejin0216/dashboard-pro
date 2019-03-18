@@ -1,0 +1,97 @@
+<!doctype html>
+<html ng-app="myApp">
+
+<head>
+  <link href="../vendor/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
+  <link href="../build/css/kt3m-ui.css" rel="stylesheet">
+  <script src="../vendor/jquery/jquery.js"></script>
+  <script src="../vendor/angular/angular.js"></script>
+  <script type="text/javascript" src="../vendor/highcharts/highcharts.js"></script>
+  <script type="text/javascript" src="../vendor/highcharts/modules/exporting.js"></script>
+  <script src="../build/kt3m-ui.js"></script>
+  <script type="text/javascript">
+
+    angular.module('myApp', ['kt.ui']).controller('TabsDemoCtrl', function ($scope) {
+
+      $scope.select = function(selected) {
+        $scope.selected = selected;
+      };
+
+      $scope.click = function(clicked) {
+        $scope.clicked = clicked;
+      };
+
+      $scope.tree = [{
+        text: "Node1",
+        level: 1,
+        show: true,
+        css: "a",
+        children: [{
+          text: "leaf1",
+          level: 2,
+          children: [],
+          css: "b"
+        }, {
+          text: "leaf2",
+          level: 2,
+          children: []
+        }]
+      }, {
+        text: "leaf3",
+        level: 1,
+        children: [],
+        css: "a"
+      }, {
+        text: "Node3",
+        level: 1,
+        show: true,
+        children: [{
+          text: "Node4",
+          level: 2,
+          children: [{
+            text: "leaf4",
+            level: 3,
+            children: []
+          }, {
+            text: "leaf5",
+            level: 3,
+            children: []
+          }]
+        }, {
+          text: "leaf6",
+          level: 2,
+          children: []
+        }]
+      }, {
+        text: "leaf7",
+        level: 1,
+        children: [],
+        css: "b",
+        selected: "true"
+      }, {
+        text: "leaf8",
+        level: 1,
+        children: [],
+        css: "test"
+      }];
+
+      $scope.firstvalue = $scope.tree[1];
+      $scope.changeSelected = function() {
+        $scope.selected = $scope.tree[2];
+      };
+
+    });
+  </script>
+</head>
+
+<body>
+  <div ng-controller="TabsDemoCtrl">
+    <div kt-tree data="tree" on-select="select(selected)" on-click="click(clicked)"></div>
+    <div>init : {{firstvalue}}</div>
+    <div>selected : {{selected}}</div>
+    <div>clicked : {{clicked}}</div>
+    <button ng-click="changeSelected()">changeSelected</button>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html ng-app="kt.ui">
+  <head>
+	  <link rel="stylesheet" href="../vendor/bootstrap/docs/assets/css/bootstrap.css">
+  	<link rel="stylesheet" href="../vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="../vendor/jqgrid/css/ui.jqgrid.css" />
+ 	<link rel="stylesheet" type="text/css" href="../build/css/kt3m-ui-white.css">
+
+  	<style type="text/css">
+		.kt-table {
+	    border: 1px solid #000;
+		}
+	</style>
+	<script src="../vendor/jquery/dist/jquery.js"></script>
+	<script src="../vendor/jquery-ui/jquery-ui.js"></script>
+	<script src="../vendor/underscore/underscore.js"></script>
+	<script src="../vendor/angular/angular.js"></script>
+	<script src="../vendor/jqgrid/js/i18n/grid.locale-en.js"></script>
+	<script src="../vendor/jqgrid/js/minified/jquery.jqGrid.min.js"></script>
+    <script src="../build/kt3m-ui.js"></script>
+    <script type="text/javascript">
+
+    function Ctrl ($scope) {
+			
+			var userList = {
+				rows:[
+						{ name : "고재도", email : "3@gmail.com", regDate : "2003-01-24" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "김민우", email : "1@gmail.com", regDate : "2000-03-24" }
+					]
+			};
+      
+			$scope.userList = userList;
+			$scope.userList.page = 1;
+			$scope.userList.total = 10;
+
+
+			$scope.select = function(data) {
+				$scope.selectedData = data;
+			}
+			$scope.changeSize = function () {
+				$scope.grid1.setGridWidth(200);	
+			}
+  	 }
+    </script>
+  </head>
+  <body ng-controller="Ctrl">
+  	<button ng-click="changeSize()">changeSize</button>
+		<table kt-grid="grid1" data="userList" grid-height="200" grid-width="980" autowidth="true" row-num="15" sortable="true">
+			<thead>
+				<tr>
+					<th>이름</th>
+					<th>이메일</th>
+					<th>등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr on-select-row="select()">
+					<td width="33%" align="center" sortable="true" sorttype="text">{{name}}</td>
+					<td width="33%" align="center">{{email}}</td>
+					<td width="34%" align="center">{{regDate}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>선택한 로우 : {{selectedData.name}} {{selectedData.email}} {{selectedData.regDate}}</p>
+		<table kt-grid="grid2" data="userList" grid-height="200" grid-width="980" autowidth="true" row-num="15" sortable="true">
+			<thead>
+				<tr>
+					<th>이름</th>
+					<th>이메일</th>
+					<th>등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr on-select-row="select()">
+					<td width="33%" align="center" sortable="true" sorttype="text">{{name}}</td>
+					<td width="33%" align="center">{{email}}</td>
+					<td width="34%" align="center">{{regDate}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>선택한 로우 : {{selectedData.name}} {{selectedData.email}} {{selectedData.regDate}}</p>
+  </body>
+</html>

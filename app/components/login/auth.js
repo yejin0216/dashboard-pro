@@ -1,4 +1,5 @@
-auth.controller('AuthController', AuthController)
+angular.module('app.auth', ['ui.router'])
+    .controller('AuthController', AuthController)
     .directive('focusOn', function() {
         return function(scope, elem, attr) {
             scope.$on('focusOn', function(e, name) {

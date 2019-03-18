@@ -1,0 +1,117 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<style type="text/css">
+	iframe {
+	  
+	  height: 420px;
+	}	
+</style>
+
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		bar, column 차트에서 k-chart-datalabel 디렉티브에서 stacking="normal" 값으로 스택 차트로 보여준다.<br>
+		label의 옵션을 주어 값도 표시 한다.
+	</p>
+
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+
+  	&lt;script type="text/javascript"&gt;
+   //Highchart가 전역으로 한번만 존재해야 되기때문에 라이브 리로드시는 전역초기화 해야한다. 
+   //해당 코드는 라이브리로드에서만 사용하고 실제는 사용해서는 안된다.
+	if(window.Highcharts){
+		delete window.Highcharts;
+		delete window.HighchartsAdapter;
+	}
+	&lt;/script&gt;
+
+  	&lt;link href="css/style.css" rel="stylesheet"&gt;
+  	&lt;link href="css/style-theme-default.css" rel="stylesheet"&gt;
+  	&lt;link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet"&gt;
+  	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+  
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	&lt;script type="text/javascript" src="vendor/highcharts/highcharts.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+    angular.module('myApp', ['kt.ui']).controller('Ctrl', function ($scope) {
+			
+		$scope.chartData = [
+		    {
+		    	color: '#FF0000',
+		        name: 'Tokyo',
+		        data: [7.0, 6.9, 9.5]
+		    }, {
+		    	color: '#00FF00',
+		        name: 'New York',
+		        data: [3.9, 4.2, 5.7]
+		    }, {
+		    	color: '#0000FF',
+		        name: 'Berlin',
+		        data: [0.9, 0.6, 3.5]
+		    }
+  		];   
+  		
+  	 });
+   &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+		<div kt-chart type="bar" data="chartData">
+			<k-chart-datalabel withlabel="true" point="1" stacking="normal" ></k-chart-datalabel>
+		 </div>
+			
+  </body>
+</html>
+</script>
+

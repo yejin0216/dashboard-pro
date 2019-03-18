@@ -1,0 +1,102 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+				var previewFrame = document.getElementById('preview');
+		  		var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  	preview.open();
+			  	preview.write($scope.apiExample);
+			  	preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		HTML 체크 박스
+	</p>
+	<h2>사용법</h2>
+	<div class="usage">
+		<textarea ui-codemirror="{ 	lineNumbers: true,
+						          	mode: 'text/html',
+						      		readOnly: true
+						         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h2>속성별 설명</h2>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>ng-model</code>
+				<p>데이터 바인딩할 모델을 적어준다.</p>
+			</li>
+			<li>
+				<code>name</code> <small>- optional</small>
+				<p>컨트롤할 컴포넌트의 property 이름을 준다.</p>
+			</li>
+			<li>
+				<code>ng-true-value</code> <small>- optional</small>
+				<p>체크 박스가 선택 될 때 true 값을 정의한다. 기본값은 "true".</p>
+			</li>
+			<li>
+				<code>ng-false-value</code> <small>- optional</small>
+				<p>체크 박스가 선택이 해제될 때 false 값을 정의한다. 기본값은 "false".</p>
+			</li>
+			<li>
+				<code>ng-change</code> <small>- optional</small>
+				<p>체크박스 값이 변경될 때(change 이벤트 발생 시) 해당 {string} 표현식이 실행된다.</p>
+			</li>
+		</ul>
+	</div>
+	<h2>예제</h2>
+	<div class="example">
+		<textarea ui-codemirror="{  lineNumbers: true,
+						          	mode: 'text/html',
+									onChange : renderPreview
+						         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h2>Preview</h2>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><input type="checkbox"
+       	   ng-model="{string}"
+       	   [name]="{string}"
+       	   [ng-true-value]="{string}"
+       	   [ng-false-value]="{string}"
+       	   [ng-change]="{string}"></script>
+
+<script id="exapmleTpl" type="text/tpl">&lt;!doctype html&gt;
+&lt;html ng-app="myApp"&gt;
+  &lt;head&gt;
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+		angular.module('myApp', []).controller('Ctrl', function ($scope) {
+	  		$scope.value1 = true;
+			$scope.value2 = 'YES';
+    	});
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;form name="myForm" ng-controller="Ctrl"&gt;
+      Value1: &lt;input type="checkbox" ng-model="value1"&gt; &lt;br/&gt;
+      Value2: &lt;input type="checkbox" ng-model="value2"
+                     ng-true-value="'YES'" ng-false-value="'NO'"&gt; &lt;br/&gt;
+      &lt;tt&gt;value1 = {{value1}}&lt;/tt&gt;&lt;br/&gt;
+      &lt;tt&gt;value2 = {{value2}}&lt;/tt&gt;&lt;br/&gt;
+     &lt;/form&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</script>
+

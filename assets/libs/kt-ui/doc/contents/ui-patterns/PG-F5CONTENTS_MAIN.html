@@ -1,0 +1,502 @@
+<html ng-app="app" ng-controller="ctrl">
+<link href="/vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="/vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+<link rel="stylesheet" href="/build/css/kt3m-ui.css">
+
+<script src="/vendor/jquery/jquery.js"></script>
+<script src="/vendor/jquery-ui/jquery-ui.js"></script>
+<script src="/vendor/angular/angular.js"></script>
+<script src="/vendor/jqgrid/js/i18n/grid.locale-en.js"></script>
+<script src="/vendor/jqgrid/js/minified/jquery.jqGrid.min.js"></script>
+<script src="/build/kt3m-ui.js"></script>
+<script type="text/javascript">
+angular.module('app', ['kt.ui']).controller('ctrl', function($scope, $http){
+	$scope.divisionList={
+		rows:[
+			{
+				divisionManager:'',
+				divisionName:'',
+				divisionMembers:''
+			}
+		]
+	}
+	$scope.memberList={
+		rows:[
+				{
+					name:'',
+					phone:'',
+					address:''
+				}
+		]
+	}
+	$scope.userList={rows:[]};
+	var params = {
+		q:{name:''}
+	}
+	var dataProto = {
+		apiKey:'',
+		dbName:'',
+		url:'',
+		collectionName:'',
+		queryAll: function () {
+			return $http.get(this.url+'/'+this.dbName+'/collections/'+this.collectionName+'?apiKey='+this.apiKey);
+		},
+		//division delete
+		delete: function (){
+	        var params = {
+	          apiKey:this.apiKey
+	        };
+			console.log($scope.selectedData._id.$oid);
+			return $http.delete(this.url+'/'+this.dbName+'/collections/'+this.collectionName+'/'+$scope.selectedData._id.$oid, {params:params});
+		},
+		search: function (arg){
+			var params = {
+				q:{name:arg}
+			};
+			return $http.get(this.url+'/'+this.dbName+'/collections/'+this.collectionName+'?apiKey='+this.apiKey, {params:params});
+		},
+		save: function (arg){
+	        var params = {
+	          apiKey:this.apiKey
+	        };
+			return $http.post(this.url+'/'+this.dbName+'/collections/'+this.collectionName, arg, {params:params});
+		},
+		//division update
+		update: function (arg){
+	        var params = {
+	          apiKey:this.apiKey
+	        };
+	        return $http.put(this.url+'/'+this.dbName+'/collections/'+this.collectionName+'/'+$scope.divisionSelected._id.$oid, arg, {params:params});
+		}
+
+	}
+
+	var division = function () {
+		this.apiKey='3qPajHBv9hOGD_bcOivJse25vEhjwNom';
+		this.dbName='ktdev';
+		this.url='https://api.mongolab.com/api/1/databases';
+		this.collectionName='ktuiexample_3';
+	}
+
+	var members = function () {
+		this.apiKey='3qPajHBv9hOGD_bcOivJse25vEhjwNom';
+		this.dbName='ktdev';
+		this.url='https://api.mongolab.com/api/1/databases';
+		this.collectionName='ktuiexample_1';
+	}
+
+	division.prototype = dataProto;
+	members.prototype = dataProto;
+
+	var onStart =  function (){
+		$scope.divisionInit = new division();
+		$scope.divisionA = new division();
+		$scope.membersInit = new members();
+		// $scope.membersSelected = new members();
+		var promise = $scope.divisionInit.queryAll();
+		promise.then(function (response){
+			angular.copy(response.data, $scope.divisionList.rows);
+		})
+	}
+
+	$scope.selectDivision = function (data){
+		$scope.memberList.rows = new Array();
+		$scope.membersSelected = new Array();
+		var a = 0;
+		$scope.selectedData = data;
+		$scope.divisionSelected = data;
+		for(var i in $scope.selectedData.divisionMembers){
+			var promise = $scope.membersInit.search($scope.selectedData.divisionMembers[i]);
+			promise.then(function(response){
+				$scope.memberList.rows[a]=response.data[0];
+				a++;
+			})
+		}
+	}
+
+	$scope.selectMembers = function (data){
+		$scope.selectedData = data;
+		$scope.membersSelected = data;
+	}
+
+	$scope.showDivisionDetail = function (){
+		if($scope.divisionSelected.divisionName === null || $scope.divisionSelected.divisionName === undefined){
+			alert('부서를 선택 하세요');
+			return;
+		}
+		$scope.shouldBeOpenDivisionDetail = true;
+	}
+	$scope.closeDivisionDetail = function (){
+		$scope.shouldBeOpenDivisionDetail = false;
+	}
+	$scope.showMemberDetail = function (){
+		if($scope.membersSelected.name === null || $scope.membersSelected.name === undefined){
+			alert('부서원을 선택 하세요');
+			return;
+		}
+		$scope.shouldBeOpenMemberDetail = true;
+	}
+	$scope.closeMemberDetail = function (){
+		$scope.shouldBeOpenMemberDetail = false;
+	}
+
+	$scope.insertDivision = function (){
+		$scope.shouldBeOpenInsertDivision = true;
+	}
+	$scope.closeInsertDivision = function (){
+		$scope.shouldBeOpenInsertDivision = false;
+	}
+	$scope.saveInsertDivision = function (){
+		var option = {
+			divisionManager:$scope.divisionA.divisionManager,
+			divisionName:$scope.divisionA.divisionName,
+			divisionMembers:[
+				name=$scope.divisionA.divisionManager
+			]
+		};
+		var temp = $scope.divisionA.save(option);
+		temp.then(function(){
+			$scope.closeInsertDivision();
+			onStart();
+		});
+	}
+	$scope.deleteDivision = function (){
+		if($scope.selectedData===undefined ){
+			alert("삭제할 부서를 선택하세요");
+			return;
+		}
+		var temp = $scope.divisionInit.delete();
+		temp.then(function(){
+			onStart();
+		});
+	}
+	$scope.deleteMember = function (){
+		if($scope.selectedData===undefined ){
+			alert("삭제할 부서원을 선택하세요");
+			return;
+		}
+		$scope.membersAfterAll=[];
+		for(var i in $scope.divisionList.rows){
+			console.log(i);
+			if(i==$scope.memberList.rows.length){
+				break;
+			}
+			if($scope.memberList.rows.length==1){
+				break;
+			};
+			if($scope.memberList.rows[i].name!=$scope.selectedData.name){
+				$scope.membersAfterAll.push($scope.memberList.rows[i].name);
+			}
+			console.log(i);
+		}
+		if($scope.memberList.rows.length==1){
+			var option = {
+			divisionManager:$scope.divisionSelected.divisionManager,
+			divisionName:$scope.divisionSelected.divisionName,
+			divisionMembers:$scope.divisionSelected.divisionMembers
+			};
+		}else{
+			var option = {
+			divisionManager:$scope.divisionSelected.divisionManager,
+			divisionName:$scope.divisionSelected.divisionName,
+			divisionMembers:$scope.membersAfterAll
+			};
+		}
+		console.log($scope.membersAfterAll);
+		var temp = $scope.divisionInit.update(option);
+		temp.then(function(){
+			$scope.memberList.rows = new Array();
+			var promise = $scope.divisionInit.queryAll();
+			promise.then(function (response){
+				angular.copy(response.data, $scope.divisionList.rows);
+			})
+			var a = 0;
+			for(var i in $scope.membersAfterAll){
+				var promise = $scope.membersInit.search($scope.membersAfterAll[i]);
+				promise.then(function(response){
+					$scope.memberList.rows[a]=response.data[0];
+					a++;
+				})
+			}
+		});
+	}
+
+	$scope.openInsertMemeber = function (){
+		if ($scope.divisionSelected == null){
+			alert("부서를 선택하세요");
+			return;
+		}
+		var promise = $http.get('https://api.mongolab.com/api/1/databases/ktdev/collections/ktuiexample_1?apiKey=3qPajHBv9hOGD_bcOivJse25vEhjwNom');
+		promise.then(function(response){
+				// angular.copy(response.data, $scope.userList.rows);
+				$scope.userList.rows = response.data;
+				console.log($scope.userList.rows);
+			});
+		$scope.shouldBeOpenInsertMember = true;
+	}
+	$scope.saveInsertMember = function (){
+		var option = {
+			divisionManager:$scope.divisionSelected.divisionManager,
+			divisionName:$scope.divisionSelected.divisionName,
+			divisionMembers:$scope.divisionSelected.divisionMembers
+		}
+		option.divisionMembers.push($scope.selectedUser.name);
+		$scope.divisionInit.update(option).success(function(){
+			var promise = $scope.divisionInit.queryAll();
+			promise.then(function (response){
+				angular.copy(response.data, $scope.divisionList.rows);
+			})
+			var a = 0;
+			for(var i in $scope.divisionSelected.divisionMembers){
+				var promise = $scope.membersInit.search($scope.divisionSelected.divisionMembers[i]);
+				promise.then(function(response){
+					$scope.memberList.rows[a]=response.data[0];
+					a++;
+				})
+			}
+		});
+		$scope.shouldBeOpenInsertMember = false;
+	}
+	$scope.closeInsertMember = function (){
+		$scope.shouldBeOpenInsertMember = false;
+	}
+	$scope.selectUser = function (data){
+		$scope.selectedUser = data;
+	}
+	onStart();
+
+})
+
+</script>
+	<dl class="col-md-4 service-code">
+		<dt>01. 부서</dt>
+		<dd>
+			<div class="bbox clearfix">
+				<div class="info-area mb10 clearfix">	
+					<span class="infor">
+						<button class="btn btn-gray-bold small" ng-click="showDivisionDetail()">상세보기</button>
+						<button class="btn btn-gray-bold small" ng-click="insertDivision()">등록</button>
+						<!-- <button class="btn btn-gray-bold small" ng-click="svcPopup('update',selectedPlace)">수정</button> -->
+						<button class="btn btn-gray-bold small" ng-click="deleteDivision()">삭제</button>
+					</span>
+				</div>
+				<div>
+					<table class="col-tbl type3" border="1" cellspacing="0" summary="" kt-grid="grid1" data="divisionList" grid-height="360" autowidth="true"  row-num="1000" sortable="true">
+						<thead>
+							<tr>
+								<th scope="col">부서장</th>
+								<th scope="col">부서명</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr on-select-row="selectDivision()">
+								<td align="center" sorttype="text">{{divisionManager}}</td>
+								<td align="left">{{divisionName}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</dd>
+	</dl>
+	<dl class="col-md-4 service-code">
+		<dt>02. 부서원</dt>
+		<dd>
+			<div class="bbox clearfix">
+				<div class="info-area mb10 clearfix">	
+					<span class="infor">
+						<button class="btn btn-gray-bold small" ng-click="showMemberDetail()">상세보기</button>
+						<button class="btn btn-gray-bold small" ng-click="openInsertMemeber()">등록</button>
+						<!-- <button class="btn btn-gray-bold small" ng-click="svcPopup('update',selectedPlace)">수정</button> -->
+						<button class="btn btn-gray-bold small" ng-click="deleteMember()">삭제</button>
+					</span>
+				</div>
+				<div>
+					<table class="col-tbl type3" border="1" cellspacing="0" summary="" kt-grid="grid2" data="memberList" grid-height="360" autowidth="true"  row-num="1000" sortable="true">
+						<thead>
+							<tr>
+								<th scope="col">이름</th>
+								<th scope="col">연락처</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr on-select-row="selectMembers()">
+								<td align="center" sorttype="text">{{name}}</td>
+								<td align="left">{{phone}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</dd>
+	</dl>
+	<div kt-modal="shouldBeOpenDivisionDetail" close="closeDivisionDetail()" ptions="{backdropFade: true, dialogFade:true}">
+		<div class="modal" style="width: 600px">
+			<!-- modal contents -->
+			<div class="modal-header clearfix">
+				<h1 class="pop">상세보기</h1>
+				<p class="pop-close">
+					<a href="" ng-click="closeDivisionDetail()">닫기</a>
+				</p>
+			</div>
+			<form class="form-horizontal">
+				<fieldset>
+					<div class="modal-body">
+						<div class="form-area">
+							<div class="form-group type2">
+								<label class=" type2 w100" for="popm0213090402a6">부서장</label>
+								<div class="controls ml100">
+									<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="divisionSelected.divisionManager" ng-required="true"/>
+								</div>
+							</div>
+							<div class="form-group type2">
+								<label class=" type2 w100" for="popm0213090402a6">부서명</label>
+								<div class="controls ml100">
+									<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="divisionSelected.divisionName" ng-required="true"/>
+								</div>
+							</div>
+							<div class="form-group type2">
+								<label class=" type2 w100" for="popm0213090402a6">부서원</label>
+								<div class="controls ml100">
+									<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="divisionSelected.divisionMembers" ng-required="true"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="btn-area">
+							<button type="button" class="btn btn-gray-bold" ng-click=closeDivisionDetail()>닫기</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+				<!-- //modal contents -->
+		</div>
+	</div>
+	<div kt-modal="shouldBeOpenMemberDetail" close="closeMemberDetail()" ptions="{backdropFade: true, dialogFade:true}">
+		<div class="modal" style="width: 600px">
+			<!-- modal contents -->
+			<div class="modal-header clearfix">
+				<h1 class="pop">상세보기</h1>
+				<p class="pop-close">
+					<a href="" ng-click="closeMemberDetail()">닫기</a>
+				</p>
+			</div>
+			<form class="form-horizontal">
+				<fieldset>
+					<div class="modal-body">
+						<div class="form-area">
+							<div class="form-group type2">
+								<label class=" type2 w100" for="popm0213090402a6">이름</label>
+								<div class="controls ml100">
+									<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="membersSelected.name" ng-required="true"/>
+								</div>
+							</div>
+							<div class="form-group type2">
+								<label class=" type2 w100" for="popm0213090402a6">연락처</label>
+								<div class="controls ml100">
+									<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="membersSelected.phone" ng-required="true"/>
+								</div>
+							</div>
+							<div class="form-group type2">
+								<label class=" type2 w100" for="popm0213090402a6">주소</label>
+								<div class="controls ml100">
+									<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="membersSelected.address" ng-required="true"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="btn-area">
+							<button type="button" class="btn btn-gray-bold" ng-click=closeMemberDetail()>닫기</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+				<!-- //modal contents -->
+		</div>
+	</div>
+	<div kt-modal="shouldBeOpenInsertDivision" close="closeInsertDivision()" ptions="{backdropFade: true, dialogFade:true}">
+		<div class="modal" style="width: 600px">
+			<!-- modal contents -->
+			<div class="modal-header clearfix">
+				<h1 class="pop">부서입력</h1>
+				<p class="pop-close">
+					<a href="" ng-click="closeInsertDivision()">닫기</a>
+				</p>
+			</div>
+			<form class="form-horizontal">
+				<fieldset>
+					<div class="modal-body">
+						<div class="form-area">
+							<div class="form-group type2">
+								<label class=" type2 w100" for="popm0213090402a6">부서장</label>
+								<div class="controls ml100">
+									<input type="text" id="popm0213090402a6" style="width: 196px" ng-model="divisionA.divisionManager" ng-required="true"/>
+								</div>
+							</div>
+							<div class="form-group type2">
+								<label class=" type2 w100" for="popm0213090402a6">부서명</label>
+								<div class="controls ml100">
+									<input type="text" id="popm0213090402a6" style="width: 196px" ng-model="divisionA.divisionName" ng-required="true"/>
+								</div>
+							</div>
+<!-- 							<div class="form-group type2">
+								<label class=" type2 w100" for="popm0213090402a6">부서원</label>
+								<div class="controls ml100">
+									<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="divisionInit.divisionMembers" ng-required="true"/>
+								</div>
+							</div> -->
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="btn-area">
+							<button type="button" class="btn btn-gray-bold" ng-click=saveInsertDivision()>저장</button>
+							<button type="button" class="btn btn-gray-bold" ng-click=closeInsertDivision()>닫기</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+				<!-- //modal contents -->
+		</div>
+	</div>
+	<div kt-modal="shouldBeOpenInsertMember" close="closeInsertMember()" ptions="{backdropFade: true, dialogFade:true}">
+		<div class="modal" style="width: 600px">
+			<!-- modal contents -->
+			<div class="modal-header clearfix">
+				<h1 class="pop">부서원등록</h1>
+				<p class="pop-close">
+					<a href="" ng-click="closeInsertMember()">닫기</a>
+				</p>
+			</div>
+			<form class="form-horizontal">
+				<fieldset>
+					<div class="modal-body">
+						<table kt-grid="grid3" data="userList" grid-height="200" grid-width="980" autowidth="true" row-num="15" sortable="true">
+							<thead>
+								<tr>
+									<th>name</th>
+									<th>phone</th>
+									<th>address</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr on-select-row="selectUser()">
+									<td>{{name}}</td>
+									<td>{{phone}}</td>
+									<td>{{address}}</td>
+								</tr>
+							</tbody>	
+						</table>
+					<div class="modal-footer">
+						<div class="btn-area">
+							<button type="button" class="btn btn-gray-bold" ng-click=saveInsertMember()>등록</button>
+							<button type="button" class="btn btn-gray-bold" ng-click=closeInsertMember()>닫기</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+				<!-- //modal contents -->
+		</div>
+	</div>

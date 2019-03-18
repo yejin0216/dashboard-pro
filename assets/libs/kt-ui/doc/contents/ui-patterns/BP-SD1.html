@@ -1,0 +1,188 @@
+<script src="vendor/jquery-ui/ui/i18n/datepicker-ko.js"></script>
+<script>
+	/**
+	 * bp-sd1 Module
+	 *
+	 * Description
+	 */
+
+	var comboList = [
+		{ done: false, title : "공부" },
+		{ done: false, title : "요리" },
+		{ done: false, title : "코딩" },
+		{ done: false, title : "안녕" },
+		{ done: false, title : "공부" }
+		];
+
+
+	angular.module('myApp', ['kt.ui']).controller('main', function ($scope, $http) {
+
+
+	 	$scope.change = function(user) {
+	 		if(user.last === "test") alert("!!!");
+		 	console.log(user.last);
+		};
+
+		$scope.checkCtrl = function() {
+		 	$scope.comboAthlete = {	value1: true, 
+		 							value2: false, 
+		 							value3: "Y"}	
+		};
+
+		$scope.radioCtrl = function() {
+			$scope.things = "option2-road";
+			console.log($scope.things);
+		};
+
+		$scope.colors = [   {name:'black', shade:'dark'},
+						    {name:'white', shade:'light'},
+						    {name:'red', shade:'dark'},
+						    {name:'blue', shade:'dark'},
+						    {name:'yellow', shade:'light'}
+						];
+  		$scope.color = $scope.colors[2]; // default red
+
+	    $scope.dateOptions = {
+	    	showOn: "both",
+	    	buttonText: "달력",
+	    	changeYear: true,
+	    	appendText: "yyyy:mm:dd",
+	    	//showButtonPanel: true,
+	    	dateFormat: "mm:dd:yy"
+	    };
+
+	    // $scope.st = {startDate: "05/15-2013"};
+
+	    $scope.dateOptions2 = {
+	    	showOn: "button",
+	    	buttonImage: "/doc/images/lens.png"	
+	    };
+
+	});
+
+	function inputCtrl($scope) {
+		$scope.user = {name: 'guest', last: 'visitor'};
+	}	
+
+</script>
+<div ng-controller="main" ng-app="myApp">
+	<div>
+		<p><button class="btn btn-success" type="button">초기화</button>
+		<button class="btn btn-primary" type="button">저장</button>
+		<button class="btn btn-danger" type="button">삭제</button>
+		<button class="btn btn-success" type="button">엑셀</button></p>
+	</div>
+	<div>
+		<form class="form-horizontal" action="">
+		  	<div class="form-group">
+				...
+			</div>
+		</form>
+	</div>
+
+	<div class="row">
+	  	<div class="col-md-1">
+    		<label for="inputEmail">문자</label>
+		</div>
+		<div class="col-md-3 controls">
+			<input type="text" class="form-control" id="inputEmail" placeholder="Email">
+		</div>
+		<div class="col-md-1">
+    		<label for="inputPassword">우편번호</label>
+		</div>
+	    <div class="col-md-3 controls">
+	    	<input type="password" class="form-control" id="inputPassword" placeholder="Password">
+	    </div>
+		<div class="col-md-4"></div>
+	</div>
+
+	<div class="controls">
+		<input class="form-control col-md-10" type="text" placeholder=".col-md-10">
+	</div>
+	<div class="form-group">
+		<label class=" col-md-1" for="inputEmail">문자</label>
+		<input class="form-control col-md-4" type="text" placeholder=".col-md-4">
+		<label class=" col-md-1" for="inputPassword">우편번호</label>
+		<input class="form-control col-md-4" type="text" placeholder=".col-md-4">
+	</div>
+
+	<!-- Input Box -->
+	<div class="form-group" ng-controller="inputCtrl">
+		<form name="inputForm">
+			<label class=" col-md-1" for="input1">일자[INPUT]</label>
+			<input class="form-control col-md-4" type="text" name="input1" id="input1" placeholder=".InputBox1" ng-model="user.name" required>
+			<span class="error" ng-show="inputForm.input1.$error.required">Required!</span><br>
+			<label class=" col-md-1" for="input2">주민번호[INPUT]</label>
+			<input class="form-control col-md-4" type="text" name="input2" id="input2" placeholder=".InputBox2" ng-model="user.last" ng-change="change(user)" ng-minlength="3" ng-maxlength="7">
+			<span class="error" ng-show="inputForm.input2.$error.minlength">Too short!</span>
+	        <span class="error" ng-show="inputForm.input2.$error.maxlength">Too long!</span><br>
+		</form>
+	</div>
+
+	<!-- Radio Box -->
+	<div class="form-group" ng-controller="radioCtrl">
+		<label class=" col-md-1" for="inputEmail">날자</label>
+		<input class="form-control col-md-4" type="text" placeholder=".col-md-4">
+		<label class=" col-md-1" for="inputPassword">주거</label>
+		<label class="radio col-md-2">
+			<input type="radio" ng-model="things" name="optionsRadios" id="optionsRadios1" value="option1-house">주택
+		</label>
+		<label class="radio col-md-2">
+			<input type="radio" ng-model="things" name="optionsRadios" id="optionsRadios2" value="option2-road">도로
+		</label>
+	<div>{{things}}</div>
+	</div>
+
+	<!-- Check Box -->
+	<div class="form-group">
+		<form name="checkForm" ng-controller="checkCtrl">
+			<label class="checkbox inline col-md-3">
+				<input type="checkbox" id="inlineCheckbox1" ng-model="comboAthlete.value1" value="option1"> 1. 축구
+			</label>
+			<label class="checkbox inline col-md-3">
+				<input type="checkbox" id="inlineCheckbox2" ng-model="comboAthlete.value2" value="option2"> 2. 야구
+			</label>
+			<label class="checkbox inline col-md-3">
+				<input type="checkbox" id="inlineCheckbox3" ng-model="comboAthlete.value3" ng-true-value="Y" ng-false-value="N" value="option3"> 3. 농구
+			</label>
+		</form>
+	</div>
+
+	<div>
+		{{comboAthlete}}
+	</div>
+
+	<!-- Combo Box, Multi-Select -->
+	<div class="form-group">
+		<select multiple="multiple" class="col-md-5">
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+			<option>5</option>
+		</select>
+
+		<span class="nullable col-md-5">
+			<select class="" ng-model="color" ng-options="c.name for c in colors">
+				<option value="">-- Choose color --</option>
+			</select>
+			<a href ng-click="color={name:'not in list'}">clear</a>
+		</span>
+	</div>
+
+	<!-- Date -->
+	<div class="form-group">
+		<input ui-date="dateOptions" class="form-control" placeholder="input Text" ng-model="st.startDate" ui-date-format="mm/dd-yy" ng-required="true">
+        ~ 
+        <input ui-date="dateOptions2" class="form-control" placeholder="input Text" disabled>
+	</div>
+
+	<div>{{st.startDate}}</div>
+
+	<!-- Textarea -->
+	<div class="form-group">
+		<textarea class="col-md-10" rows="3"></textarea>
+	</div>
+
+
+</div>

@@ -1,0 +1,143 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<style type="text/css">
+	iframe {
+	  height: 420px;
+	}	
+</style>
+
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		x축, y축을 설정한다.<br>
+		left margin, bottom margin 값을 설정하여 축을 표시할 수 있도록 한다.<br>
+		text = 축 이름을 설정한다. <br>
+		category = 카테고리 값을 설정한다.<br>
+		step = 케타고리 나타내는 간격을 설정한다.<br>
+	</p>
+
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+
+  	&lt;script type="text/javascript"&gt;
+   //Highchart가 전역으로 한번만 존재해야 되기때문에 라이브 리로드시는 전역초기화 해야한다. 
+   //해당 코드는 라이브리로드에서만 사용하고 실제는 사용해서는 안된다.
+	if(window.Highcharts){
+		delete window.Highcharts;
+		delete window.HighchartsAdapter;
+	}
+	&lt;/script&gt;
+
+  	&lt;link href="css/style.css" rel="stylesheet"&gt;
+  	&lt;link href="css/style-theme-default.css" rel="stylesheet"&gt;
+  	&lt;link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet"&gt;
+  	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+  
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	&lt;script type="text/javascript" src="vendor/highcharts/highcharts.js"&gt;&lt;/script&gt;
+	&lt;script type="text/javascript" src="vendor/highcharts/highcharts-more.js"&gt;&lt;/script&gt;
+	&lt;script type="text/javascript" src="vendor/highcharts/highcharts-more.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+    angular.module('myApp', ['kt.ui']).controller('Ctrl', function ($scope) {
+			
+		$scope.chartData = [{
+                name: 'Rainfall',
+                color: '#4572A7',
+                type: 'line',
+                yAxis: 1,
+                data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+                tooltip: {
+                    valueSuffix: ' mm'
+                }
+    
+            }, {
+                name: 'Sea-Level Pressure',
+                type: 'spline',
+                color: '#AA4643',
+                yAxis: 2,
+                data: [1016, 1016, 1015.9, 1015.5, 1012.3, 1009.5, 1009.6, 1010.2, 1013.1, 1016.9, 1018.2, 1016.7],
+                marker: {
+                    enabled: false
+                },
+                dashStyle: 'shortdot',
+                tooltip: {
+                    valueSuffix: ' mb'
+                }
+            }, {
+                name: 'Temperature',
+                color: '#89A54E',
+                type: 'spline',
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+                tooltip: {
+                    valueSuffix: ' °C'
+                }
+            }];
+
+  		$scope.xCategory =  ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  		
+  	 });
+   &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+		<div kt-chart data="chartData">
+			<k-chart-xaxis text="Month" category="xCategory" step="2"></k-chart-xaxis>
+			<k-chart-yaxis text="Temp" style="{color:'#89A54E'}"></k-chart-yaxis>
+			<k-chart-yaxis text="Temp2" style="{color:'#4572A7'}" opposite="true"></k-chart-yaxis>
+			<k-chart-yaxis text="Sea-Level Pressure" style="{color:'#4572A7'}" opposite="true"></k-chart-yaxis>
+		 </div>
+			
+  </body>
+</html>
+</script>
+

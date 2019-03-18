@@ -1,0 +1,171 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+				var previewFrame = document.getElementById('preview');
+		  		var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  	preview.open();
+			  	preview.write($scope.apiExample);
+			  	preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<style type="text/css">
+	iframe {
+	  height: 370px;
+	}	
+</style>
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		jQuery UI의 datepicker 플러그인을 감싸는 달력 컴포넌트이다. 해당 플러그인의 옵션들을 그대로 사용할 수 있다.
+	</p>
+	<h2>사용법</h2>
+	<div class="usage">
+		<textarea ui-codemirror="{  lineNumbers: true,
+						          	mode: 'text/html',
+						      		readOnly: true
+						         }" ng-model="apiUsage">
+		</textarea>
+	</div>
+	<h2>속성별 설명</h2>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>kt-date</code>
+				<p>달력 컴포넌트를 사용하기 위한 directive로 $scope을 정의하여 달력 컴포넌트의 옵션을 정의한다. 아래 kt-date 속성 참조.</p>
+			</li>
+			<li>
+				<code>ng-model</code>
+				<p>달력 컴포넌트의 데이트 모델을 정의한다.</p>
+			</li>
+			<li>
+				<code>name</code> <small>- optional</small>
+				<p>달력 컴포넌트를 컨트롤할 이름을 정의한다.</p>
+			</li>
+			<li>
+				<code>kt-date-format</code> <small>- optional</small>
+				<p>실제 달력 컴포넌트의 ng-model의 데이트 포맷으로 전달하고자 하는 포맷 타입을 정의한다. 불일치시 에러를 발생시킨다.</p>
+			</li>
+			<li>
+				<code>ng-required</code> <small>- optional</small>
+				<p>달력 텍스트 Input 필드를 필수 필드로 지정하여 값이 없을 시, 필드를 붉은색으로 표시한다.</p>
+			</li>
+			<li>
+				<code>disabled</code> <small>- optional</small>
+				<p>달력 텍스트 Input 필드를 disabled 시킨다.</p>
+			</li>
+		</ul>
+	</div>
+
+	<h2>kt-date 속성의 옵션</h2>
+	<div class="attributes">
+		* 더 자세한 사항은 jQuery UI datepicker를 참조.
+		<ul>
+			<li>
+				<code>dateFormat</code> <small>- optional</small>
+				<p>텍스트 Input 필드에 표시할 데이트 포맷을 정의한다. kt-date-format과는 별개로 필드에 표시되는 포맷이다. 예>"yy-mm-dd" -> 2013-05-20<p>
+			</li>
+			<li>
+				<code>showOn</code> <small>- optional</small>
+				<p>달력창을 띄우기 위한 타입을 정의한다. 'focus', 'button', both' 타입이 있다. 'focus'타입은 입력 텍스트 Input 필드를 클릭했을 때, 'button'타입은 텍스트 Input 필드옆의 버튼을 클릭했을 때, 'both'는 두 가지 타입 모두 사용할 때 사용한다.<p>
+			</li>
+			<li>
+				<code>buttonImage</code> <small>- optional</small>
+				<p>달력 컴포넌트 버튼의 이미지 경로를 정의한다.<p>
+			</li>
+			<li>
+				<code>buttonText</code> <small>- optional</small>
+				<p>달력 컴포넌트 버튼 안의 텍스트를 정의한다.<p>
+			</li>
+			<li>
+				<code>appendText</code> <small>- optional</small>
+				<p>요구되는 데이트 포맷과 같이 데이트를 표시한 뒤에 텍스트를 출력할 때 사용한다.<p>
+			</li>
+
+			<li>
+				<code>showButtonPanel</code> <small>- optional</small>
+				<p>달력 컴포넌트 아래 '오늘'과 '닫기' 패널을 보이게 한다. true/false[기본설정].<p>
+			</li>
+			<li>
+				<code>changeYear</code> <small>- optional</small>
+				<p>달력 컴포넌트 내에 년도를 선택할 수 있게 한다. true/false[기본설정].<p>
+			</li>
+			<li>
+				<code>changeMonth</code> <small>- optional</small>
+				<p>달력 컴포넌트 내에 월을 선택할 수 있게 한다. true/false[기본설정].<p>
+			</li>
+		</ul>
+	</div>
+
+
+	<h2>예제</h2>
+	<div class="example">
+		<textarea ui-codemirror="{	lineNumbers: true,
+						          	mode: 'text/html',
+									onChange : renderPreview
+						         }" ng-model="apiExample">
+		</textarea>		
+	</div>
+	<h2>Preview</h2>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><input kt-date="{string}" 
+		   ng-model="{string}" 
+		   [kt-date-format]="{string}" 
+		   [ng-required]="{string}"></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+    &lt;link rel="stylesheet" href="build/css/kt3m-ui.css"&gt;
+    &lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/jquery-ui/ui/i18n/datepicker-ko.js"&gt;&lt;/script&gt;
+    &lt;script src="http://code.angularjs.org/1.0.6/angular.min.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+		angular.module('myApp', ['kt.ui']).controller('dateCtrl', function ($scope) {
+    		$scope.st = {
+    			startDate : "09/09-2013"
+    		}
+    	   $scope.dateOptions = {
+		    	showOn: "both",
+		    	buttonText: "달력",
+		    	changeYear: true,
+		    	appendText: "yyyy:mm:dd",
+		    	showButtonPanel: true,
+		    	dateFormat: "mm:dd:yy"
+		    };
+		    $scope.dateOptions2 = {
+		    	showOn: "button",
+		    	buttonImage: "/build/images/date/lens.png"	
+		    };
+    	});
+    &lt;/script&gt;
+  </head>
+  <body>
+ 	<div class="form-group" ng-controller="dateCtrl">
+ 		<p>
+ 			입력된 값 : {{st.startDate}}
+ 		</p>
+		<input kt-date="dateOptions" class="form-control" placeholder="input Text" ng-model="st.startDate" kt-date-format="mm/dd-yy" ng-required="true">
+        ~ 
+        <input kt-date="dateOptions2" class="form-control" placeholder="input Text" disabled>
+	</div>
+  </body>
+</html></script>
+

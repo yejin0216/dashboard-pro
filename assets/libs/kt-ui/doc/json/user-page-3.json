@@ -1,0 +1,68 @@
+{
+    "result": true,
+    "currentPage": 3,
+    "pageSize": 10,
+    "totalPage": 5,
+    "rows": [
+        {
+            "id": "user21",
+            "name": "사용자21",
+            "email": "testeamil21@kt.com",
+            "regDate": "2013-01-20"
+        },
+        {
+            "id": "user22",
+            "name": "사용자22",
+            "email": "testeamil22@kt.com",
+            "regDate": "2013-01-20"
+        },
+        {
+            "id": "user23",
+            "name": "사용자23",
+            "email": "testeamil23@kt.com",
+            "regDate": "2013-01-20"
+        },
+        {
+            "id": "user24",
+            "name": "사용자24",
+            "email": "testeamil24@kt.com",
+            "regDate": "2013-01-20"
+        },
+        {
+            "id": "user25",
+            "name": "사용자25",
+            "email": "testeamil25@kt.com",
+            "regDate": "2013-01-20"
+        },
+        {
+            "id": "user26",
+            "name": "사용자26",
+            "email": "testeamil26@kt.com",
+            "regDate": "2013-01-20"
+        },
+        {
+            "id": "user27",
+            "name": "사용자27",
+            "email": "testeamil27@kt.com",
+            "regDate": "2013-01-20"
+        },
+        {
+            "id": "user28",
+            "name": "사용자28",
+            "email": "testeamil28@kt.com",
+            "regDate": "2013-01-20"
+        },
+        {
+            "id": "user29",
+            "name": "사용자29",
+            "email": "testeamil29@kt.com",
+            "regDate": "2013-01-20"
+        },
+        {
+            "id": "user30",
+            "name": "사용자30",
+            "email": "testeamil30@kt.com",
+            "regDate": "2013-01-20"
+        }
+    ]
+}

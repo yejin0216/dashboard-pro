@@ -1,0 +1,271 @@
+<html ng-app="app" ng-controller="ctrl">
+<link href="/vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="/vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+<link rel="stylesheet" href="/build/css/kt3m-ui.css">
+
+<script src="/vendor/jquery/dist/jquery.js"></script>
+<script src="/vendor/jquery-ui/jquery-ui.js"></script>
+<script src="/vendor/angular/angular.js"></script>
+<script src="/vendor/jqgrid/js/i18n/grid.locale-en.js"></script>
+<script src="/vendor/jqgrid/js/minified/jquery.jqGrid.min.js"></script>
+<script src="/build/kt3m-ui.js"></script>
+<script type="text/javascript">
+angular.module('app', ['kt.ui']).controller('ctrl', function($scope, $http){
+	var apiKey='3qPajHBv9hOGD_bcOivJse25vEhjwNom';
+	var dbName='ktdev';
+	var url='https://api.mongolab.com/api/1/databases';
+	var userCollectionName='ktuiexample_1';
+	var classCollectionName='ktuiexample_2';
+	$scope.searchData={};
+	$scope.userList={rows:[]};
+	$scope.revisionData={
+		// _id:{
+		// 	$oid:decodeURIComponent(getParameter('id'))
+		// 	},
+		name:decodeURIComponent(getParameter('name')),
+		phone:decodeURIComponent(getParameter('phone')),
+		address:decodeURIComponent(getParameter('address'))
+	};
+	$scope.classes=[];
+	$scope.classBefore={
+		rows:[
+		{name:"",
+		fee:"",
+		term:""}
+		]
+	};
+	$scope.classList={rows:[]};
+	$scope.classAfterAll=[];
+
+	var id=decodeURIComponent(getParameter('id'));
+
+	function getParameter(strParamName) {
+	    var strURL = location.search;
+	    var tmpParam = strURL.substring(1).split("&");
+	    if(strURL.substring(1).length > 0){
+	        var Params = new Array;
+	        for(var i=0;i<tmpParam.length;i++){
+	            Params = tmpParam[i].split("=");
+	            if(strParamName == Params[0]){
+	                return Params[1];
+	            }
+	        }
+	     }
+	     return "";
+	};
+
+	$scope.searchAll = function (){
+		$scope.classBefore={
+			rows:[
+			{name:"",
+			fee:"",
+			term:""}
+			]
+		};
+		var params = {
+		q:{name:$scope.revisionData.name}
+		};
+		var data = $http.get(url+'/'+dbName+'/collections/'+userCollectionName+'?apiKey='+apiKey, {params:params});
+		data.then(function(response){
+		angular.copy(response.data, $scope.userList.rows);
+		var b = 0;
+			for(var i in $scope.userList.rows[0].classes){
+			    var params = {
+							  q:{name:$scope.userList.rows[0].classes[i]}
+						 	};
+				var data = $http.get(url+'/'+dbName+'/collections/'+classCollectionName+'?apiKey='+apiKey, {params:params})
+				.success(function(data){
+					$scope.classBefore.rows[b]=data[0];
+					b++;
+				});
+			}
+		});
+	};
+
+	$scope.searchAll();
+
+	$scope.insert = function () {
+		$scope.shouldBeOpen = true;
+		var promise = $http.get(url+'/'+dbName+'/collections/'+classCollectionName+'?apiKey='+apiKey);
+		promise.then(function(response){
+			angular.copy(response.data, $scope.classList.rows);
+			return response.data;
+		});
+	};
+
+	$scope.save = function () {
+		if($scope.classBefore.rows[0].name==''){
+			$scope.classAfterAll.push($scope.selectedData.name);			
+		}else{
+			console.log("case 2");
+			for(var i in $scope.classBefore.rows){
+				if($scope.classBefore.rows[i].name == $scope.selectedData.name){
+					alert("registered class");
+					$scope.close();
+					return;
+				}
+				$scope.classAfterAll[i]=$scope.classBefore.rows[i].name;
+			}
+			$scope.classAfterAll.push($scope.selectedData.name);			
+		}
+		var params = {
+			apiKey:apiKey
+		};
+		var option = {
+			name:$scope.revisionData.name,
+			phone:$scope.revisionData.phone,
+			address:$scope.revisionData.address,
+			classes:$scope.classAfterAll
+		};
+		var data = $http.put(url+'/'+dbName+'/collections/'+userCollectionName+'/'+id, option, {params:params})
+		.success(function(){
+			$scope.close();
+			$scope.searchAll();
+		});
+
+	};
+
+	$scope.close = function () {
+			$scope.shouldBeOpen = false;
+	};
+
+	$scope.delete = function () {
+		$scope.classAfterAll=[];
+		for(var i in $scope.classBefore.rows){
+			if($scope.classBefore.rows.length==1){
+				break;
+			};
+			if($scope.classBefore.rows[i].name!=$scope.selectedData.name){
+				$scope.classAfterAll.push($scope.classBefore.rows[i].name);
+			}			
+		}
+		var params = {
+			apiKey:apiKey
+		};
+
+		if($scope.classBefore.rows.length==1){
+			var option = {
+			name:$scope.revisionData.name,
+			phone:$scope.revisionData.phone,
+			address:$scope.revisionData.address,
+			};
+		}else{
+			var option = {
+			name:$scope.revisionData.name,
+			phone:$scope.revisionData.phone,
+			address:$scope.revisionData.address,
+			classes:$scope.classAfterAll
+			};
+		}
+		
+		var data = $http.put(url+'/'+dbName+'/collections/'+userCollectionName+'/'+id, option, {params:params})
+		.success(function(){
+			$scope.searchAll();
+		});
+	};
+
+	$scope.closeRevision = function (){
+		window.location.href = "PG-F4CONTENTS_MAIN.html";
+	};
+
+	$scope.select = function(data) {
+	$scope.selectedData = data;
+	};
+});
+</script>
+		<!-- modal contents -->
+		<h4 align=center>사용자 정보 수정</h4>
+		</div>
+		<form class="form-horizontal">
+			<fieldset>
+				<div class="modal-body">
+					<div class="form-area">
+						<div class="form-group type2">
+							<label class=" type2 w100" for="popm0213090402a6">이름</label>
+							<div class="controls ml100">
+								<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="revisionData.name" ng-required="true"/>
+							</div>
+						</div>
+						<div class="form-group type2">
+							<label class=" type2 w100" for="popm0213090402a6">연락처</label>
+							<div class="controls ml100">
+								<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="revisionData.phone" ng-required="true"/>
+							</div>
+						</div>
+						<div class="form-group type2">
+							<label class=" type2 w100" for="popm0213090402a6">주소</label>
+							<div class="controls ml100">
+								<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="revisionData.address" ng-required="true"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div align=center><br>
+					<button type="submit" class="btn btn-gray-bold" ng-click=insert()>등록</button>
+					<button type="button" class="btn btn-gray-bold" ng-click=delete()>삭제</button>
+					<button type="button" class="btn btn-gray-bold" ng-click=closeRevision()>뒤로가기</button>
+				</div>
+			</fieldset>
+		</form>
+  <div align="center">
+    <!-- <table kt-grid="grid1" data="userList" grid-height="girdOptsion.height" grid-width="girdOptsion.width"> -->
+    <table kt-grid="grid1" data="classBefore" grid-height="200" grid-width="980" autowidth="true" row-num="15" sortable="true">
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>fee</th>
+          <th>term</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr on-select-row="select()">
+          <td>{{name}}</td>
+          <td>{{fee}}</td>
+          <td>{{term}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<div kt-modal="shouldBeOpen" close="close()" ptions="{backdropFade: true, dialogFade:true}">
+	<div class="modal" style="width: 600px">
+		<!-- modal contents -->
+		<div class="modal-header clearfix">
+			<h1 class="pop">사용자 정보 등록</h1>
+			<p class="pop-close">
+				<a href="" ng-click="close()">닫기</a>
+			</p>
+		</div>
+		<form class="form-horizontal">
+			<fieldset>
+				<div class="modal-body">
+				    <table kt-grid="grid2" data="classList" grid-height="200" grid-width="980" autowidth="true" row-num="15" sortable="true">
+				      <thead>
+				        <tr>
+				          <th>name</th>
+				          <th>fee</th>
+				          <th>term</th>
+				        </tr>
+				      </thead>
+				      <tbody>
+				        <tr on-select-row="select()">
+				          <td>{{name}}</td>
+				          <td>{{fee}}</td>
+				          <td>{{term}}</td>
+				        </tr>
+				      </tbody>  
+				    </table>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-area">
+						<button type="submit" class="btn btn-gray-bold" ng-click=save()>추가</button>
+						<button type="button" class="btn btn-gray-bold" ng-click=close()>닫기</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+			<!-- //modal contents -->
+	</div>
+</div>
+
+</html>

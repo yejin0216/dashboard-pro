@@ -1,0 +1,52 @@
+<!doctype html>
+<html ng-app="demo">
+  <head>
+    <link href="../vendor/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../build/css/kt3m-ui.css">
+    <script src="../vendor/jquery/dist/jquery.js"></script>
+    <script src="../vendor/jquery-ui/jquery-ui.js"></script>
+    <script src="../vendor/jquery-sparkline/jquery.sparkline.js"></script>
+    <script src="../vendor/underscore/underscore.js"></script>
+    <script src="../vendor/angular/angular.js"></script>
+    <script src="../build/kt3m-ui.js"></script>
+    <script type="text/javascript">
+    angular.module('demo', ['kt.ui'])
+      .controller('Ctrl', ['$scope', function ($scope) {
+        $scope.chartData = [{
+          data : [5,6,7,9,9,5,3,2,2,4,1,7]
+        }];
+
+        $scope.charOpts = {}
+
+        $scope.changeOptiion = function() {
+          $scope.charOpts = {
+            barColor: "rgba(64,86,109,0.8)",
+            barWidth: "30px",
+            barSpacing: "10px"
+          }
+        }
+
+        $scope.chagneDataByRef = function() {
+          for (var i = 11; i >= 0; i--) {
+            $scope.chartData[0].data[i] = _.random(1,9);
+          };
+        }
+
+        $scope.chagneDataByValue = function() {
+          var newArray = [];
+          for (var i = 11; i >= 0; i--) {
+            newArray.push(_.random(1,9));
+          };
+          $scope.chartData[0].data = newArray;
+        }
+      }]);
+    </script>
+  </head>
+  <body ng-controller="Ctrl">
+    <p> data : {{chartData[0].data}}</p>
+    <div kt-mini-chart type="bar" data="chartData" options="charOpts"></div>
+    <button ng-click="chagneDataByRef()">change Data By Ref</button>
+    <button ng-click="chagneDataByValue()">change Data By Value</button>
+    <button ng-click="changeOptiion()">change Option</button>
+  </body>
+</html>

@@ -1,0 +1,139 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h3>
+		설명
+	</h3>
+	<p class="description">
+		레이어드 팝업형태로 팝업을 띄우는 컴포넌트이다. 다이얼로그, 윈도우 등 여러 형태로 사용할 수 있다.
+	</p>
+	<h3>사용법</h3>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<script>
+
+	</script>
+	<h3>속성별 설명</h3>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>kt-modal</code>
+				<p>값이 true이면 모달 창이 열린다.</p>
+			</li>
+			<li>
+				<code>close</code>
+				<p>close할 때 호출될 표현식을 작성한다. 예) close()</p>
+			</li>
+			<li>
+				<code>opts</code>
+				<p>모달 옵션을 대입한다.</p>
+				<ul>
+					<!-- <li>backdropFade : backdrop의 사라지는 효과 사용 여부(boolean)</li> -->
+					<li>onOpen : 오픈시 실행되어질 콜백함수(function)</li>
+					<li>dialogFade : 모달창의 사라지는 효과 사용 여부(boolean)</li>
+					<li>backdrop : 모달 창 바깥의 화면 사용여부(boolean)</li>
+					<!-- <li>backdropClass : backdrop의 클래스명(string)</li> -->
+					<!-- <li>backdropClick : backdrop을 클릭하였을 때 모달창 사라지는 여부(string)</li> -->
+				</ul>	
+			</li>
+		</ul>
+	</div>
+
+	<h3>예제</h3>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h3>Preview</h3>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><div kt-modal="{string}" close="{string}" options="{string}">
+		컨텐츠
+</div></script>
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  	  <link href="build/css/kt3m-ui.css" rel="stylesheet">
+  	<style>body { margin: 10px; }</style>
+  	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+  	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+		angular.module('myApp', ['kt.ui']).controller('ModalDemoCtrl', function ($scope) {
+
+		  $scope.open = function () {
+		    $scope.shouldBeOpen = true;
+		  };
+
+		  $scope.close = function () {
+		    $scope.closeMsg = 'I was closed at: ' + new Date();
+		    $scope.shouldBeOpen = false;
+		  };
+
+		  $scope.items = ['item1', 'item2'];
+
+		  $scope.opts = {
+		    backdropFade: true,
+		    dialogFade:true
+		  };
+		});
+    &lt;/script&gt;
+  </head>
+  <body>
+  	<div ng-controller="ModalDemoCtrl">
+		  <button class="btn btn-default" ng-click="open()">Open</button>
+		  <div kt-modal="shouldBeOpen" close="close()" options="opts">
+		      <div class="modal-header">
+		          <h3>모달 창</h3>
+		      </div>
+		      <div class="modal-body">
+		          <ul>
+		              <li ng-repeat="item in items">{{item}}</li>
+		          </ul>
+		      </div>
+		      <div class="modal-footer">
+				<div class="btn-area">
+					<button type="submit" class="btn btn-gray-bold">등록</button>
+					<button type="button" class="btn btn-gray-bold">취소</button>
+				</div>
+			  </div>
+		  </div>
+
+			<div>{{closeMsg}}</div>
+		</div>
+  </body>
+</html></script>

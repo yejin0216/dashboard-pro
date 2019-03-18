@@ -1,0 +1,145 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  	var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+
+		$scope.renderPreview();
+	}
+</script>
+
+<style type="text/css">
+	iframe {
+	  
+	  height: 520px;
+	}	
+</style>
+
+
+<div ng-controller="compDocCtrl">
+	<h3>
+		설명
+	</h3>
+	<p class="description">
+		jquery sparkline 라이브러리를 Angular의 Directive를 이용하여 컴포넌트화 하였다.<br>
+		아래 사용법과 같이 div kt-mini-chart type="{종류}" 와 data 해당 시리즈에 맞는 데이터를 연결하면 기본 컴포넌트가 생성 되며 나머지는 항목들은 옵션이다. 
+	</p>
+	<h3>사용법</h3>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+
+	  </textarea>
+	</div>
+	<h3>속성별 설명</h3>
+	<h1></h1>
+	
+
+	<div class="attributes">
+		필수 옵션이 아니면 생략해도 기본 값으로 입력되가나 나타나지 않는다.
+		<ul>
+			<li>
+				<code>kt-mini-chart</code>
+				<p>kt mini chart를 사용하겠다는 의미이다.</p>
+			</li>
+			<li>
+				<code>type</code>
+				<p>차트 종류를 나타낸다. line, bar, tristate, discrete, bullet, pie, box등이 올 수 있다. <br>전체 종류는 <a href="http://omnipotent.net/jquery.sparkline/#s-docs">sparkline API 문서</a>에서 참고 한다.</p>
+			</li>
+			<li>
+				<code>options</code>
+				<p>차트 옵션을 준다. 표현식이 들어가며 결과 값이 객체어야 한다.<br>사용 가능한 옵션과 관련해서는 <a href="http://omnipotent.net/jquery.sparkline/#s-docs">sparkline API 문서</a>에서 참고 한다.</p>
+			</li>
+		</ul>
+	</div>
+	<h3>예제</h3>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h3>Preview</h3>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><div kt-mini-chart type="{type}" data="{array}" options="{obejct}"></div></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+	&lt;link href="css/style.css" rel="stylesheet"&gt;
+	&lt;link href="css/style-theme-default.css" rel="stylesheet"&gt;
+	&lt;link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet"&gt;
+	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	&lt;script type="text/javascript" src="vendor/jquery-sparkline/jquery.sparkline.js"&gt;&lt;/script&gt;
+  &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript"&gt;
+
+    angular.module('myApp', ['kt.ui']).controller('Ctrl', function ($scope) {
+  		$scope.chartData = [{
+        data : [5,6,7,9,9,5,3,2,2,4,1,7]
+      }];
+
+      $scope.charOpts = {}
+
+      $scope.changeOptiion = function() {
+        $scope.charOpts = {
+          barColor: "rgba(64,86,109,0.8)",
+          barWidth: "30px",
+          barSpacing: "10px"
+        }
+      }
+
+      $scope.chagneDataByRef = function() {
+        for (var i = 11; i >= 0; i--) {
+          $scope.chartData[0].data[i] = _.random(1,9);
+        };
+      }
+
+      $scope.chagneDataByValue = function() {
+        var newArray = [];
+        for (var i = 11; i >= 0; i--) {
+          newArray.push(_.random(1,9));
+        };
+        $scope.chartData[0].data = newArray;
+      }
+  	 });
+   &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+		<p> data : {{chartData[0].data}}</p>
+    <div kt-mini-chart type="bar" data="chartData" options="charOpts"></div>
+    <div kt-mini-chart type="line" data="chartData" options="charOpts"></div>
+    <div kt-mini-chart type="tristate" data="chartData" options="charOpts"></div>
+    <div kt-mini-chart type="discrete" data="chartData" options="charOpts"></div>
+    <div kt-mini-chart type="bullet" data="chartData" options="charOpts"></div>
+    <div kt-mini-chart type="pie" data="chartData" options="charOpts"></div>
+    <div kt-mini-chart type="box" data="chartData" options="charOpts"></div>
+    <button ng-click="chagneDataByRef()">change Data By Ref</button>
+    <button ng-click="chagneDataByValue()">change Data By Value</button>
+    <button ng-click="changeOptiion()">change Option</button>
+  </body>
+</html>
+</script>

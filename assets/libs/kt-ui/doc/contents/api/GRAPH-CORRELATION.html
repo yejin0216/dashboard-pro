@@ -1,0 +1,301 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			// if(window.Highcharts){
+			// 	console.log(window.Highcharts);
+			// 	delete window.Highcharts;
+			// 	delete window.HighchartsAdapter;
+			// 	console.log(window.Highcharts);
+			// }
+			var previewFrame = document.getElementById('preview');
+		  	var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+
+		$scope.renderPreview();
+	}
+</script>
+
+<style type="text/css">
+	iframe {
+	  
+	  height: 520px;
+	}	
+</style>
+
+
+<div ng-controller="compDocCtrl">
+	<h3>
+		설명
+	</h3>
+	<p class="description">
+		기존의 차트 라이브러리를 Angular의 Directive를 이용하여 컴포넌트화 하였다.<br>
+		위 사용법과 같이 div kt-chart type="{종류}" 와 data 해당 시리즈에 맞는 데이터를 연결하면 기본 컴포넌트가 생성 되며 나머지는 항목들은 옵션이다. <br>
+		k-chart-maintitle, k-chart-subtitle 같은 태그들은 kt-chart태그 안에 내부 태그로 사용해야 한다.<br>
+
+	</p>
+	<h3>사용법</h3>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+
+	  </textarea>
+	</div>
+	<h3>속성별 설명</h3>
+	<h1></h1>
+	
+
+	<div class="attributes">
+		필수 옵션이 아니면 생략해도 기본 값으로 입력되가나 나타나지 않는다.
+		<ul>
+			<li>
+				<code>kt-chart</code>
+				<p>kt chart를 사용하겠다는 의미이다.</p>
+			</li>
+			<li>
+				<code>type</code>
+				<p>차트 종류를 나타낸다. line, bar(가로 막대), column(세로 막대), scatter, pie 등</p>
+			</li>
+			<li>
+				<code>data</code>
+				<p>series 형식에 맞추어 데이터를 입력 한다.</p>
+			</li>
+			<li>
+				<code>margintop, marginbottom, marginleft, margin right</code> <small>- optional</small>
+				<p>차트의 해당 여백을 입력한다.</p>
+			</li>
+			<li>
+				<code>k-chart-maintitle text, fontsize, fontcolor, fontweight, align</code> <small>- optional</small>
+				<p>주 제목을 입력하는 태그이며 글자에 해당하는 옵션들을 정한다.</p>
+			</li>
+			<li>
+				<code>k-chart-subtitle text, fontsize, fontcolor, fontweight, align</code> <small>- optional</small>
+				<p>주 제목을 입력하는 태그이며 글자에 해당하는 옵션들을 정한다.</p>
+			</li>
+			
+			
+			<li>
+				<code>k-chart-legend enabled, layout, align, verticalalign, x, y </code> <small>- optional</small>
+				<p>범례를 입력 하는 태그 <br>
+					enabled : 범례 표시 여부<br>
+					layout : 범례 가로/세로로 표시<br>
+					x,y : 정렬된 위치 부터 상대적인 위치</p>
+			</li>
+			<li>
+				<code>k-chart-xaxis text</code> <small>- optional</small>
+				<p>x축의 이름및 카테고리를 입력 한다. 카테고리를 배열로 데이터 갯수만큼 넣어 준다.</p>
+			</li>
+			<li>
+				<code>k-chart-yaxis text </code> <small>- optional</small>
+				<p>y축의 이름및 카테고리를 입력 한다</p>
+			</li>
+			<li>
+				<code>k-chart-datalabel withlabel, point </code> <small>- optional</small>
+				<p>그래프의 값을 표시할 때 입력한다. <br>
+					withlabel : 값 표시 여부 <br>
+					point : 소수점 자리 표시</p>
+			</li>
+		</ul>
+	</div>
+	<h3>예제</h3>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h3>Preview</h3>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><div kt-chart type="{type}" data="{array}" [backgroundcolor]="{color}" [margintop]="{number}" [marginbottom]="{number}" [marginright]="{number}" [marginleft]="{number}">
+	<k-chart-maintitle text="{string}" fontsize="{number}" fontcolor="{color}" fontweight="{string}" align="{string}" ></k-chart-maintitle>
+	<k-chart-subtitle text="{string}" fontsize="{number}" fontcolor="{color}" fontweight="{string}" align="{string}" ></k-chart-subtitle>
+	<tooltip valueprefix="{string}" valuesuffix="{string}" ></tooltip>
+	<k-chart-legend enabled="{boolean}" layout="{string}" align="{string}" verticalalign="{string}" x="{number}" y="{number}" ></k-chart-legend>
+	<k-chart-xaxis text="{string}" category="{array}" ></k-chart-xaxis>
+	<k-chart-yaxis text="{string}" category="{array}" ></k-chart-yaxis>
+	<k-chart-datalabel withlabel="{boolean}" point="{number}" ></k-chart-datalabel>
+</div>
+</script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+   &lt;script type="text/javascript"&gt;
+   //Highchart가 전역으로 한번만 존재해야 되기때문에 라이브 리로드시는 전역초기화 해야한다. 
+   //해당 코드는 라이브리로드에서만 사용하고 실제는 사용해서는 안된다.
+	if(window.Highcharts){
+		delete window.Highcharts;
+		delete window.HighchartsAdapter;
+	}
+	&lt;/script&gt;
+  	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="vendor/highcharts/highcharts.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="vendor/highcharts/modules/exporting.js"&gt;&lt;/script&gt;
+	&lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+    angular.module('myApp', ['kt.ui']).controller('Ctrl', function ($scope) {
+
+
+		$scope.chartData = [{
+                name: 'Female',
+                color: 'rgba(223, 83, 83, .5)',
+                data: [[161.2, 51.6], [167.5, 59.0], [159.5, 49.2], [157.0, 63.0], [155.8, 53.6],
+                    [170.0, 59.0], [159.1, 47.6], [166.0, 69.8], [176.2, 66.8], [160.2, 75.2],
+                    [172.5, 55.2], [170.9, 54.2], [172.9, 62.5], [153.4, 42.0], [160.0, 50.0],
+                    [147.2, 49.8], [168.2, 49.2], [175.0, 73.2], [157.0, 47.8], [167.6, 68.8],
+                    [159.5, 50.6], [175.0, 82.5], [166.8, 57.2], [176.5, 87.8], [170.2, 72.8],
+                    [174.0, 54.5], [173.0, 59.8], [179.9, 67.3], [170.5, 67.8], [160.0, 47.0],
+                    [154.4, 46.2], [162.0, 55.0], [176.5, 83.0], [160.0, 54.4], [152.0, 45.8],
+                    [162.1, 53.6], [170.0, 73.2], [160.2, 52.1], [161.3, 67.9], [166.4, 56.6],
+                    [168.9, 62.3], [163.8, 58.5], [167.6, 54.5], [160.0, 50.2], [161.3, 60.3],
+                    [161.0, 53.6], [151.1, 73.2], [168.2, 53.4], [168.9, 69.0], [173.2, 58.4],
+                    [171.8, 56.2], [178.0, 70.6], [164.3, 59.8], [163.0, 72.0], [168.5, 65.2]]
+    
+            }, {
+                name: 'Male',
+                color: 'rgba(119, 152, 191, .5)',
+                data: [[174.0, 65.6], [175.3, 71.8], [193.5, 80.7], [186.5, 72.6], [187.2, 78.8],
+                    [181.5, 74.8], [184.0, 86.4], [184.5, 78.4], [175.0, 62.0], [184.0, 81.6],
+                    [180.0, 76.6], [177.8, 83.6], [192.0, 90.0], [176.0, 74.6], [174.0, 71.0],
+                    [184.0, 79.6], [192.7, 93.8], [171.5, 70.0], [173.0, 72.4], [176.0, 85.9],
+                    [176.0, 78.8], [180.5, 77.8], [172.7, 66.2], [176.0, 86.4], [173.5, 81.8],
+                    [178.0, 89.6], [180.3, 82.8], [180.3, 76.4], [164.5, 63.2], [173.0, 60.9],
+                    [183.5, 74.8], [175.5, 70.0], [188.0, 72.4], [189.2, 84.1], [172.8, 69.1],
+                    [170.0, 59.5], [182.0, 67.2], [170.0, 61.3], [177.8, 68.6], [184.2, 80.1],
+                    [174.5, 63.9], [177.5, 72.0], [170.5, 56.8], [182.4, 74.5], [197.1, 90.9],
+                    [180.1, 93.0], [175.5, 80.9], [180.6, 72.7], [184.4, 68.0], [175.5, 70.9],
+                    [180.6, 72.5], [177.0, 72.5], [177.1, 83.4], [181.6, 75.5], [176.5, 73.0],
+                    [175.0, 70.2], [174.0, 73.4], [165.1, 70.5], [177.0, 68.9], [192.0, 102.3]]
+            }];
+
+            $scope.click = function(clickItem){
+        	$scope.clickItem = clickItem;
+	        }
+
+	        $scope.redraw = function(event){
+	        	//이벤트를 얻어 올 수 있다.
+	        }
+	        $scope.load = function(event){
+	        	//이벤트를 얻어 올 수 있다.
+	        }
+
+	        $scope.addSeries = function(){
+		        $scope.chartData.push({
+		           	color: '#00FF00',
+	                name: 'data',
+	                data: [ [184.0, 79.6], [192.7, 93.8], [171.5, 70.0], [173.0, 72.4], [176.0, 85.9],
+                    [176.0, 78.8], [180.5, 77.8], [172.7, 66.2], [176.0, 86.4], [173.5, 81.8],
+                    [178.0, 89.6], [180.3, 82.8], [180.3, 76.4], [164.5, 63.2], [173.0, 60.9],
+                    [183.5, 74.8], [175.5, 70.0], [188.0, 72.4], [189.2, 84.1], [172.8, 69.1],
+                    [170.0, 59.5], [182.0, 67.2], [170.0, 61.3], [177.8, 68.6], [184.2, 80.1],
+                    [174.5, 63.9], [177.5, 72.0], [170.5, 56.8], [182.4, 74.5], [197.1, 90.9]]
+		        });
+			}
+
+			$scope.selection = function(event){
+				if (event.xAxis) {
+					$scope.selectionMsg = 'min: '+ event.xAxis[0].min +', max: '+ event.xAxis[0].max;
+				 } else {
+					$scope.selectionMsg	= "selection reset";
+				 }
+			}
+
+			$scope.xplotband = [{ 
+            from: 150,
+            to: 155,
+            color: 'rgba(255, 255, 0, 0.5)',
+            label: {
+                text: 'short',
+                style: {
+                    color: '#0000FF'
+                }
+            }
+        }]
+
+
+		$scope.yplotband = [{ 
+            from: 40,
+            to: 45,
+            color: 'rgba(255, 0, 0, 0.5)',
+            label: {
+                text: 'light',
+                style: {
+                    color: '#0000FF'
+                }
+            }
+        }]
+        
+        $scope.addGuage = function(){
+
+        	 $scope.xplotband.push({ 
+                from: 190,
+	            to: 195,
+	            color: 'rgba(0, 255, 0, 0.5)',
+	            label: {
+	                text: 'tall',
+	                style: {
+	                    color: '#0000FF'
+	                }
+	            }
+            });
+
+        	$scope.yplotband.push({ 
+                from: 85,
+                to: 90,
+                color: 'rgba(0, 0, 255, 0.5)',
+                label: {
+                    text: 'heavy',
+                    style: {
+                        color: '#0000FF'
+                    }
+                }
+            });
+
+		}
+
+  		
+    });
+    &lt;/script&gt;
+  </head>
+  <body>
+    <form name="myForm" ng-controller="Ctrl">
+      <div kt-chart type="scatter" data="chartData" xplotband="xplotband" yplotband="yplotband" backgroundcolor="#ffffff" margintop="50" marginbottom="70" marginright="50" marginleft="50"
+      	click="click()" load="load()" redraw="redraw()" selection="selection()">
+		<k-chart-maintitle text="Main Title Chart" fontsize="24px" fontcolor="#ff00ff" fontweight="bold" align="center"></k-chart-maintitle>
+		<k-chart-subtitle text="Sub Title" fontsize="12px" fontcolor="#ff0000" fontweight="bold" align="center"></k-chart-subtitle>
+		<k-chart-legend enabled="true" layout="horizontal" align="right" verticalalign="bottom" x="-30" y="10"></k-chart-legend>
+		<k-chart-xaxis text="Height(cm)"></k-chart-xaxis>
+		<k-chart-yaxis text="Weight(kg)"></k-chart-yaxis>
+		<k-chart-datalabel withlabel="true" point="1"></k-chart-datalabel>
+	</div>
+
+	<button ng-click="addSeries()" > Add Series </button>
+	<button ng-click="addGuage()" > Add Guage </button>
+	<p> 선택한 아이템 -> category : {{clickItem.category}},  x : {{clickItem.x}}, y : {{clickItem.y}} </p>
+	<p> Selection -> {{selectionMsg}} </p>
+
+     </form>
+  </body>
+</html>
+</script>
+
+
+

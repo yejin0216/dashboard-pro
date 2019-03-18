@@ -1,0 +1,181 @@
+
+<script type="text/javascript">
+
+    angular.module('myApp', ['kt.ui']).controller('mainCtrl', function ($scope) {
+
+    $scope.title = "1-B.Single Detail(Edit)-2";
+
+    $scope.modifyFlag = false;
+
+    $scope.clickModifyBtn = function() {
+      $scope.modifyFlag =  !$scope.modifyFlag;
+    };
+
+  });
+
+</script>
+
+<style>
+  .modelView{
+    font-size: 9px;
+    color: red;
+  }
+  .textArea.ng-valid.ng-dirty {
+      background-color: #78FA89;
+  }
+
+  .textArea.ng-invalid.ng-dirty {
+    background-color: #FA787E;
+
+  }
+
+
+</style>
+<form name="myForm" ng-controller="mainCtrl" ng-app="myApp">
+   <div class="wall">
+    {{st}}
+  </div>
+
+  
+
+    <div class="row">
+      <div class="col-md-12">
+            <div class="col-md-5">
+              <p>*는 필수입력항목입니다.</p>
+            </div>
+            <div class="col-md-5 col-md-offset-2">
+                <button type="button" class="btn btn-default" ng-click="clickModifyBtn()" ng-disabled="modifyFlag">Modify</button>
+                <button type="button" class="btn btn-default" ng-click="clickModifyBtn()" ng-disabled="!modifyFlag">Save</button>
+                <button type="button" class="btn btn-default" ng-click="clickModifyBtn()" ng-disabled="!modifyFlag">Delete</button>
+                <button type="button" class="btn btn-default" ng-disabled="modifyFlag">Excel</button>  
+            </div>
+          </div>
+     </div>
+
+       <div class="row">
+          <div class="col-md-12">
+              <div class="col-md-6">
+                  <ul class="padded separate-sections unstyled">
+
+                  <li class="title">Two Input</li>
+                  <li class="input">
+                    <input class="form-control" type="text" placeholder="input text" ng-model="towInput_1" ng-disabled="!modifyFlag" ng-maxlength="10"/>
+                    <input class="form-control" type="text" placeholder="input text" ng-model="towInput_2" ng-disabled="!modifyFlag" ng-maxlength="20"/>
+                   
+                  </li>
+                  <li>
+                     <p class="modelView">input1 : {{towInput_1}}, input2 : {{towInput_2}}</p>
+                  </li>
+
+                  <li class="title">Search Button</li>
+                  <li class="input">
+                    <input class="form-control" type="text" placeholder="input text"/>
+                    <a class="btn btn-default" href="#"><i class="icon-search"></i></a>
+                  </li>
+
+                  <li class="title">Two Calendar</li>
+                  <li class="input">
+                    <input class="form-control" type="text" placeholder="input text"/>
+                    달력 ~ 
+                    <input class="form-control" type="text" placeholder="input text"/>
+                    달력
+                  </li>
+
+                </ul>
+              </div>
+
+              <div class="col-md-6">
+
+                 <ul class="padded separate-sections unstyled">
+                  <li class="title">Two Combo</li>
+                  <li class="input">
+                    <select class="col-md-3">
+                      <option>선택</option>
+                      <option>진행</option>
+                      <option>중지</option>
+                    </select>
+
+                    <select class="col-md-3">
+                      <option>전체</option>
+                      <option>진행</option>
+                      <option>중지</option>
+                    </select>
+
+                  </li>
+
+                  <li class="title">Phone Number</li>
+                  <li class="input">
+                    <input class="form-control" type="text" placeholder="input text"/>
+                    -
+                    <input class="form-control" type="text" placeholder="input text"/>
+                    -
+                    <input class="form-control" type="text" placeholder="input text"/>
+                  </li>
+
+                  <li class="title">Radio</li>
+                  <li class="input">
+                    <input type="radio" name="optionsRadios" value="option1" checked> 주택
+                    <input type="radio" name="optionsRadios" value="option1" > 빌딩
+                    <input type="radio" name="optionsRadios" value="option1" > 도로
+                  </li>
+                 </ul>
+              </div>
+          </div>
+
+       </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+            <ul class="unstyled">
+              <li class="title">Address (Two column)</li>
+              <li class="input">
+                <input class="form-control" type="text" placeholder="input text"/>
+                -
+                <input class="form-control" type="text" placeholder="input text"/>
+                 <a class="btn btn-default" href="#"><i class="icon-search"></i></a>
+                <input class="form-control" type="text" placeholder="input text"/>
+              </li>
+              <li class="nextLine">
+                <input class="form-control" type="text" placeholder="input text"/>
+              </li>
+            </ul>
+         </div>
+      </div>
+
+       <div class="row">
+
+         <div class="col-md-12">      
+         <div class="col-md-6">
+           <ul class="unstyled">
+            <li class="title">TextArea</li>
+            <li>
+              <textarea class="textArea" rows="3" placeholder="input text" ng-model="textArea_1" ng-maxlength="5" ng-disabled="!modifyFlag" name="textArea_1"></textarea>
+            </li>
+
+            <li>
+              <p class="modelView">textArea1 : {{textArea_1}}, valid : {{myForm.textArea_1.$valid}}</p>
+            </li>
+
+            </ul>
+          </div>
+
+          <div class="col-md-6">
+            <ul class="unstyled">
+              <li class="title">Three Line</li>
+               <li class="nextLine">
+                <input class="form-control" type="text" placeholder="input text"/>
+              </li>
+               <li class="nextLine">
+                <input class="form-control" type="text" placeholder="input text"/>
+              </li>
+               <li class="nextLine">
+                <input class="form-control" type="text" placeholder="input text"/>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+       </div>
+
+</form>

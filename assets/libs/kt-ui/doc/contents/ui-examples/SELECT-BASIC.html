@@ -1,0 +1,117 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+	
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		검색 콤보박스 다중 셀렉트 예제
+	</p>
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="selectTest">
+  <head>
+	  <link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+		<link href="vendor/select2/select2.css" rel="stylesheet">
+		<link rel="stylesheet" href="build/css/kt3m-ui.css">
+
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+		&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	  &lt;script src="vendor/select2/select2.js"&gt;&lt;/script&gt;
+	  &lt;script src="vendor/select2/select2_locale_ko.js"&gt;&lt;/script&gt
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+    /**
+    * selectTest Module
+    *
+    * Description
+    */
+    angular.module('selectTest', ['kt.ui']).
+    	controller('selectCtrl',['$scope',function($scope){
+				$scope.selectOptions = {
+					allowClear: true
+					// multiple: true
+					// placeholder: "코드를 선택하세요."
+				};
+
+				$scope.$watch('selectdData',function (newV, bV) {
+					console.log(newV);
+				});
+
+				$scope.codeSelectList = [
+					{
+						serviceCode : '001',
+						serviceName : "보안"
+					},
+					{
+						serviceCode : '002',
+						serviceName : "U-CITY"
+					},
+					{
+						serviceCode : '003',
+						serviceName : "에너지"
+					},
+					{
+						serviceCode : '004',
+						serviceName : "화제"
+					}
+				];
+    	}]);
+    &lt;/script&gt;
+</head>
+  <body>
+		<div ng-controller="selectCtrl">
+  		코드를 넣어보세요. 자동으로 선택됩니다. : <input type="text" class="form-control" ng-model="selectdData">
+  		<code>001, 002, 003</code>
+  		<br>
+			<select kt-select="selectOptions" ng-model="selectdData" data-placeholder=" 코드를 선택하세요." multiple style="width: 200px">
+		    <option ng-repeat="code in codeSelectList" value="{{code.serviceCode}}">{{code.serviceName}}</option>
+			</select>
+			<br>
+			<p>선택한 값 :<span>{{selectdData}}</span></p>  
+		</div>
+</html>
+</script>
+

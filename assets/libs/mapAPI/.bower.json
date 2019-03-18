@@ -1,0 +1,14 @@
+{
+  "name": "mapAPI",
+  "_cacheHeaders": {
+    "ETag": "\"5c6a7d8d-50557\"",
+    "Last-Modified": "Mon, 18 Feb 2019 09:40:29 GMT",
+    "Content-Length": "329047",
+    "Content-Type": "application/javascript"
+  },
+  "_release": "e-tag:5c6a7d8d-",
+  "main": "index.js",
+  "_source": "http://api.ktgis.com:10080/v3/olleh/mapAPI.js?key=ODEwMEQ4ODE6VDc3RkQ1NEMyMkM5NzBC=",
+  "_target": "*",
+  "_originalSource": "http://api.ktgis.com:10080/v3/olleh/mapAPI.js?key=ODEwMEQ4ODE6VDc3RkQ1NEMyMkM5NzBC="
+}

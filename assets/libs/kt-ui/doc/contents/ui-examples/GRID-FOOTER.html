@@ -1,0 +1,123 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		단순조회 그리드 예제
+	</p>
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="gridTest">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+	<link rel="stylesheet" href="build/css/kt3m-ui.css">
+
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jqgrid/js/i18n/grid.locale-en.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jqgrid/js/minified/jquery.jqGrid.min.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+	angular.module('gridTest', ['kt.ui']).controller('Ctrl', function ($scope) {
+
+			var userList = {
+				rows:[
+						{ name : "고재도", email : "3@gmail.com", regDate : "2003-01-24" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "김민우", email : "1@gmail.com", regDate : "2000-03-24" }
+					],
+					footerData : { name : "고재도", email : "3@gmail.com", regDate : "2003-01-24" }
+			};
+      
+			$scope.userList = userList;  
+
+			$scope.select = function(data) {
+				$scope.selectedData = data;
+			};
+
+			$scope.girdOptsion = {
+				height : 200,
+				width : "auto",
+				rowNum : 2
+			}
+  	 });
+    &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+  	{{girdOptsion}}
+		<table kt-grid="grid1" data="userList" grid-height="girdOptsion.height" grid-width="girdOptsion.width" autowidth="true" row-num="10" sortable="true" footerrow="true" >
+			<thead>
+				<tr>
+					<th>이름</th>
+					<th>이메일</th>
+					<th>등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr on-select-row="select()">
+					
+					<td width="33%" align="center" sorttype="text">{{name}}</td>
+					<td width="33%" align="center">{{email}}</td>
+					<td width="34%" align="center">{{regDate}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>선택한 로우 : {{selectedData.name}} {{selectedData.email}} {{selectedData.regDate}}</p>
+  </body>
+</html>
+</script>
+

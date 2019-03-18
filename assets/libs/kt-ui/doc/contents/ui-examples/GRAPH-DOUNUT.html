@@ -1,0 +1,147 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<style type="text/css">
+	iframe {
+	  
+	  height: 420px;
+	}	
+</style>
+
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		기본적인 차트 예제.<br>
+		kt-chart 디렉티브에 type = "charType", data ="chartData" 를 이용하여 그래프를 나타낸다. <br>
+		type 종류 : line, column, bar, pie<br>
+		data는 color, name, data배열의 요소가 한쌍을 이뤄야 한다.
+	</p>
+
+
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+
+  	&lt;script type="text/javascript"&gt;
+   //Highchart가 전역으로 한번만 존재해야 되기때문에 라이브 리로드시는 전역초기화 해야한다. 
+   //해당 코드는 라이브리로드에서만 사용하고 실제는 사용해서는 안된다.
+	if(window.Highcharts){
+		delete window.Highcharts;
+		delete window.HighchartsAdapter;
+	}
+	&lt;/script&gt;
+
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+  	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+  
+		&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+		&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+		&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+		&lt;script type="text/javascript" src="vendor/highcharts/highcharts.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+    angular.module('myApp', ['kt.ui']).controller('Ctrl', function ($scope) {
+		
+		$scope.title = "총 100건";
+
+		$scope.chartData = [
+		    {
+		    	color: '#FF0000',
+	        name: 'Tokyo',
+	        innerSize: '70%',
+	        size:'100%',
+	        color: "rgba(98,177,255,1)",
+	        dataLabels:{
+	        		enabled: true,
+              align: 'center',
+              distance: -18,
+              style: {
+              	fontWeight: 'bold',
+                color: 'white',
+                textShadow: '0px 1px 2px black'
+              },
+              formatter: function(){
+              	return this.y+"건";
+              },
+              verticalAlign: 'middle'
+            },
+	        data: [{
+	        	name : "지시",
+	        	y: 10,
+	        	color: "rgba(85,164,254,1)"	        	
+	        },{
+	        	name : "조치",
+	        	y: 20,
+	        	color: "rgba(64,86,109,1)"	        	
+	        },{
+	        	name : "해제",
+	        	y: 20,
+	        	color: "rgba(43,65,88,1)"	        	
+	        },{
+	        	name : "종료",
+	        	y: 50,
+	        	color: "rgba(190,239,84,1)"	        	
+	        }]
+		    }
+  		];   
+  		
+  	 });
+   &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+		<div kt-chart type="pie" data="chartData" width="300" height="300" margintop="20" marginright="50">
+			<k-chart-maintitle text="총 100건" fontsize="24px" fontcolor="black" fontweight="bold" align="center" y="150" x="-20" vertical-aligh="middle" ></k-chart-maintitle>
+			<k-chart-legend enabled="true" layout="vertical" align="right" verticalalign="bottom" x="20" y="-100"
+			backgroundcolor="" bordercolor="" itemhovercolor="#FF0000" itemcolor="#000000" itemfontweight='bold'></k-chart-legend>
+		</div>
+			
+  </body>
+</html>
+</script>
+

@@ -40,7 +40,7 @@ function sensorIconViewModalCtrl($translate, $scope, $modalInstance, $rootScope,
                     });
             }
         } else {
-            param.otputIcon = 'assets/images/'+$scope.selectedIcon+'.png';
+            param.otputIcon = 'assets/image/'+$scope.selectedIcon+'.png';
             myDashService.updateDevSnsrIcon(param)
                 .success(function(resp){
                     $rootScope.$broadcast($scope.snsrIconList.wdgtSeq+'.changeSettings', { refresh:true });

@@ -20,7 +20,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
                   ,'sbjtNm':''
                   ,'bmarkYn':'N'
                   ,'lockYn':'N'};
-    vm.profileFile = 'assets/images/svg/user.svg';//프로필파일
+    vm.profileFile = 'assets/image/svg/user.svg';//프로필파일
 
     $rootScope.$on('showDashbdSttus', function(event, args){//상위메뉴 호출
         $scope.showDashbdSttus = args;

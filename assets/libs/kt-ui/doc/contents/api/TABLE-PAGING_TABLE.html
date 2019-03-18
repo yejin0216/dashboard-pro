@@ -1,0 +1,132 @@
+<style>
+	#preview {
+		height: 500px;
+	}
+</style>
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		페이징 처리하여 테이블을 보여주는 컴포넌트를 설명한다.
+	</p>
+	<h2>사용법</h2>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h2>속성별 설명</h2>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>필수 속성</code>
+				<p></p>
+			</li>
+			<li>
+				<code>옵셔널 속성</code> <small>- optional</small>
+				<p></p>
+			</li>
+		</ul>
+	</div>
+	
+	<h2>예제</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h2>Preview</h2>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><pagination 
+	num-pages='{{number}}' 
+	current-page='{{number}}'
+	max-size="{{number}}"
+	on-select-page="{{function(page)}}">
+</pagination></script>
+
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  &lt;head&gt;
+  	&lt;link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet"&gt;
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+     angular.module('myApp', ['kt.ui']).controller('sampelCtr', function ($scope, $http) {
+      $scope.data = [];
+      
+      $scope.currentPage = 1;
+      $scope.maxSize = 2;
+      $scope.perPage = 10;
+      
+      $scope.getData = function(pageNum) {
+      	loadData(pageNum)
+      };
+      
+      $scope.getData(1);
+      
+      function loadData (pageNum) {
+       	$http({method: 'get', url: 'doc/json/user-page-'+pageNum+'.json'}).
+       	 success(function(data, status) {
+          $scope.data = data.rows;
+          $scope.noOfPages = data.totalPage;
+          $scope.perPage = data.pageSize;
+          $scope.currentPage = data.currentPage;
+         });
+       }
+     });
+  &lt;/script&gt;
+  </head>
+  <body>
+	<div ng-controller="sampelCtr">
+	 <table class="table">
+	  <thead>
+	   <tr>
+	    <th>사용자 이름</th>
+	    <th>이메일</th>
+	    <th>가입날자</th>
+	   </tr>
+	  </thead>
+	  <tbody>
+	   <tr ng-repeat="user in data">
+	    <td>{{user.name}}</td>
+	    <td>{{user.email}}</td>
+	    <td>{{user.regDate}}</td>
+	   </tr>
+	  </tbody>
+	 </table>
+	 <pagination num-pages='noOfPages' current-page='currentPage' max-size="maxPages" on-select-page="getData(page)"></pagination>
+	</div>
+  </body>
+</html></script>
+

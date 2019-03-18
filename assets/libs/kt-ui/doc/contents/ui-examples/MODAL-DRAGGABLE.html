@@ -1,0 +1,192 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var exapmleTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiExample = exapmleTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		모달창 드레그 예제, 드레그는 해더에서 가능하다.
+	</p>
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none; height:600px;">
+		
+	</iframe>
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="build/css/kt3m-ui.css">
+  	<style>
+  		body { margin: 10px; }
+  		.modal.demo {
+  			width: 200px;
+  			margin-left: -100px; /* 마진값을 새로운 width에 맞게 변경해야 한다. - 200/2 */
+  		}
+  		.modal .modal-body{
+  			max-height: 800px; /* 높이 변경 */
+  		}
+  	</style>
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jqgrid/js/i18n/grid.locale-en.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jqgrid/js/jquery.jqGrid.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;    
+    &lt;script type="text/javascript"&gt;
+
+		angular.module('myApp', ['kt.ui']).controller('ModalDemoCtrl', function ($scope) {
+
+			$scope.open = function () {
+				$scope.shouldBeOpen = true;
+			};
+
+			$scope.close = function () {
+				$scope.closeMsg = 'I was closed at: ' + new Date();
+				$scope.shouldBeOpen = false;
+			};
+
+			$scope.close2 = function () {
+				$scope.closeMsg = 'I was closed at: ' + new Date();
+				$scope.shouldBeOpen2 = false;
+			};
+
+			$scope.userList = userList = {
+				rows:[
+						{ name : "고재도", email : "3@gmail.com", regDate : "2003-01-24" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "김민우", email : "1@gmail.com", regDate : "2000-03-24" }
+					]
+			};  
+
+			$scope.select = function(data) {
+				$scope.selectedData = data;
+				$scope.shouldBeOpen2 = true;
+			};
+
+			$scope.opts = {
+				onOpen: function() {
+					$(".modal-header").html("바뀌었는가?");
+				},
+				dialogFade:true,
+				draggable : true /* 드래그 가능. */
+			};
+		});
+    &lt;/script&gt;
+  </head>
+  <body>
+  	<div ng-controller="ModalDemoCtrl">
+		  <button class="btn btn-default" ng-click="open()">Open</button>
+		  <div kt-modal="shouldBeOpen" close="close()" options="opts">
+		      <div class="modal-header">
+		          <h3>모달 창</h3>
+		      </div>
+		      <div class="modal-body">
+		        <table kt-grid="grid1" data="userList" grid-height="109" autowidth="true" row-num="15" sortable="true" >
+					<thead>
+						<tr>
+							<th>이름</th>
+							<th>이메일</th>
+							<th>등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr on-select-row="select()">
+							
+							<td width="33%" align="center" sorttype="text">{{name}}</td>
+							<td width="33%" align="center">{{email}}</td>
+							<td width="34%" align="center">{{regDate}}</td>
+						</tr>
+					</tbody>
+				</table>
+		        <table kt-grid="grid2" data="userList" grid-height="109" autowidth="true" row-num="15" sortable="true" >
+					<thead>
+						<tr>
+							<th>이름</th>
+							<th>이메일</th>
+							<th>등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr on-select-row="select()">
+							
+							<td width="33%" align="center" sorttype="text">{{name}}</td>
+							<td width="33%" align="center">{{email}}</td>
+							<td width="34%" align="center">{{regDate}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>선택한 로우 : {{selectedData.name}} {{selectedData.email}} {{selectedData.regDate}}</p>
+		      </div>
+		      <div class="modal-footer">
+		          <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+		      </div>
+		  </div>
+		  <div kt-modal="shouldBeOpen2" close="close2()" options="opts">
+		      <div class="modal-header">
+		          <h3>모달 창</h3>
+		      </div>
+		      <div class="modal-body">
+		        <table kt-grid="grid3" data="userList" grid-height="109" grid-width="518" row-num="15" sortable="true" >
+					<thead>
+						<tr>
+							<th>이름</th>
+							<th>이메일</th>
+							<th>등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr on-select-row="select()">
+							
+							<td width="33%" align="center" sorttype="text">{{name}}</td>
+							<td width="33%" align="center">{{email}}</td>
+							<td width="34%" align="center">{{regDate}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>선택한 로우 : {{selectedData.name}} {{selectedData.email}} {{selectedData.regDate}}</p>
+		      </div>
+		      <div class="modal-footer">
+		          <button class="btn btn-warning cancel" ng-click="close2()">Cancel</button>
+		      </div>
+		  </div>
+
+			<div>{{closeMsg}}</div>
+		</div>
+  </body>
+</html></script>
+

@@ -1,0 +1,87 @@
+<!doctype html>
+<html ng-app="gridTest">
+  <head>
+	  <link href="../vendor/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="../vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+		<link rel="stylesheet" href="../build/css/kt3m-ui-black.css">
+
+		<script src="../vendor/jquery/dist/jquery.js"></script>
+		<script src="../vendor/angular/angular.js"></script>
+		<script src="../vendor/jqgrid/js/i18n/grid.locale-en.js"></script>
+		<script src="../vendor/jqgrid/js/jquery.jqGrid.js"></script>
+    <script src="../build/kt3m-ui.js"></script>
+    <script type="text/javascript">
+    /**
+    * gridTest Module
+    *
+    * Description
+    */
+    angular.module('gridTest', ['kt.ui']).
+    	controller('Ctrl',['$scope',function($scope){
+			var userList = {
+				rows:[]
+			};
+      var currentPage = 1;
+      $scope.selectedRow = {};
+      getUserList(userList,1,3);//1번째 페이지 가져오기.
+
+			$scope.userList = userList;  
+
+			$scope.changePage = function(page, rowNum){
+				currentPage = page;
+				console.log(page);
+				console.log(rowNum);
+				// angular.forEach(rowData, function(value, key){
+				// 	$scope.selectedRow.push(value);
+				// });
+				console.log($scope.grid1.getGridParam('selarrrow'));
+				getUserList(userList,page,rowNum);
+			}
+
+			$scope.selectRow =function(rowData){
+				console.log(rowData);
+			}
+
+			$scope.selectAll = function (a) {
+				console.log(a);
+			}
+
+			function getUserList(list, page, rowNum){
+				var startRow = (page-1)*rowNum;
+				list.rows = [];
+
+				for (var i = 1+startRow; i <= startRow+rowNum; i++) {
+					list.rows.push({
+						sampleId : i,
+						name : "jeado"+i,
+						email : 'jeado'+i+"@kt.com",
+						regDate : "2012-01-30"
+					})
+				};
+				list.total = 10;
+				list.page = page;
+				list.records = 10*rowNum;
+				list.footerData = { name : "전체 건수 : ", email : list.rows.length, regDate : list.rows.length };
+			}
+    	}]);
+    </script>
+</head>
+  <body ng-controller="Ctrl">
+		<table kt-grid="grid1" data="userList" pager="true" grid-height="200" grid-width="980" autowidth="true" row-num="3" rowNumWidth="10" rownumbers="true" sortable="true" row-list="[3,5,10]" multiselect="true" on-page-change="changePage()" footerrow="true" on-select-all="selectAll()"> 
+			<thead>
+				<tr>
+					<th>이름</th>
+					<th>이메일</th>
+					<th>등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr on-select-row="selectRow()">
+					<td align="center" sortable="true" sorttype="text">{{name}}</td>
+					<td align="center" >{{email}}</td>
+					<td align="center" hidden="true" >{{regDate}}</td>
+				</tr>
+			</tbody>
+		</table>
+  </body>
+</html>

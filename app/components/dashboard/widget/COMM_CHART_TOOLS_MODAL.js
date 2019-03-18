@@ -22,7 +22,7 @@ function commChartToolsCtrl($translate, $modalInstance, $scope, $rootScope, wdgt
 
     //최초 조회
     function init() {
-        var imgPath = 'assets/images/';
+        var imgPath = 'assets/image/';
         var chartType = wdgtOptn.optn[0].id;//차트 타입
 
         //막대형

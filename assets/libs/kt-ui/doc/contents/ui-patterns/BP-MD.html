@@ -1,0 +1,172 @@
+<link rel="stylesheet" type="text/css" href="vendor/jqGrid/css/ui.jqgrid.css" media="screen" />
+<script src="vendor/jqgrid/js/i18n/grid.locale-kr.js"></script>
+<script src="vendor/jqgrid/js/minified/jquery.jqGrid.min.js"></script>
+
+<script>
+	// jQuery(document).ready(function() {
+	// 	createGrid();
+	// 	getData();
+	// });
+
+	// function createGrid() {
+	// 	jQuery("#grid1").jqGrid({
+	// 		datatype : "local",
+	// 		height : 398,
+	// 		width : 982,
+
+	// 		colNames : [ 'ID','NAME','eMail','Reg. Date'],
+	// 		colModel : [  
+	// 			{name : 'id', index : 'id', width : '10%', align : 'center', sorttype : 'int' },
+	// 			{name : 'name', index : 'name', width : '15%', align : 'center', },
+	// 			{name : 'email', index : 'email', width : '20%', align : 'center', },
+	// 			{name : 'regDate', index : 'regDate', width : '30%', align : 'center', sorttype : 'date' },
+	// 		],
+
+	// 		pager : jQuery("#divPager"),
+	// 		rowNum : 15,
+	// 		rowList : [15, 30],
+
+	// 		sortable : "sortable",
+	// 		sortname : "id",
+	// 		sortorder : "asc",
+
+	// 		autowidth : true,
+	// 		autoheight : true,
+	// 		imgpath : '/images/jqGrid',
+	// 		viewrecords : true
+
+	// 	});
+	// }
+
+	// function getData() {
+
+	// 	var url = 'doc/json/users-5000.json';
+
+	// 	jQuery.ajax({
+	// 		type : "GET",
+
+	// 		url : url,
+	// 		contentType : "text/xml;charset=UTF-8",
+	// 		dataType : "json",
+	// 		success : function(data) {
+	// 			jQuery.ajax_callback(data);
+	// 		},
+
+	// 		error : function(xhr, textStatus) {
+	// 			alert("error: " + xhr.status);
+	// 		}
+	// 	});
+	// }
+
+	// jQuery.ajax_callback = function(data) {
+	// 	// angular.forEach(data.rows, function(d) {
+	// 	// 	console.log(d);
+	// 	// });
+	// 	jQuery.each(data.rows, function(i, d) {
+	// 		jQuery("#grid1").jqGrid('addRowData', i, {
+	// 									id : d.id,
+	// 									name : d.name,
+	// 									email : d.email,
+	// 									regDate : d.regDate
+	// 								});
+	// 	});
+	// 	jQuery("#grid1").trigger("reloadGrid");	
+	// };
+
+	angular.module('myApp', ['kt.ui']).controller('gridCtrl', function ($scope) {
+
+		$scope.gridData =  [
+		        {   "id": "user1",
+		            "name": "사용자1",
+		            "email": "testeamil1@kt.com",
+		            "regDate": "2013-01-20"
+		        },
+		        {   "id": "user2",
+		            "name": "사용자2",
+		            "email": "testeamil2@kt.com",
+		            "regDate": "2013-01-20"
+		        },
+		        {   "id": "user3",
+		            "name": "사용자3",
+		            "email": "testeamil3@kt.com",
+		            "regDate": "2013-01-20"
+		        },
+		        {   "id": "user4",
+		            "name": "사용자4",
+		            "email": "testeamil4@kt.com",
+		            "regDate": "2013-01-20"
+		        },
+		        {   "id": "user5",
+		            "name": "사용자5",
+		            "email": "testeamil5@kt.com",
+		            "regDate": "2013-01-20"
+		        },
+		        {   "id": "user6",
+		            "name": "사용자6",
+		            "email": "testeamil6@kt.com",
+		            "regDate": "2013-01-20"
+		        },
+		        {   "id": "user7",
+		            "name": "사용자7",
+		            "email": "testeamil7@kt.com",
+		            "regDate": "2013-01-20"
+		        },
+		        {   "id": "user8",
+		            "name": "사용자8",
+		            "email": "testeamil8@kt.com",
+		            "regDate": "2013-01-20"
+		        },
+		        {   "id": "user9",
+		            "name": "사용자9",
+		            "email": "testeamil9@kt.com",
+		            "regDate": "2013-01-20"
+		        },
+		        {   "id": "user10",
+		            "name": "사용자10",
+		            "email": "testeamil10@kt.com",
+		            "regDate": "2013-01-20"
+		        }
+		    ];
+
+	});
+
+// $http('sdds.json').success(function(d) {
+// 	$scope.gh = d.root.row_asArray;
+
+// 	{
+// 		root : {
+// 			row_asArray : [
+// 			{
+
+// 			},
+// 			]
+// 		}
+// 	}
+// })
+
+</script>
+
+<div ng-controller="gridCtrl" ng-app="myApp">
+	<table kt-grid-t id="grid1" data="gridData" gridT-height="398" gridT-width="982" row-num="20">
+		<thead>
+			<tr>
+				<th>아이디</th>
+				<th>이름</th>
+				<th>이메일</th>
+				<th>등록일자</th>
+			</tr>
+		</th>
+		<tbody>
+			<tr onSelectRow="selectDetailInfo()">
+				<td width="10%" align="center" sorttype="int">{{id}}</td>
+				<td width="15%" align="center">{{name}}</td>
+				<td width="20%" align="center">{{email}}</td>
+				<td width="30%" align="center" sorttype="date">{{regDate}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="divPager" class="scroll"></div>
+
+</table>
+
+</div>

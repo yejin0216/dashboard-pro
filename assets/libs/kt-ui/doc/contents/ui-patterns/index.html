@@ -1,0 +1,61 @@
+<script>
+  function patternIntroCtrl ($scope) {
+    $scope.test = "not moduled";
+    // body...
+  }
+</script>
+<div ng-controller="patternIntroCtrl">
+  <div class="row">
+    <h1>Pattern 유형 {{test}}</h1>
+    <br>
+    <p>사용자 인터페이스(UI)의 화면 유형을 다음과 같이 구분된다.</p>
+    <ul>
+      <li>Basic Pattern - 기본적인 다건 및 단건 처리 유형</li>
+      <li>List to Detail - 조회 결과 다 건으로(List) 보여주고 선택 건에 대하여 상세 페이지로 넘어가는 유형</li>
+      <li>Master/Detail- 한 페이지에서 Master와 Detail의 Set 로 구성되어 있는 유형</li>
+      <li>Dashboard - 한 페이지에서 여러 widget으로 구성되어 있는 유형</li>  
+    </ul>
+  </div>
+  <div class="row">
+    <h2>Basic Pattern</h2>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th width="28%">Type</th>
+          <th>개요</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>[BP-SD1] Single Detail(Separate Edit Page)</td>
+          <td>한 건 조회 후 별도 수정 및 추가화면으로 페지가 전환되는 유형</td>
+        </tr>
+        <tr>
+          <td>[BP-SD2] Single Detail(Save Form)</td>
+          <td>한 건을 한 화면에서 CRUD 처리하는 유형</td>
+        </tr>
+        <tr>
+          <td>[BP-MPD] Multi Popup Detail(Popup Edit)</td>
+          <td>다 건을 조회를 한 후 추가적으로 popup 창을 띄워 1건에 대한 CRUD를 처리하는 유형</td>
+        </tr>
+        <tr>
+          <td>[BP-MG] Multi Detail(Save Grid)</td>
+          <td>다 건에 대해 그리드를 이용하여 별도의 페이지 전환 없이 CRUD 가능한 유형</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+	<div class="col-md-6">
+      <h3>Single Detail(Separate Edit Page)</h3>
+      <h4>개요</h4>
+      <p>1건을 조회 한 후 별도 Edit Mode 로 들어가 편집하는 유형</p>
+      <h4>적용 Case</h4>
+      <p>
+        1건 조회 업무가 주 업무인 경우 <br>
+        1건에 대한 조회를 한 후 이에 대한 수정을 하는 경우
+      </p>
+      <h4>다이어그램</h4>
+      <img src="doc/images/patterns/BP-SD1.png" class="img-thumbnail"alt="[BP-SD1] Single Detail(Separate Edit Page) Image">
+  </div>
+</div>

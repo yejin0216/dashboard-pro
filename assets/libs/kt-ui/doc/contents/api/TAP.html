@@ -1,0 +1,173 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h3>
+		설명
+	</h3>
+	<p class="description">
+		하나의 active한 패널을 화면에 보여주고 나머지 패널들은 숨겨둔다. 상단의 텝을 이용하여 보여질 패널을 선택할 수 있다.
+	</p>
+	<h3>사용법</h3>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<script>
+	function TabsDemoCtrl ($scope) {
+		$scope.panes = [
+	    { title:"Dynamic Title 1", content:"Dynamic content 1" },
+	    { title:"Dynamic Title 2", content:"Dynamic content 2" }
+	  ];
+	}
+	</script>
+	<h3>속성별 설명</h3>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>kt-tab</code>
+				<p>여러 panel을 감싸고 있는 wrapper를 의미한다. panel을 감싸고 있는 div에 사용할 수 있다.</p>
+			</li>
+			<li>
+				<code>kt-panel</code>
+				<p>컨텐츠를 감싸고 있는 페널 컴포넌트를 의미한다.</p>
+			</li>
+			<li>
+				<code>heading</code>
+				<p>kt-panel과 함께 씌인다. 해당 페널의 타이틀을 작성하게 된다.</p>
+			</li>
+			<li>
+				<code>active</code>
+				<p>kt-panel과 함께 씌인다. 해당 패널의 active상태를 나타낸다.</p>
+			</li>
+
+			<li>
+				<code>select</code>
+				<p>kt-panel과 함께 씌인다. 페널이 선택되어질 때 호출될 표현식을 작성한다. 예) callMe()</p>
+			</li>
+		</ul>
+	</div>
+	<h3>예제</h3>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h3>Preview</h3>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><div kt-tab>
+  <div kt-panel heading="{string}" active="{string}">
+  	HTML Content
+  </div>
+</div></script>
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+		<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" />  	
+  	<link href="build/css/kt3m-ui.css" rel="stylesheet">
+  	<style>body { margin: 10px; }</style>
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+		&lt;script src="vendor/jqgrid/js/i18n/grid.locale-en.js"&gt;&lt;/script&gt;
+		&lt;script src="vendor/jqgrid/js/minified/jquery.jqGrid.min.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+    angular.module('myApp', ['kt.ui']).controller('TabsDemoCtrl', function ($scope) {
+			$scope.panes = [
+				{ title:"동적인 타이틀 1", content:"동적 컨텐트 1" },
+				{ title:"동적인 타이틀 2", content:"동적 컨텐트 2" }
+			];
+
+    	$scope.isValid = "";
+
+			$scope.userList = {
+				rows:[
+						{ name : "고재도", email : "3@gmail.com", regDate : "2003-01-24" },
+						{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+						{ name : "김민우", email : "1@gmail.com", regDate : "2000-03-24" }
+					]
+			};
+
+			$scope.valid = function valid (testForm) {
+				$scope.isValid = testForm.$invalid
+			}
+
+			$scope.callMe = function () {
+				console.log("called!");
+			}
+			
+			$scope.getSelectdRow = function getGrid (grid) {
+				$scope.selectedRow = grid.jqGrid('getRowData',grid.jqGrid('getGridParam','selrow'));
+			}
+    });
+    &lt;/script&gt;
+  </head>
+  <body>
+  	<div ng-controller="TabsDemoCtrl">
+	    <div kt-tab>
+	        <div kt-panel ng-repeat="pane in panes" heading="{{pane.title}}" active="pane.active">{{pane.content}}</div>
+	        <div kt-panel heading="폼 컴포넌트">
+	        	<form name="testForm">
+	        		<input type="text" class="form-control" ng-required>
+	        		<button ng-click="valid(testForm)">벨리드 체크</button>
+	        		<p>isValid : </p> {{isValid}}
+	        	</form>
+	        </div>
+	        <div kt-panel heading="그리드 컴포넌트" select="callMe()">
+	        	<table kt-grid="grid1" data="userList" grid-height="200" grid-width="980" autowidth="false" row-num="15" sortable="true">
+							<thead>
+								<tr>
+									<th>이름</th>
+									<th>이메일</th>
+									<th>등록일</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr on-select-row="select()">
+									<td width="33%" align="center" sortable="true" sorttype="text">{{name}}</td>
+									<td width="33%" align="center">{{email}}</td>
+									<td width="34%" align="center">{{regDate}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<button ng-click="getSelectdRow(grid1)">getSelectdRow</button>
+						<p>{{selectedRow}}</p>
+	        </div>
+	    </div>
+	    <div class="row">
+	        <button class="btn btn-default" ng-click="panes[0].active = true">두번째 텝 선택</button>
+	        <button class="btn btn-default" ng-click="panes[1].active = true">세번째 텝 선택</button>
+	    </div>
+		</div>
+  </body>
+</html></script>

@@ -1,0 +1,12 @@
+{
+    "TITLE"     : "KT 3MP UI 프레임워크",
+    "EXPLAIN"	: "Google의 Open Source JavaScript Framework인 AngularJS 기반으로 HTML 확장하는 방식의 표준관제 UI 개발프레임워크",
+    "CHANGE.LAN"     : "언어 변경",
+    "SPEC1.TITLE" : "데이터 바인딩",
+    "SPEC1.CONTENTS" : "데이터 바인딩은 모델이나 뷰의 변경에 따라 뷰나 모델에 자동으로 반영하는 방법이다. 이 기능은 DOM 조작으로 인한 엄청난 수고를 덜어낼 수 있다.",
+    "SPEC2.TITLE" : "기본 UI 컴포넌트 제공",
+    "SPEC2.CONTENTS" : "기본적인 폼 컴포넌트 부터 그리드, 차트와 같은 웹 어플리케이션 개발에 있어서 다양한 기본 UI 컴포넌트를 제공한다.",
+    "SPEC3.TITLE" : "확장 가능성",
+    "SPEC3.CONTENTS" : "어플리케이션 개발에 최적화된 도구 세트이다. 완벽하게 확장 가능하며, 다른 라이브러리와 함께 사용해도 잘 작동한다. 모든 기능은 당신 자신의 개발 흐름과 요구에 맞추어 변경하거나 교체 할 수 있다.",
+    "ARCI.TITLE" : "프레임워크 구성도"
+}

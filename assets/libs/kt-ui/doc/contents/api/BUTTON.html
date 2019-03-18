@@ -1,0 +1,139 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h3>
+		설명
+	</h3>
+	<p class="description">
+		버튼 컴포넌트에 대한 설명이다. twitter의 bootstrap의 버튼 css를 사용한다. 버튼은 2개의 지시자를 가지고 있다. kt-btn-checkbox와 kt-btn-radio이다. kt-btn-checkbox는 버튼 그룹의 여러 버튼들이 선택되고 kt-btn-radio는 버튼 그룹에서 하나의 버튼이 선택되어 질때 사용된다. kt-btn-checkbox로 하나의 버튼을 토글할 때 사용할 수 도있다. <em>단순 클릭용도는 두 지시자를 사용하지 않고 ng-click이나 ng-dbclick을 사용하면 된다.</em>
+	</p>
+	<h3>사용법</h3>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h3>속성별 설명</h3>
+	<div class="attributes">
+		kt-btn-checkbox
+		<ul>
+			<li>
+				<code>kt-btn-checkbox</code>
+				<p>토글기능이 있는 버튼을 정의한다. 값은 없다.</p>
+			</li>
+			<li>
+				<code>ng-model</code>
+				<p>클릭하여 토글상태를 바인딩할 모델명을 작성한다.</p>
+			</li>
+			<li>
+				<code>kt-btn-checkbox-true</code> <small>- optional</small>
+				<p>선택되었을 때 모델에 바인딩할 값을 정할 수 있다. 안주면 true가 기본값이다.</p>
+			</li>
+			<li>
+				<code>kt-btn-checkbox-false</code> <small>- optional</small>
+				<p>선택되지 않었을 때 모델에 바인딩할 값을 정할 수 있다. 안주면 false가 기본값이다.</p>
+			</li>
+
+		</ul>
+		kt-btn-radio
+		<ul>
+			<li>
+				<code>kt-btn-radio</code>
+				<p>토글기능이 없고 바인딩된 모델의 값이 다를경우 비활성화되는 그룹화된 라디오버튼을 정의한다. 값으로 해당 버튼이 선택되었을 때 바인딩된 모델에 대입할 값을 적어준다.</p>
+			</li>
+			<li>
+				<code>ng-model</code>
+				<p>클릭하여 토글상태를 바인딩할 모델명을 작성한다.</p>
+			</li>
+		</ul>
+	</div>
+
+	<h3>예제</h3>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h3>Preview</h3>
+	<iframe id="preview" style="height: 400px;">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><button type="button" class="btn btn-default" ng-model="{string}" kt-btn-checkbox kt-btn-checkbox-true="{string}" kt-btn-checkbox-false="{string}">
+		버튼 글자
+</button>
+<button type="button" class="btn btn-default" ng-model="{string}" kt-btn-radio="'Left'">
+		버튼 글자
+</button></script>
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  	<style>body { margin: 10px; }</style>
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+			angular.module('myApp', ['kt.ui']).controller('ButtonsCtrl', function ($scope) {
+
+				$scope.singleModel = 1;
+
+				$scope.radioModel = 'Middle';
+
+				$scope.checkModel = {
+				  left: false,
+				  middle: true,
+				  right: false
+				};
+			});
+    &lt;/script&gt;
+  </head>
+  <body>
+		<div ng-controller="ButtonsCtrl">
+		    <h4>Single toggle</h4>
+		    <pre>{{singleModel}}</pre>
+		    <button type="button" class="btn btn-primary" ng-model="singleModel" kt-btn-checkbox kt-btn-checkbox-true="1" kt-btn-checkbox-false="0">
+		        Single Toggle
+		    </button>
+		    <h4>Checkbox</h4>
+		    <pre>{{checkModel}}</pre>
+		    <div class="btn-group">
+		        <button type="button" class="btn btn-primary" ng-model="checkModel.left" kt-btn-checkbox>Left</button>
+		        <button type="button" class="btn btn-primary" ng-model="checkModel.middle" kt-btn-checkbox>Middle</button>
+		        <button type="button" class="btn btn-primary" ng-model="checkModel.right" kt-btn-checkbox>Right</button>
+		    </div>
+		    <h4>Radio</h4>
+		    <pre>{{radioModel}}</pre>
+		    <div class="btn-group">
+		        <button type="button" class="btn btn-primary" ng-model="radioModel" kt-btn-radio="'Left'">Left</button>
+		        <button type="button" class="btn btn-primary" ng-model="radioModel" kt-btn-radio="'Middle'">Middle</button>
+		        <button type="button" class="btn btn-primary" ng-model="radioModel" kt-btn-radio="'Right'">Right</button>
+		    </div>
+		</div>
+  </body>
+</html></script>

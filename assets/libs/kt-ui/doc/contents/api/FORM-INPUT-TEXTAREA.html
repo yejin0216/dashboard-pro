@@ -1,0 +1,124 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<style type="text/css">
+	iframe {
+	  
+	  height: 190px;
+	}	
+</style>
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		여러줄의 input text을 표현할 때 TextArea를 사용한다.
+	</p>
+	<h2>사용법</h2>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h2>속성별 설명</h2>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>ng-model</code>
+				<p>데이터 바인딩할 모델을 적어준다.</p>
+			</li>
+			<li>
+				<code>name</code> <small>- optional</small>
+				<p>바이딩 이름을 적어준다.</p>
+			</li>
+			<li>
+				<code>ng-required</code> <small>- optional</small>
+				<p>required 속성이 추가되게 되며 {string} 표현식이 ture가 될 경우 input 값이 필수 값이 되게 된다. 아무런 값도 입력하지 않게 되면 $valid값이 false가 되고 $error값에 key가 required 값이 true인 obejct가 할당된다.</p>
+			</li>
+			<li>
+				<code>ng-minlength</code> <small>- optional</small>
+				<p>input 값이 {number}보다 작게 되면 $valid값이 false가 되고 $error값에 key가 minlength 값이 true인 obejct가 할당된다.</p>
+			</li>
+			<li>
+				<code>ng-maxlength</code> <small>- optional</small>
+				<p>input 값이 {number}보다 크게 되면 $valid값이 false가 되고 $error값에 key가 maxlength에 값이 true인 obejct가 할당된다.</p>
+			</li>
+			<li>
+				<code>ng-pattern</code> <small>- optional</small>
+				<p>정규 표현식 패턴에 맞는 input 값이 들어오면 $valid이 true가 된며 $error값에 key가 pattern에 값이 true인 obejct가 할당된다. {string}에는 /regexp/의 값이 오면된다.</p>
+			</li>
+			<li>
+				<code>ng-change</code> <small>- optional</small>
+				<p>input 값이 변경하될 때(change 이벤트 발생 시) 해당 {string} 표현식이 실행된다.</p>
+			</li>
+			<li>
+				<code>required</code> <small>- optional</small>
+				<p>input 값이 필수 값이 되게 된다. 아무런 값도 입력하지 않게 되면 $valid값이 false가 되고 $error값에 key가 required 값이 true인 obejct가 할당된다.</p>
+			</li>
+		</ul>
+	</div>
+	<h2>예제</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h2>Preview</h2>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><textarea
+       ngModel="{string}"
+       [name]="{string}"
+       [ng-required]="{string}"
+       [ng-minlength]="{number}"
+       [ng-maxlength]="{number}"
+       [ng-pattern]="{string}"
+       [ng-change]="{string}"
+       [required]>
+       </script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+    angular.module('myApp', []).controller('Ctrl', function ($scope) {
+			$scope.text = 'hello world \nhello world2';
+    });
+    &lt;/script&gt;
+  </head>
+  <body>
+    <form name="myForm" ng-controller="Ctrl">
+    	<textarea ng-model="text"></textarea>
+    </form>
+    
+    <div ng-bind="text"></div>
+  </body>
+</html>
+</script>
+

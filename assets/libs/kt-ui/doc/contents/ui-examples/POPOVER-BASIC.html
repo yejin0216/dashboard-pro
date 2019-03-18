@@ -1,0 +1,67 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var exapmleTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiExample = exapmleTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		팝오버 컴포넌트 기본 사용
+	</p>
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+		<link rel="stylesheet" href="build/css/kt3m-ui.css">
+  	<style>
+  		body { margin: 50px; }
+  	</style>
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+	angular.module('myApp', ['kt.ui']).controller('PopoverDemoCtrl', function ($scope) {
+
+			$scope.dynamicPopover = "Hello, World!";
+		});
+    &lt;/script&gt;
+  </head>
+  <body>
+  	<div ng-controller="PopoverDemoCtrl">
+  		<button class="btn btn-default" kt-popover="{{dynamicPopover}}"  kt-popover-title="hello" kt-popover-placement="bottom">팝오버</button>
+		</div>
+  </body>
+</html></script>

@@ -1,0 +1,275 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none;
+}
+html, body, div, input, ul, li, a {
+  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* 상단 CSS */
+.kt-ui-api.navbar{
+	margin-top:15px;
+	border-bottom: 4px solid #ed2024;
+}
+.kt-ui-api.navbar .navbar-nav{
+	padding-left:5px;
+}
+.kt-ui-api.navbar .navbar-nav a{
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 18px;
+	color: #555;
+}
+.kt-ui-api.navbar .navbar-nav .active a,
+.kt-ui-api.navbar .navbar-nav a:hover{
+  color: #ed2024;
+  background:none;
+}
+
+/*
+.kt-ui-api.navbar .navbar-inner {
+  _margin-top: 10px;
+  background-color: white;
+  background-image: none;
+  border: none;
+  height: 66px;
+  border-bottom: 4px solid #ed2024;
+  filter: none;
+}
+.kt-ui-api .navbar-inner a{
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 18px;
+}
+.navbar-inner .container-fluid {
+  color: #ffffff;
+  margin-top: 20px;
+  margin-left: 0px;
+  padding-left: 2px;
+}
+
+.kt-ui-api .brand, .kt-ui-api .nav > li > a {
+  text-shadow: none;
+  color: #555;
+  text-decoration: none;
+}
+
+.kt-ui-api .nav .active > a:hover{
+  color: #ed2024;
+  text-decoration: none;
+}
+
+.navbar .btn-navbar:hover{
+  color: #ed2024;
+}
+
+.kt-ui-api .nav > li > a:hover{
+  color: #ed2024;
+}
+
+.kt-ui-api .nav .active > a,
+.kt-ui-api .nav .active > a:hover,
+.kt-ui-api .nav .active > a:focus {
+  color: #ed2024;
+  _background-color: #ed2024;
+  background-color: #fff;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+*/
+a.kt-brand{
+  text-decoration: none;
+}
+
+a.kt-brand {
+  color: #ed2024;
+  position: relative;
+  line-height: 24px;
+  font-size: 24px;
+  display: block;
+  margin-top: 34px;
+  margin-left: 38px;
+  padding: 0px;
+  /*width: 174px;*/
+  height: 22px;
+  padding-left: 74px;
+  font-weight: bold;
+}
+
+a.kt-brand div.alleh {
+  display: block;
+  width: 70px;
+  height: 22px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: url("../images/signin_image.png") 0px 0px no-repeat;
+}
+
+.sidebar-nav {
+  padding: 9px 0;
+}
+
+
+.sidebar-nav .nav-header {
+  display: block;
+  padding: 3px 15px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #999999;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.sidebar-nav .nav li + .sidebar-nav .nav-header {
+  margin-top: 9px;
+}
+
+.sidebar-nav .nav-list {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-bottom: 0;
+}
+
+.sidebar-nav .nav-list > li > a,
+.sidebar-nav .nav-list .nav-header {
+  margin-right: -15px;
+  margin-left: -15px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-nav .nav-list > li > a {
+  padding: 3px 15px;
+}
+
+.sidebar-nav .nav-list > .active > a,
+.sidebar-nav .nav-list > .active > a:hover,
+.sidebar-nav .nav-list > .active > a:focus {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  background-color: #0088cc;
+}
+
+.sidebar-nav .nav-list [class^="icon-"],
+.sidebar-nav .nav-list [class*=" icon-"] {
+  margin-right: 2px;
+}
+
+.sidebar-nav .nav-list .divider {
+  *width: 100%;
+  height: 2px;
+  margin: 9px 1px;
+  *margin: -5px 0 5px;
+  overflow: hidden;
+  background-color: #e5e5e5;
+  border-bottom: 1px solid #ffffff;
+}
+
+.nav-header.unfold a::before{
+  content: "- ";
+}
+
+.nav-header.fold a::before{
+  content: "+ ";
+}
+
+
+@media (max-width: 980px) {
+  /* Enable use of floated navbar text */
+  .navbar-text.pull-right {
+    float: none;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+/* 메인 화면 */
+.row.first{
+  padding: 20px;
+}
+.jumbotron{
+  margin: 80px 0;
+  text-align: center;
+}
+
+.jumbotron h1 {
+font-size: 50px;
+line-height: 1;
+}
+.nav-list .nav-header a{
+  color: "#ed2024"
+}
+
+/* API 문서 내용 */
+
+.CodeMirror {
+font-family: monospace;
+border: 1px solid black;
+height: 100%;
+/*height: 300px;*/
+}
+
+.page-head {
+  padding: 0 15px 20px 25px;
+  border-bottom: 1px solid #ddd;
+}
+
+.page-head .page-meta{
+  font-size: 13px;
+  line-height: 15px;
+  margin-left: 2px;
+  display: block;
+}
+
+.page-head .breadcrumb {
+  font-size: 13px;
+  margin-top: 15px;
+  color: #aaa;
+  margin-left: 2px;
+  background: none;
+}
+
+input.search {
+  box-shadow: none;
+  height: 19px;
+  font-size: 13px;
+  padding: 2px 6px;
+  border: 1px solid #d0dde9;
+  margin: 0;
+  border-radius: 2px;
+  top: 11px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  padding: 2px 0px;
+  margin: 2px 0px;
+  color: #777;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 31.5px;
+  line-height: 40px;
+}
+h2 {
+  font-size: 24.5px;
+}
+h3 {
+  font-size: 17.5px;
+}
+h4 {
+  font-size: 14px;
+}
+h5 {
+  font-size: 11.9px;
+}
+h6 {
+  font-size: 10px;
+}
+
+iframe {
+  width: 100%;
+  border: 1px solid black;
+  height: 300px;
+}

@@ -1,0 +1,126 @@
+<script type="text/javascript">
+	function formInputTextCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+				var previewFrame = document.getElementById('preview');
+		  		var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  	preview.open();
+			  	preview.write($scope.apiExample);
+			  	preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+<div ng-controller="formInputTextCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		기본 HTML 텍스트 input 컴포넌트 사용법에 대하여 기술한다. 
+		Standard HTML text input with angular data binding.
+	</p>
+	<h2>사용법</h2>
+	<div class="usage">
+		<textarea ui-codemirror="{	lineNumbers: true,
+						          	mode: 'text/html',
+						      		readOnly: true
+						         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h2>속성별 설명</h2>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>ng-model</code>
+				<p>데이터 바인딩할 모델을 적어준다.</p>
+			</li>
+			<li>
+				<code>name</code> <small>- optional</small>
+				<p>데이터 바인딩할 모델을 적어준다.</p>
+			</li>
+			<li>
+				<code>ng-required</code> <small>- optional</small>
+				<p>required 속성이 추가되게 되며 {string} 표현식이 ture가 될 경우 input 값이 필수 값이 되게 된다. 아무런 값도 입력하지 않게 되면 $valid값이 false가 되고 $error값에 key가 required 값이 true인 obejct가 할당된다.</p>
+			</li>
+			<li>
+				<code>ng-minlength</code> <small>- optional</small>
+				<p>input 값이 {number}보다 작게 되면 $valid값이 false가 되고 $error값에 key가 minlength 값이 true인 obejct가 할당된다.</p>
+			</li>
+			<li>
+				<code>ng-maxlength</code> <small>- optional</small>
+				<p>input 값이 {number}보다 크게 되면 $valid값이 false가 되고 $error값에 key가 maxlength에 값이 true인 obejct가 할당된다.</p>
+			</li>
+			<li>
+				<code>ng-pattern</code> <small>- optional</small>
+				<p>정규 표현식 패턴에 맞는 input 값이 들어오면 $valid이 true가 된며 $error값에 key가 pattern에 값이 true인 obejct가 할당된다. {string}에는 /regexp/의 값이 오면된다.</p>
+			</li>
+			<li>
+				<code>ng-change</code> <small>- optional</small>
+				<p>input 값이 변경하될 때(change 이벤트 발생 시) 해당 {string} 표현식이 실행된다.</p>
+			</li>
+			<li>
+				<code>required</code> <small>- optional</small>
+				<p>input 값이 필수 값이 되게 된다. 아무런 값도 입력하지 않게 되면 $valid값이 false가 되고 $error값에 key가 required 값이 true인 obejct가 할당된다.</p>
+			</li>
+		</ul>
+	</div>
+	<h2>예제</h2>
+	<div class="example">
+		<textarea ui-codemirror="{  lineNumbers: true,
+						          	mode: 'text/html',
+									onChange : renderPreview
+						         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h2>Preview</h2>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl">&lt;input type="text"
+	   	   ng-model="{string}"
+	   	   [name]="{string}"
+	   	   [ng-required]="{string}"
+	   	   [ng-minlength]="{number}"
+	   	   [ng-maxlength]="{number}"
+	   	   [ng-pattern]="{string}"
+	   	   [ng-change]="{string}"
+	   	   [required] &gt;</script>
+
+<script id="exapmleTpl" type="text/tpl">&lt;!doctype html&gt;
+&lt;html ng-app="myApp"&gt;
+  &lt;head&gt;
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+    angular.module('myApp', []).controller('Ctrl', function ($scope) {
+		$scope.text = 'guest';
+		$scope.word = /^\w*$/;
+    });
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;form name="myForm" ng-controller="Ctrl"&gt;
+      영문 한 단어: &lt;input type="text" name="input" ng-model="text"
+                          ng-pattern="word" required&gt;
+      &lt;span class="error" ng-show="myForm.input.$error.required"&gt;
+        필수 값입니다.!&lt;/span&gt;
+      &lt;span class="error" ng-show="myForm.input.$error.pattern"&gt;
+        영문 한 단어만 입력 가능!&lt;/span&gt;
+      &lt;br&gt;
+      &lt;tt&gt;입력하여 메모리상에 있는 값 = {{text}}&lt;/tt&gt;&lt;br/&gt;
+      &lt;br&gt;
+      &lt;tt&gt;myForm.input.$valid = {{myForm.input.$valid}}&lt;/tt&gt;&lt;br/&gt;
+      &lt;tt&gt;myForm.input.$error = {{myForm.input.$error}}&lt;/tt&gt;&lt;br/&gt;
+      &lt;tt&gt;myForm.$valid = {{myForm.$valid}}&lt;/tt&gt;&lt;br/&gt;
+      &lt;tt&gt;myForm.$error.required = {{!!myForm.$error.required}}&lt;/tt&gt;&lt;br/&gt;
+     &lt;/form&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</script>
+

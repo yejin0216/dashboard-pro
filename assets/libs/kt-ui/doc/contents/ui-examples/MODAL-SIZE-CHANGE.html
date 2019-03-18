@@ -1,0 +1,108 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var exapmleTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiExample = exapmleTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		모달창 사이즈 및 위치 변경 예제
+	</p>
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+		<link rel="stylesheet" href="build/css/kt3m-ui.css">
+  	<style>
+  		body { margin: 10px; }
+  		.modal.demo {
+  			width: 200px;
+  			margin-left: -100px; /* 마진값을 새로운 width에 맞게 변경해야 한다. - 200/2 */
+  			margin-top: 40px; /* 모달이 상단과 얼마만큼 떨어저 있는지 변경한다. */
+  		}
+  		.modal .modal-body{
+  			max-height: 800px; /* 높이 변경 */
+  		}
+  	</style>
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+		angular.module('myApp', ['kt.ui']).controller('ModalDemoCtrl', function ($scope) {
+
+
+		  $scope.open = function () {
+		    $scope.shouldBeOpen = true;
+		  };
+
+		  $scope.close = function () {
+		    $scope.closeMsg = 'I was closed at: ' + new Date();
+		    $scope.shouldBeOpen = false;
+		  };
+
+		  $scope.items = ['item1', 'item2'];
+
+		  $scope.opts = {
+		  	dialogClass: 'modal demo', //modal을 꼭 앞에 붙여줘야 한다. 그리고 원하는 CSS 클래스명을 넣는다. 해당 CSS 클래스로 사이즈를 조절한다.
+		    backdropFade: true,
+		    dialogFade:true,
+		    animate:false
+		  };
+		});
+    &lt;/script&gt;
+  </head>
+  <body>
+  	<div ng-controller="ModalDemoCtrl">
+		  <button class="btn btn-default" ng-click="open()">Open</button>
+		  <div kt-modal="shouldBeOpen" close="close()" options="opts">
+		      <div class="modal-header">
+		          <h3>모달 창</h3>
+		      </div>
+		      <div class="modal-body">
+		      	<form name="modalForm">
+		          <input type="text" class="form-control" ng-required>
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+		          <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+		      </div>
+		  </div>
+
+			<div>{{closeMsg}}</div>
+		</div>
+  </body>
+</html></script>
+

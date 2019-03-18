@@ -1,0 +1,149 @@
+<style>
+	.searchBox {
+		margin:10px 0;
+	}
+	.sort-true {
+     background:no-repeat left center url("/doc/images/sort_true.png");
+ 	}
+	.sort-false {
+    background:no-repeat left center url("/doc/images/sort_false.png");
+	}
+	td { padding: 0.2em 1em; }
+	th { text-align: center; }
+	thead {
+	    border-bottom: 2px solid black; 
+	    cursor: pointer;  
+	}
+</style>
+<script>
+
+	angular.module('myApp', ['kt.ui']).controller('mainCtrl', function ($scope) {
+
+	var headList = [
+		{ head: "#", column: "#" },
+		{ head: "이름", column: "name" },
+		{ head: "E-Mail", column: "email" },
+		{ head: "가입 날짜", column: "regDate" },
+		{ head: "수정", column: "modify" },
+		{ head: "삭제", column: "delete" }
+	];
+
+	var userList = [
+		{ name : "정한도", email : "comfreak27@gmail.com", regDate : "2013-05-20" },
+		{ name : "고재도", email : "haibane84@gmail.com", regDate : "2012-01-20" },
+		{ name : "김민우", email : "haibane84@gmail.com", regDate : "2013-01-20" }
+	];
+
+	$scope.search = function(searchName) {
+		$scope.userList = userList;
+		$scope.headList = headList;
+	};
+
+	$scope.insert = function() {
+
+	};
+
+	$scope.edit = function(user) {
+		user.edit = (user.edit) ? false : true;
+	};
+
+	$scope.del = function(index) {
+	};
+
+	$scope.buttonStatusB = function(user) {
+		var editing = false;
+
+		if (user.edit) {editing = true	};
+
+		return {
+			"btn-info" : editing,
+			"btn-danger" : !editing
+		};
+	};
+
+	$scope.buttonStatusI = function(user) {
+		var editing = false;
+
+		if (user.edit) {editing = true	};
+
+		return {
+			"icon-pencil" : !editing,
+			"icon-ok" : editing
+		};
+	};
+
+	// 기본값
+	$scope.sort = {
+		column: 'name',
+		descending: false
+	};
+
+	$scope.selectedCls = function(column) {
+		return column == $scope.sort.column  && 'sort-' + $scope.sort.descending;
+	};
+
+	$scope.changeSorting = function(column) {
+		var sort = $scope.sort;
+		if (sort.column == column) {
+			sort.descending = !sort.descending;
+		} else {
+			sort.column = column;
+			sort.descending = false;
+		}
+	};
+
+});
+</script>
+<div ng-controller="mainCtrl" ng-app="myApp">
+	<div class="row searchBox">
+		<div class='col-md-12'>
+			<div class='form-horizontal pull-right centerOnPage'>
+				<ul class="input-group">
+					<input type="text" class="form-control" placeholder="이름" size="16" ng-model="searchName">
+					<button class="btn btn-info box" type="button" ng-click="search(searchName)">
+						<i class='icon-white icon-search'></i>
+						검색
+					</button>
+				</ul>
+				<button class="btn btn-info box" type="button" ng-click="insert()">
+					<i class='icon-white icon-plus'></i>
+					신규 사용자 추가
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th ng-repeat="header in headList" ng-class="selectedCls(header.column)" ng-click="changeSorting(header.column)">{{header.head}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr row ng-repeat="user in userList | orderBy:sort.column:sort.descending">
+						<td>{{$index}}</td>
+						<td><input type="text" class="form-control" ng-model="user.name" ng-disabled="!user.edit"></td>
+						<td><input type="email" class="form-control" ng-model="user.email" ng-disabled="!user.edit"></td>
+						<td><input type="date" class="form-control" ng-model="user.regDate" ng-disabled="!user.edit"></td>
+						<td class="center">
+							<button class="btn btn-default" ng-class="buttonStatusB(user)" type="button" ng-click="edit(user)">
+								<i class='icon-white' ng-class="buttonStatusI(user)"></i>
+							</button>
+						</td>
+						<td class="center">
+							<button class="btn btn-danger" ng-click="del($index)" type="button">
+								<i class='icon-white icon-trash'></i>
+							</button>
+						</td>
+					</tr>
+					<tr ng-show="!userList.length">
+						<td colspan="6" style="text-align :center">
+							<span class="text-warning">데이터가 없습니다.</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html ng-app="gridTest">
+  <head>
+  	<link href="../vendor/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
+  	<link rel="stylesheet" href="../vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="../vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+		<link rel="stylesheet" href="../vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="../build/css/kt3m-ui-black.css">
+
+		<script src="../vendor/jquery/dist/jquery.js"></script>
+		<script src="../vendor/angular/angular.js"></script>
+		<script src="../vendor/jqgrid/js/i18n/grid.locale-en.js"></script>
+		<script src="../vendor/jqgrid/js/jquery.jqGrid.js"></script>
+    <script src="../build/kt3m-ui.js"></script>
+    <style type="text/css">
+			.ui-jqgrid tr.ui-row-ltr td.emergency {
+				background-color: red;
+			}
+    </style>
+    <script type="text/javascript">
+    /**
+    * gridTest Module
+    *
+    * Description
+    */
+    angular.module('gridTest', ['kt.ui']).
+    	controller('Ctrl',['$scope',function($scope){
+			var userList = {
+				rows:[]
+			};
+      var currentPage = 1;
+      $scope.selectedRow = {};
+      getUserList(userList,1,500);//1번째 페이지 가져오기.
+
+			$scope.userList = userList;  
+
+			$scope.selectRow =function(rowData){
+				$scope.selectedRow = rowData;
+			}
+
+			$scope.cellAddCss = function (rowId, val, rawObject, cm, rdata) {
+		    return (val === "jeado1") ? "class='emergency'" : "class='normal'";
+			}
+
+			function getUserList(list, page, rowNum){
+				var startRow = (page-1)*rowNum;
+				list.rows = [];
+				console.log("Start");
+
+				for (var i = 1+startRow; i <= startRow+rowNum; i++) {
+					list.rows.push({
+						sampleId : i,
+						name : "jeado"+i,
+						email : 'jeado'+i+"@kt.com",
+						regDate : "2012-01-30"
+					})
+				};
+				// list.total = 10;
+				// list.page = page;
+				// list.records = 10*rowNum;
+				list.footerData = { name : "전체 건수 : ", email : list.rows.length, regDate : list.rows.length };
+				console.log("finish", list);
+			}
+    	}]);
+    </script>
+</head>
+  <body ng-controller="Ctrl">
+  	<p>{{selectedRow}}</p>
+		<table kt-grid="grid1" data="userList" grid-height="200" autowidth="true" row-num="20" rowNumWidth="10" rownumbers="true" sortable="true" row-list="[3,5,10]" multiselect="true" footerrow="true"	scroll="1"> 
+			<thead>
+				<tr>
+					<th>이름</th>
+					<th>이메일</th>
+					<th>등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr on-select-row="selectRow()">
+					<td align="center" sortable="true" sorttype="text" cellattr="cellAddCss">{{name}}</td>
+					<td align="center" >{{email}}</td>
+					<td align="center" hidden="true" >{{regDate}}</td>
+				</tr>
+			</tbody>
+		</table>
+  </body>
+</html>

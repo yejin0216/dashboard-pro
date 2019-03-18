@@ -72,7 +72,7 @@ angular.module('app.mydash')
                         marker = new olleh.maps.overlay.Marker({
                             position:new olleh.maps.UTMK.valueOf(latLng),
                             icon:{
-                                url: 'assets/images/ico_end_marker.png',
+                                url: 'assets/image/ico_end_marker.png',
                                 size:new olleh.maps.Size(40,40)
                             },
                             flat:true,
@@ -83,7 +83,7 @@ angular.module('app.mydash')
                         marker = new olleh.maps.overlay.Marker({
                             position:new olleh.maps.UTMK.valueOf(latLng),
                             icon:{
-                                url: 'assets/images/ico_start_marker.png',
+                                url: 'assets/image/ico_start_marker.png',
                                 size:new olleh.maps.Size(40,40)
                             },
                             flat:true,
@@ -94,7 +94,7 @@ angular.module('app.mydash')
                         marker = new olleh.maps.overlay.Marker({
                             position:new olleh.maps.UTMK.valueOf(latLng),
                             icon:{ //시작~종료
-                                url: 'assets/images/ico_realtime_marker.png',
+                                url: 'assets/image/ico_realtime_marker.png',
                                 size:new olleh.maps.Size(10,10)
                             },
                             flat:true,

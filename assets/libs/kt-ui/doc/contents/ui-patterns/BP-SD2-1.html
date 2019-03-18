@@ -1,0 +1,329 @@
+<style>
+  .rapper input{
+    margin-bottom: 0px;
+
+  }
+
+  .header p{
+           
+    display: inline-block;
+    margin: 2px 0px;
+    font-weight: bold;
+  }
+  .breadcrumb{
+    font-size: 12px;
+    margin: 0px;
+    padding: 0px;
+
+    float: right;
+            
+  }
+  .breadcrumb .active{
+    font-weight: bold;
+  }
+
+  .headerLine{
+    border-top: 1px solid;
+    padding-bottom: 5px;
+  }
+
+  .header2 p{
+    display: inline-block;
+  }
+
+  .header2 .btnArea{
+    float: right;
+  }
+
+
+
+  .header2 .btn{
+    font-size: 12px;
+    padding: 0px 12px;
+
+  }
+  .search{
+    border-radius: 4px;
+    border: 1px solid;
+    margin-bottom: 10px;
+    background-color: #F2F8F9;
+  }
+  .search p{
+    display: inline-block;
+  }
+
+  .search button{
+    float: right;
+    margin-bottom: 0px;
+
+  }
+
+  .detail th, .prjInfo th{
+    width: 15%;
+    background-color: #F1F1EA;
+    font-size: 12px;
+  }
+
+  .detail td{
+    width: 45%;
+  }
+
+  .detail .divide1{
+    width: 10%;
+  }
+
+  .detail .divide2{
+    width: 5%;
+  }
+
+  .prjInfo textarea{
+    width: 98%;
+  }
+</style>
+<script src="vendor/jquery-ui/ui/i18n/datepicker-ko.js"></script>
+<script type="text/javascript">
+
+    angular.module('myApp', ['kt.ui']).controller('mainCtrl', function ($scope) {
+
+    $scope.title = "1-B.Single Detail(Edit)";
+
+    $scope.dateOptions = {
+      showOn: "button",
+      buttonText: "달력"
+    };
+  });
+</script>
+<div ng-controller="mainCtrl" ng-app="myApp">
+  <div class="wall">
+    {{st}}
+  </div>
+  <div class="rapper">
+    <div class="header">
+    <p>◎ {{title}}</p>
+    <ul class="breadcrumb">
+        <li><a href="#">1차메뉴</a> <span class="divider"></span></li>
+        <li><a href="#">2차메뉴</a> <span class="divider"></span></li>
+        <li class="active">현재메뉴</li>
+    </ul>
+  </div>
+
+    <div class="headerLine"></div>
+
+     <div class="header2">
+        <p>*는 필수 입력항목입니다.</p>
+       
+        <div class="btnArea">
+          <button type="button" class="btn btn-default" enable>Modify</button>
+          <button type="button" class="btn btn-default" disabled>Save</button>
+          <button type="button" class="btn btn-default" disabled>Delete</button>
+          <button type="button" class="btn btn-default" disabled>Excel</button>  
+        </div>
+        
+     </div>
+
+     <div class="search">
+        <p>*업체명 </p>
+        <input class="form-control" type="text" placeholder="input Text" disabled>
+        <input class="form-control input" type="text" placeholder="input Text" disabled>
+        <a class="btn btn-default" href="#"><i class="icon-search"></i></a>
+
+        <button type="button" class="btn btn-default" disabled>검색</button>
+
+     </div>
+
+      <div class="detail">
+        <table class="table">
+       
+       <tr>
+         <th>업체명 *</th>
+         <td>
+            <input class="form-control" type="text" placeholder="input Text" disabled>
+            <input class="form-control" type="text" placeholder="input Text" disabled>
+         </td>
+         <th colspan="2">중지여부</th>
+      
+         <td>
+           <select class="col-md-2">
+              <option>선택하기</option>
+              <option>진행</option>
+              <option>중지</option>
+            </select>
+         </td>
+       </tr>
+
+       <tr>
+         <th>업종 *</th>
+         <td>
+            <input class="form-control" type="text" placeholder="input Text" disabled>
+            <a class="btn btn-default" href="#"><i class="icon-search"></i></a>
+         </td>
+         <th colspan="2">설립일</th>
+         <td>
+          <input class="form-control" type="text" placeholder="input Text" disabled>
+          달력
+        </td>
+       </tr>
+
+       <tr>
+         <th>공사기간</th>
+         <td>
+            <input class="form-control" type="text" placeholder="input Text" ui-date="dateOptions" ng-model="st.startDate" ui-date-format="yy/mm/dd" >
+           ~ 
+          <input class="form-control" type="text" placeholder="input Text" disabled>
+          달력
+         </td>
+         <th colspan="2">PJT구분</th>
+         <td>
+              <input type="radio" name="optionsRadios" value="option1" checked> 주택
+              <input type="radio" name="optionsRadios" value="option1" > 빌딩
+              <input type="radio" name="optionsRadios" value="option1" > 도로
+        </td>
+       </tr>
+
+       <tr>
+         <th>시행사/발주처</th>
+         <td>
+           <input class="form-control" type="text" placeholder="input Text" disabled>
+            <a class="btn btn-default" href="#"><i class="icon-search"></i></a>
+         </td>
+         <th colspan="2">BRAND명</th>
+         <td>
+          <input class="form-control" type="text" placeholder="input Text" disabled>     
+        </td>
+       </tr>
+
+       <tr>
+         <th>사업장주소</th>
+         <td colspan="4">
+           <input class="form-control" type="text" placeholder="input Text" disabled>
+            -
+           <input class="form-control" type="text" placeholder="input Text" disabled>
+           <a class="btn btn-default" href="#"><i class="icon-search"></i></a>
+
+           <input class="form-control" type="text" placeholder="input Text" disabled>
+           <input class="form-control" type="text" placeholder="input Text" disabled>
+         </td>
+      </tr> 
+      <tr>
+         <th>설계사</th>
+         <td>
+           <input class="form-control" type="text" placeholder="input Text" disabled>
+            <a class="btn btn-default" href="#"><i class="icon-search"></i></a>
+         </td>
+         <th colspan="2">설계기준</th>
+         <td>
+          <input class="form-control" type="text" placeholder="input Text" disabled>     
+        </td>
+       </tr>
+       
+       <tr>
+         <th>콤보박스</th>
+         <td>
+           <select class="col-md-1">
+              <option>선택</option>
+              <option>진행</option>
+              <option>중지</option>
+            </select>
+            <select class="col-md-1">
+              <option>전체</option>
+              <option>진행</option>
+              <option>중지</option>
+            </select>
+         </td>
+         
+         <th rowspan="3" class="divide1">연면적</th>
+         <th class="divide2">지상</th>
+         <td>
+          <input class="form-control" type="text" placeholder="input Text" disabled> M2   
+        </td>
+       </tr>
+       <tr>
+         <th>사업자 전화번호</th>
+         <td>
+           <input class="form-control" type="text" placeholder="input Text" disabled>
+            -
+            <input class="form-control" type="text" placeholder="input Text" disabled>
+            -
+            <input class="form-control" type="text" placeholder="input Text" disabled>
+            
+         </td>
+         </td>
+         <th class="divide2">지하</th>
+         <td>
+          <input class="form-control" type="text" placeholder="input Text" disabled> M2     
+        </td>
+       </tr>
+
+       <tr>
+         <th>사업부분</th>
+         <td>
+           <select class="col-md-2">
+              <option>선택하기</option>
+              <option>진행</option>
+              <option>중지</option>
+            </select>
+         </td>
+         </td>
+         <th class="divide2">소계</th>
+         <td>
+          <input class="form-control" type="text" placeholder="input Text" disabled> M2  
+        </td>
+       </tr>
+
+     </table>
+
+      </div>
+
+      <p> > 프로젝트 정보 </p>
+
+        
+     
+      <div class="prjInfo">
+        <table class="table">
+         <tr>
+           <th>프로젝트 소개 *</th>
+           <td colspan="3">
+              <textarea rows="3"></textarea>
+           </td>
+        </tr>
+        <tr>
+           <th>담당자명 *</th>
+           <td>
+              <input class="form-control" type="text" placeholder="input Text" disabled>
+           </td>
+
+           <th>작성일자</th>
+           <td>
+              <input class="form-control" type="text" placeholder="input Text" disabled>
+              <a class="btn btn-default" href="#"><i class="icon-search"></i></a>
+           </td>
+        </tr>
+
+        <tr>
+         <th>전화번호</th>
+         <td>
+           <input class="form-control" type="text" placeholder="input Text" disabled>
+            -
+            <input class="form-control" type="text" placeholder="input Text" disabled>
+            -
+            <input class="form-control" type="text" placeholder="input Text" disabled>
+            
+         </td>
+         <th>PJT구분</th>
+        <td>
+           <select class="col-md-2">
+              <option>선택</option>
+              <option>진행</option>
+              <option>중지</option>
+            </select>
+           
+         </td>
+       </tr>
+
+     </table>
+       
+       
+      </div>
+    </div>
+    
+  </div>

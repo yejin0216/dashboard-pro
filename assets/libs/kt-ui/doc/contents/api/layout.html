@@ -1,0 +1,77 @@
+<script type="text/javascript">
+  function uiPatternLayoutCtrl($scope, $routeParams, $location, PageMenuHelper) {
+    var pathInfo = $location.path().split("/");
+    pathInfo.shift();
+
+    $scope.patternId = $routeParams.patternId || "index";
+    $scope.patternUrl = "doc/contents/api/"+$scope.patternId+".html";
+
+    $scope.patterns = PageMenuHelper.getTreeMenu("api").child;
+
+    $scope.currentPageInfo = PageMenuHelper.getCurrentPage(pathInfo);
+
+    $scope.title = $scope.currentPageInfo.pageInfo.title.replace(/\((.*)\)/,"");
+    $scope.pageMeta = "API 설명 및 예제";
+
+    $scope.showPageHead = function() {
+      return pathInfo[1];
+    };
+
+    $scope.subLavActive = function (pathUrl) {
+      return (pathUrl === pathInfo[1]) ? { active : true } : { active : false };
+    }
+
+    $scope.hasHref = function(patternType) {
+      if (patternType.child.length === 0) {
+        return "#/api/"+patternType.url;
+      }else {
+        return "";
+      }
+    };
+
+    $scope.hasPage =function() {
+      return ($scope.currentPageInfo.pageInfo.title === $scope.currentPageInfo.groupInfo.title) ? false : true;
+    };
+
+  };
+</script>
+<div ng-controller="uiPatternLayoutCtrl">
+  <div class="col-md-3">
+    <div class="well sidebar-nav">
+      <ul class="nav nav-list" ng-repeat="patternType in patterns">
+        <li class="nav-header" ng-class="subLavActive(patternType.url)"><a ng-href="{{hasHref(patternType)}}">{{patternType.title}}</a></li>
+        <li ng-repeat="pattern in patternType.child" ng-class="subLavActive(pattern.url)">
+          <a ng-href="#/api/{{pattern.url}}">{{pattern.title}}</a></li>
+        <li class="divider"></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-9" ng-switch="patternId">
+    <div class="page-head" ng-show="showPageHead()">
+      <h1 class="pull-left">
+        {{ title }} 
+        <!-- page meta -->
+        <span class="page-meta">{{pageMeta}}</span>
+      </h1>
+      <ul class="breadcrumb pull-right" >
+        <li>
+          <a ng-href="#/{{currentPageInfo.rootInfo.section}}"><i class="icon-home"></i> {{currentPageInfo.rootInfo.title}}</a> 
+        </li>
+        <!-- Divider -->
+        <li>
+          <span class="divider">/</span> 
+          <a href="#/{{currentPageInfo.rootInfo.section}}/{{currentPageInfo.groupInfo.url}}" class="bread-current">{{currentPageInfo.groupInfo.title}}</a>
+        </li>
+        <!-- Divider -->
+        <li ng-show="hasPage()">
+          <span class="divider">/</span> 
+          <a href="#/{{currentPageInfo.rootInfo.section}}/{{currentPageInfo.pageInfo.url}}" class="bread-current">{{currentPageInfo.pageInfo.title}}</a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div doc-subview>
+    </div>
+  </div>
+</div>

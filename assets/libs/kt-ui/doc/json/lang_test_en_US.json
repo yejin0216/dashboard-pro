@@ -1,0 +1,12 @@
+{
+    "TITLE"		: "KT 3MP UI Framework",
+    "EXPLAIN"	:	"Based on Google`s open source javascript framework called AngularJS which help to extending HTML",
+    "CHANGE.LAN" : "change language",
+    "SPEC1.TITLE" : "Data Binding",
+    "SPEC1.CONTENTS" : "Data-binding is an automatic way of updating the view whenever the model changes, as well as updating the model whenever the view changes. This is awesome because it eliminates DOM manipulation from the list of things you have to worry about.",
+    "SPEC2.TITLE" : "Default UI Component",
+    "SPEC2.CONTENTS" : "Providing various UI Components from defulat form Component to grid, chart Component",
+    "SPEC3.TITLE" : "Extensibility",
+    "SPEC3.CONTENTS" : "a toolset for building your application development. It is fully extensible and works well with other libraries. Every feature can be modified or replaced to suit your unique development workflow and feature needs.",
+    "ARCI.TITLE" : "Framework Composit Diagram"
+}

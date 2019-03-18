@@ -1,0 +1,247 @@
+<html ng-app="app" ng-controller="ctrl">
+<link href="/vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="/vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+<link rel="stylesheet" href="/build/css/kt3m-ui.css">
+<style>
+  .search{
+    border-radius: 4px;
+    border: 1px solid;
+    margin-bottom: 10px;
+    background-color: #F2F8F9;
+  }
+</style>
+<script src="/vendor/jquery/dist/jquery.js"></script>
+<script src="/vendor/jquery-ui/jquery-ui.js"></script>
+<script src="/vendor/angular/angular.js"></script>
+<script src="/vendor/jqgrid/js/i18n/grid.locale-en.js"></script>
+<script src="/vendor/jqgrid/js/minified/jquery.jqGrid.min.js"></script>
+<script src="/build/kt3m-ui.js"></script>
+<script type="text/javascript">
+	angular.module('app', ['kt.ui']).controller('ctrl', function($scope, $http){
+			var apiKey='3qPajHBv9hOGD_bcOivJse25vEhjwNom';
+			var dbName='ktdev';
+			var url='https://api.mongolab.com/api/1/databases';
+			var collectionName='ktuiexample_1';
+			$scope.searchData={};
+			$scope.revisionData={};
+			$scope.userList={rows:[]};
+
+			$scope.searchAll = function (){
+				var promise = $http.get(url+'/'+dbName+'/collections/'+collectionName+'?apiKey='+apiKey);
+				promise.then(function(response){
+					angular.copy(response.data, $scope.userList.rows);
+						return response.data;
+				});
+			};
+
+			$scope.searchAll();
+
+			$scope.search = function (){
+				if($scope.searchData.name){
+					var params = {
+						q:{name:$scope.searchData.name}
+					};
+					var data = $http.get(url+'/'+dbName+'/collections/'+collectionName+'?apiKey='+apiKey, {params:params});
+					data.then(function(response){
+						angular.copy(response.data, $scope.userList.rows);
+						return response.data;
+					});
+				}else{
+					$scope.searchAll();
+				};
+			};
+
+			$scope.delete = function() {
+				var params = {
+					apiKey:apiKey
+				};
+				var data = $http.delete(url+'/'+dbName+'/collections/'+collectionName+'/'+$scope.selectedData._id.$oid, {params:params});
+				data.then(function(response){
+					angular.copy(response.data, $scope.userList.rows);
+					$scope.selectedData={};
+					$scope.searchAll();
+					return response.data;
+				});
+			};
+
+			$scope.update = function() {
+				var params = {
+					apiKey:apiKey
+				};
+				var option = {
+					name:$scope.revisionData.name,
+					phone:$scope.revisionData.phone,
+					address:$scope.revisionData.address
+				};
+				var data = $http.put(url+'/'+dbName+'/collections/'+collectionName+'/'+$scope.revisionData._id.$oid, option, {params:params});
+				data.then(function(response){
+					$scope.closeRevision();
+					$scope.revisionData={};
+					$scope.selectedData=undefined;
+					$scope.search();
+				});
+			};
+
+			$scope.insert = function (){
+				var params = {
+					apiKey:apiKey
+				};
+				var option = {
+					name:$scope.insertData.name,
+					phone:$scope.insertData.phone,
+					address:$scope.insertData.address
+				};
+				var data = $http.post(url+'/'+dbName+'/collections/'+collectionName, option, {params:params});
+				data.then(function(response){
+					$scope.closeInsertion();
+					$scope.insertData={};
+					$scope.search();
+				});
+			};
+
+			$scope.select = function(data) {
+				$scope.selectedData = data;
+			};
+
+			$scope.revisionModal = function (){
+				if($scope.selectedData==undefined){
+					alert("수정할 row를 선택해 주세요");
+					return;
+				};
+				angular.copy($scope.selectedData, $scope.revisionData);
+				$scope.shouldBeOpenForRevision = true;
+			};
+
+			$scope.insertionModal = function (){
+				$scope.shouldBeOpenForInsertion = true;
+			};
+
+			$scope.closeRevision = function (){
+				$scope.shouldBeOpenForRevision = false;
+			};
+
+			$scope.closeInsertion = function (){
+				$scope.shouldBeOpenForInsertion = false;
+			};
+	});
+</script>
+<body>
+	<br>
+	<div align="center">
+		Name : 
+		<input ng-model="searchData.name">
+		<button ng-click="search()">검색</button>
+		<button ng-click="insertionModal()">등록</button>
+		<button ng-click="delete()">삭제</button>
+		<button ng-click="revisionModal()">수정</button>
+	</div>
+	<div align="center">
+		<!-- <table kt-grid="grid1" data="userList" grid-height="girdOptsion.height" grid-width="girdOptsion.width"> -->
+		<table kt-grid="grid1" data="userList" grid-height="200" grid-width="980" autowidth="true" row-num="15" sortable="true">
+			<thead>
+				<tr>
+					<th>name</th>
+					<th>phone</th>
+					<th>address</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr on-select-row="select()">
+					<td>{{name}}</td>
+					<td>{{phone}}</td>
+					<td>{{address}}</td>
+				</tr>
+			</tbody>	
+		</table>
+	</div>
+</body>
+<div kt-modal="shouldBeOpenForRevision" close="closeRevision()" ptions="{backdropFade: true, dialogFade:true}">
+	<div class="modal" style="width: 600px">
+		<!-- modal contents -->
+		<div class="modal-header clearfix">
+			<h1 class="pop">사용자 정보 수정</h1>
+			<p class="pop-close">
+				<a href="" ng-click="closeRevision()">닫기</a>
+			</p>
+		</div>
+		<form class="form-horizontal">
+			<fieldset>
+				<div class="modal-body">
+					<div class="form-area">
+						<div class="form-group type2">
+							<label class=" type2 w100" for="popm0213090402a6">이름</label>
+							<div class="controls ml100">
+								<input disabled type="text" id="popm0213090402a6" style="width: 196px" ng-model="revisionData.name" ng-required="true"/>
+							</div>
+						</div>
+						<div class="form-group type2">
+							<label class=" type2 w100" for="popm0213090402a6">연락처</label>
+							<div class="controls ml100">
+								<input type="text" id="popm0213090402a6" style="width: 196px" ng-model="revisionData.phone" ng-required="true"/>
+							</div>
+						</div>
+						<div class="form-group type2">
+							<label class=" type2 w100" for="popm0213090402a6">주소</label>
+							<div class="controls ml100">
+								<input type="text" id="popm0213090402a6" style="width: 196px" ng-model="revisionData.address" ng-required="true"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-area">
+						<button type="submit" class="btn btn-gray-bold" ng-click=update()>전송</button>
+						<button type="button" class="btn btn-gray-bold" ng-click=closeRevision()>닫기</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+			<!-- //modal contents -->
+	</div>
+</div>
+<div kt-modal="shouldBeOpenForInsertion" close="closeInsertion()" ptions="{backdropFade: true, dialogFade:true}">
+	<div class="modal" style="width: 600px">
+		<!-- modal contents -->
+		<div class="modal-header clearfix">
+			<h1 class="pop">사용자 정보 등록</h1>
+			<p class="pop-close">
+				<a href="" ng-click="closeInsertion()">닫기</a>
+			</p>
+		</div>
+		<form class="form-horizontal">
+			<fieldset>
+				<div class="modal-body">
+					<div class="form-area">
+						<div class="form-group type2">
+							<label class=" type2 w100" for="popm0213090402a6">이름</label>
+							<div class="controls ml100">
+								<input type="text" id="popm0213090402a6" style="width: 196px" ng-model="insertData.name" ng-required="true"/>
+							</div>
+						</div>
+						<div class="form-group type2">
+							<label class=" type2 w100" for="popm0213090402a6">연락처</label>
+							<div class="controls ml100">
+								<input type="text" id="popm0213090402a6" style="width: 196px" ng-model="insertData.phone" ng-required="true"/>
+							</div>
+						</div>
+						<div class="form-group type2">
+							<label class=" type2 w100" for="popm0213090402a6">주소</label>
+							<div class="controls ml100">
+								<input type="text" id="popm0213090402a6" style="width: 196px" ng-model="insertData.address" ng-required="true"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-area">
+						<button type="submit" class="btn btn-gray-bold" ng-click=insert()>전송</button>
+						<button type="button" class="btn btn-gray-bold" ng-click=closeInsertion()>닫기</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+			<!-- //modal contents -->
+	</div>
+</div>
+</html>

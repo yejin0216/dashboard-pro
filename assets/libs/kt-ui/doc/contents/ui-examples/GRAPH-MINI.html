@@ -1,0 +1,120 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<style type="text/css">
+	iframe {
+	  height: 120px;
+	}	
+</style>
+
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		미니 그래프를 그린다. 해당 그래프는 highcharts를 사용하지 않고 jquery.sparkline.js를 사용하는 것에 유의한다. 그래서 아래와 같이 스크립트를 추가해야 한다.
+		<br>
+		&lt;script type="text/javascript" src="vendor/jquery-sparkline/jquery.sparkline.js"&gt;&lt;/script&gt;
+		<br>
+		사용 가능한 옵션은 <a href="http://omnipotent.net/jquery.sparkline/#s-docs">sparkline 차트 API</a>  을 참고하기 바란다.
+	</p>
+
+
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none;">
+		
+	</iframe>
+
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+	&lt;link href="css/style.css" rel="stylesheet"&gt;
+	&lt;link href="css/style-theme-default.css" rel="stylesheet"&gt;
+	&lt;link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet"&gt;
+	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	&lt;script type="text/javascript" src="vendor/jquery-sparkline/jquery.sparkline.js"&gt;&lt;/script&gt;
+  &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript"&gt;
+
+	angular.module('myApp', ['kt.ui']).controller('Ctrl', function ($scope) {
+  		$scope.chartData = [{
+        data : [5,6,7,9,9,5,3,2,2,4,1,7]
+      }];
+
+      $scope.charOpts = {}
+
+      $scope.changeOptiion = function() {
+        $scope.charOpts = {
+          barColor: "rgba(64,86,109,0.8)",
+          barWidth: "30px",
+          barSpacing: "10px"
+        }
+      }
+
+      $scope.chagneDataByRef = function() {
+        for (var i = 11; i >= 0; i--) {
+          $scope.chartData[0].data[i] = _.random(1,9);
+        };
+      }
+
+      $scope.chagneDataByValue = function() {
+        var newArray = [];
+        for (var i = 11; i >= 0; i--) {
+          newArray.push(_.random(1,9));
+        };
+        $scope.chartData[0].data = newArray;
+      }
+  	 });
+   &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+		<p> data : {{chartData[0].data}}</p>
+    <div kt-mini-chart type="bar" data="chartData" options="charOpts"></div>
+    <button ng-click="chagneDataByRef()">change Data By Ref</button>
+    <button ng-click="chagneDataByValue()">change Data By Value</button>
+    <button ng-click="changeOptiion()">change Option</button>
+  </body>
+</html>
+</script>
+

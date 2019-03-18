@@ -1,0 +1,162 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope, $filter, ktTableParams) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		데이터를 테이블로 조회한다.
+	</p>
+	<h2>사용법</h2>
+
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h2>속성별 설명</h2>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>kt-table</code>
+				<p>테이블 컴포넌트를 정의한다. 값으로는 바인딩된 설정 객체 이름을 전달 할 수 있다. 설정 객체는 아래와 같이 만들 수 있다.</p>
+				<p>
+					$scope.tableParams = new ktTableParams({
+					  sorting: {
+					      name: 'asc'
+					  }
+					});
+				</p>
+			</li>
+			<li>
+				<code>ng-repeat</code>
+				<p>중복되는 코드를 반복문을 이용하여 표현할 수 있다. tr 태그에 사용된다.</p>
+			</li>
+			<li>
+				<code>title</code>
+				<p>td 태그에 사용된다. 테이블 헤더에 표시될 타이틀명이다.</p>
+			</li>
+			<li>
+				<code>sortable</code> <small>- optional</small>
+				<p>정렬기능을 추가한다. 값으로는 모델의 속성명을 적어준다.</p>
+			</li>
+		</ul>
+	</div>
+	<h2>예제</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h2>Preview</h2>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl">
+<table kt-table="{string}">
+	<tr ng-repeat="{string}">
+		<td title="{string}" sortable="{string}">
+		  {{표현식}}
+		</td>
+	</tr>
+</table>
+</script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+  	&lt;link href="css/style.css" rel="stylesheet"&gt;
+  	&lt;link href="css/style-theme-default.css" rel="stylesheet"&gt;
+  	&lt;link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet"&gt;
+  	<style type="text/css">
+			.kt-table {
+		    border: 1px solid #000;
+			}
+		</style>
+		&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+	angular.module('myApp', ['kt.ui']).controller('Ctrl', function ($scope, $filter, ktTableParams) {
+
+			var userList = [
+				{ name : "고재도", email : "3@gmail.com", regDate : "2003-01-24" },
+				{ name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+				{ name : "김민우", email : "1@gmail.com", regDate : "2000-03-24" }
+			];
+      
+			$scope.userList = [];  
+			$scope.searchText = "";
+			
+			$scope.search = function(searchName) {
+				$scope.userList = userList;
+				$scope.searchText = searchName;
+			};
+
+			$scope.tableParams = new ktTableParams({
+			  sorting: {
+			      name: 'asc'     // initial sorting
+			  }
+			});
+	 
+			$scope.$watch('tableParams', function(params) {
+		    	$scope.userList = params.sorting ? 
+	              $filter('orderBy')($scope.userList, params.orderBy()) :
+	              $scope.userList;
+			}, true);
+  	 });
+    &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+    <form ng-submit="searchText">
+      <input type="text" class="form-control" ng-model="searchName" placeholder="이름">
+      <input type="submit" value="조회" ng-click="search(searchName)">
+    </form>
+    <table kt-table="tableParams" class="table">
+	    <tr ng-repeat="user in userList | filter:searchText"> 
+	        <td title="이름" sortable="name">
+	            <input class="form-control" ng-model="user.name" />
+	        </td>
+	        <td title="이메일" sortable="email">
+	            <input class="form-control" ng-model="user.email" />
+	        </td>
+	        <td title="등록일" sortable="regDate">
+	            <input class="form-control" ng-model="user.regDate" />
+	        </td>
+	    </tr>
+	    <tr ng-show="userList.length == 0">
+	    	<td colspan="3">
+	    		<span>데이터가 없습니다.</span>
+	    	</td>
+	    </tr>
+	  </table>
+	
+  </body>
+</html></script>
+

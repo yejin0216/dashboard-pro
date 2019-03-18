@@ -1,0 +1,286 @@
+<link rel="stylesheet" type="text/css" href="doc/css/adminmain.css"/>
+<link rel="stylesheet" type="text/css" href="doc/css/base.css"/>
+<link rel="stylesheet" type="text/css" href="doc/css/common.css"/>
+
+<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="vendor/jqGrid/css/ui.jqgrid.css" media="screen" />
+
+<script src="vendor/jquery-ui/jquery-ui.js"></script>
+<script src="vendor/jqgrid/js/i18n/grid.locale-en.js"></script>
+<script src="vendor/jqgrid/js/minified/jquery.jqGrid.min.js"></script>
+<script type="text/javascript">
+
+			function Ctrl ($scope) {
+
+				// $scope.userList = {
+				// 	rows:[]
+				// };
+
+				// for (var i = 0; i <= 14; i++) {
+				// 	$scope.userList.rows.push({ p1 : "1", p2 : "전력량 Rule#1", p3 : "디바이스 모델" , p4 : "Acura2500" , p5 : "전력량" });
+				// };
+
+				$scope.userList = [
+					{
+						p1 : "1",
+						p2 : "전력량 Rule#1",
+						p3 : "디바이스 모델",
+						p4 : "Acura2500",
+						p5 : "전력량"
+					}
+				]
+			}
+</script>
+
+<h1>이거슨... 어떤패턴인가.... 흥....</h1>
+<img src="doc/images/patterns/BP-TEST.gif" alt="[BP-TEST] TEST IMAGE">
+	<div class="title-area clearfix">
+		<h3>단순상황이벤트 Rule</h3>
+	</div>
+	<div class="contents type2">
+
+		<div class="accordion-con clearfix" data-collapse>
+			<div class="acco-title open clearfix">
+				<a href="#"></a><h4>기본정보 설정</h4>
+			</div>
+			<div class="search-area mb20">
+				<form>
+					<fieldset>
+						<legend class="hidden">기본정보설정</legend>
+						<label for="a1">단순이벤트 Rule명</label> <input type="text" id="a1" class="ml10 mr20" style="width:176px" />
+						<label for="a2">연결 이벤트 명</label> <input type="text" id="a2" style="width:176px" />
+						 <button type="button" class="btn btn-gray">이벤트 설정</button>
+						<br />
+						<label for="a3">센신 유형</label>
+						<select id="a3" class="ml55 mr20" style="width:190px;">
+							<option>전력량</option>
+						</select>
+						<label for="a4">적용 유형</label>
+						<select id="a4" class="ml25" style="width:190px;">
+							<option>디바이스 모델</option>
+						</select>
+						<select title="전체 선택" style="width:190px;">
+							<option>전체</option>
+						</select>
+						<button type="submit" class="btn btn-red"><span class="icon search"></span>검색</button>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+
+		<div class="accordion-con clearfix" data-collapse>
+			<div class="acco-title open clearfix">
+				<a href="#"></a><h4>대상 장비 설정</h4>
+			</div>
+			<div class="grid-area clearfix mb20" ng-controller="Ctrl">
+				<div class="info-area clearfix">
+					<span class="infol">결과 <em>10</em>건</span>
+				</div>
+				<table kt-grid="grid1" pager="true" data="userList" grid-height="auto" autowidth="true" row-num="-1" sortable="true">
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>센싱 유형</th>
+							<th>적용 유형</th>
+							<th>적용 상세유형</th>
+							<th>등급</th>
+							<th>연결이벤트명</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td width="33%" align="center" sorttype="text">{{p1}}</td>
+							<td width="33%" align="center" sorttype="text">{{p2}}</td>
+							<td width="33%" align="center">{{p3}}</td>
+							<td width="34%" align="center">{{p4}}</td>
+							<td width="33%" align="center" sorttype="text">{{p5}}</td>
+							<td width="33%" align="center">{{p6}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="accordion-con clearfix" data-collapse>
+			<div class="acco-title open clearfix">
+				<a href="#"></a><h4>조건/단계 설정</h4>
+			</div>
+			<div class="mb20">
+				<div class="btn-group">
+					<button class="btn btn-gray3">임계치 조건 설정</button>
+					<button class="btn btn-gray3">위치 데이터 설정</button>
+				</div>
+				<div class="search-area mt10">
+					<form>
+						<fieldset>
+							<legend class="hidden">조건/단계 설정</legend>
+							<label for="b1">상황 이벤트 등급</label>
+							<select id="b1">
+								<option>경고</option>
+							</select>
+							<button type="submit" class="btn btn-gray">상황 이벤트 등급수정</button>
+							<br />
+							<label for="b2">기준값</label>
+							<input type="text" id="b2" placeholder="10" class="w114" />
+							<label for="b3">연산자</label>
+							<select id="b3" class="w128" >
+								<option>&gt;</option>
+							</select>
+							<button type="button" class="btn btn-gray"><span class="icon del"></span>삭제</button>
+							<button type="button" class="btn btn-gray">AND</button>
+							<button type="button" class="btn btn-gray">OR</button>
+							<br />
+							<label for="b4">기준값</label>
+							<input type="text" id="b4" placeholder="25" class="w114" />
+							<label for="b5">연산자</label>
+							<select id="b5" class="w128">
+								<option>&lt;</option>
+							</select>
+							<button type="button" class="btn btn-gray"><span class="icon del"></span>삭제</button>
+							<button type="button" class="btn btn-gray">AND</button>
+							<button type="button" class="btn btn-gray">OR</button>
+							<br />
+							<label for="b6">기준값</label>
+							<input type="text" id="b6" placeholder="15" class="w114" />
+							<label for="b7">연산자</label>
+							<select id="b7" class="w128">
+								<option>&#61;</option>
+							</select>
+							<button type="button" class="btn btn-gray"><span class="icon plus"></span>추가</button>
+
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="accordion-con clearfix" data-collapse>
+			<div class="acco-title open clearfix">
+				<a href="#"></a><h4>Time/Rule 설정</h4>
+			</div>
+			<div class="mb20">
+				<div class="info-area clearfix">
+					<span class="infol">결과 <em>4</em>건</span>
+					<div class="infor">
+						<div class="infor">
+							<button class="btn btn-sm" type="button">추가</button>
+							<button class="btn btn-sm" type="button">삭제</button>
+						</div>
+					</div>
+				</div>
+				<form>
+					<fieldset>
+						<legend class="hidden">Time/Rule 설정</legend>
+						<div class="grid-area clearfix" ng-controller="Ctrl">
+							<table kt-grid="grid2" pager="true" data="userList" grid-height="auto" autowidth="true" row-num="-1" sortable="true">
+								<thead>
+									<tr>
+										<th>번호</th>
+										<th>적용 유형</th>
+										<th>적용 일자</th>
+										<th>적용 시간</th>
+										<th>비고</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td width="33%" align="center" sorttype="text">{{p1}}</td>
+										<td width="33%" align="center">{{p2}}</td>
+										<td width="34%" align="center">{{p3}}</td>
+										<td width="33%" align="center" sorttype="text">{{p4}}</td>
+										<td width="33%" align="center">{{p5}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="btn-area">
+							<button type="button" class="btn btn-red">적용</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+
+		</div>
+
+		<div class="accordion-con clearfix" data-collapse>
+			<div class="acco-title open clearfix">
+				<a href="#"></a><h4>설정 결과</h4>
+			</div>
+			<div class="mb20">
+				<form>
+					<fieldset>
+						<legend class="hidden">설정 결과</legend>
+						<div class="row">
+							<div class="col-md-9">
+								<div class="title-type01">
+									<h5 class="tit">Rule 개요</h5>
+								</div>
+								<div class="grid-area clearfix" ng-controller="Ctrl">
+									<table kt-grid="grid3" kt-grid pager="true" data="userList" grid-height="auto" autowidth="true" row-num="-1" sortable="true">
+										<thead>
+											<tr>
+												<th>이벤트룰 명</th>
+												<th>연결 이벤트 명</th>
+												<th>적용 유형</th>
+												<th>센싱 유형</th>
+												<th>등급</th>
+												<th>시간조건</th>
+												<th>요일조건</th>
+												<th>휴일조건</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td width="33%" align="center" sorttype="text">{{p1}}</td>
+												<td width="33%" align="center">{{p2}}</td>
+												<td width="34%" align="center">{{p3}}</td>
+												<td width="33%" align="center" sorttype="text">{{p4}}</td>
+												<td width="33%" align="center">{{p5}}</td>
+												<td width="34%" align="center">{{p6}}</td>
+												<td width="34%" align="center">{{p7}}</td>
+												<td width="34%" align="center">{{p8}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="title-type01 clearfix">
+									<h5 class="tit fleft">조건 상세 상황이벤트 등급</h5>
+									<div class="fright">
+										<select class="w65">
+											<option>경고</option>
+										</select>
+									</div>
+								</div>
+								<div class="grid-area clearfix" ng-controller="Ctrl">
+									<table kt-grid="grid4" kt-grid pager="true" data="userList" grid-height="auto" autowidth="true" row-num="-1" sortable="true">
+										<thead>
+											<tr>
+												<th>기준값</th>
+												<th>연산자</th>
+												<th>그룹연산</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td width="33%" align="center" sorttype="text">{{p1}}</td>
+												<td width="33%" align="center">{{p2}}</td>
+												<td width="34%" align="center">{{p3}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="btn-area">
+							<button type="button" class="btn btn-red">저장</button>
+							<button type="button" class="btn btn-red">서버적용</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+
+
+	</div>

@@ -1,0 +1,163 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		캘린터 기본 예제
+	</p>
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none; height:700px;">
+		
+	</iframe>
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="kt.ui">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  	<link href="vendor/fullcalendar/fullcalendar.css" rel="stylesheet">
+  	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+
+  	<style type="text/css">
+		.kt-table {
+	    border: 1px solid #000;
+		}
+	</style>
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/fullcalendar/fullcalendar.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+    function Ctrl ($scope) {	
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+
+		var events = [ {
+					id : 'allDay',
+					title : '종일 적용되는 이벤트',
+					start : new Date(y, m, 1)
+				},{
+					id : 'leavetheoffice',
+					title : '퇴근',
+					start : new Date(y, m, d, 06, 00),
+					allDay : false
+				}];
+		var i = 20;
+		
+		$scope.addEvent = function(){
+			$scope.calendar.fullCalendar('addEventSource',{
+				events: [{
+					id : 'leavetheoffice'+(i++),
+					title : '츌근',
+					start : new Date(y, m, d+1, 06, 00),
+					allDay : false
+				}]
+			});
+		}
+
+		$scope.events = events;
+
+		$scope.calanderOpts = {
+			theme : true,
+			header : {
+				left : 'prev,next today',
+				center : 'title',
+				right : 'month,agendaWeek,agendaDay'
+			},
+			selectable: true,
+			selectHelper: true,
+			select: function(start, end, allDay) {
+				var title = prompt('Event Title:');
+				var id = prompt('Event ID :');
+				if (title) {
+					$scope.calendar.fullCalendar('addEventSource',
+						{
+							events: [
+								{
+									id:id,
+									title: title,
+									start: start,
+									end: end,
+									allDay: allDay
+								}
+							]
+						});
+				}
+				$scope.calendar.fullCalendar('unselect');
+			},
+
+			defaultView : 'agendaWeek',
+			editable : true,
+			droppable : true,
+			// 샘플 이벤트
+			// events : $scope.data,
+		    eventClick: function(event) {
+		        if (event) {
+			        alert(event.title);
+					$scope.calendar.fullCalendar('removeEvents',event.id);
+					angular.forEach($scope.events, function(value, key){
+						if(value.id == event.id){
+							$scope.events.splice(key,key+1);
+						}
+					});
+					
+				return false;
+				}
+		    }
+		}
+  	 }
+    &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+		<div kt-calendar="calendar" data="events" options="calanderOpts"></div>
+		<div ng-repeat="event in events">
+			{{event.id}} - {{event.title}} : {{event.start}}
+		</div>
+		<button class="btn btn-default" ng-click="addEvent()">이벤트 추가</button>
+		<button class="btn btn-default" ng-click="addEvent()">이벤트 변경</button>
+  </body>
+</html>
+</script>
+

@@ -1,0 +1,211 @@
+<!doctype html>
+<html ng-app="kt.ui">
+  <head>
+    <script src="../vendor/jquery/dist/jquery.js"></script>
+    <script src="../vendor/angular/angular.js"></script>
+    <script type="text/javascript" src="../vendor/highcharts/highcharts.js"></script>
+    <script type="text/javascript" src="../vendor/highcharts/modules/exporting.js"></script>
+    <script src="../build/kt3m-ui.js"></script>
+    <script type="text/javascript">
+    function Ctrl ($scope) {
+
+      $scope.changeLegend = function() {
+        // angular.forEach($scope.b.legend.allItems, function(value, key){
+        //   value.update({
+        //     legendItem :{
+        //       styles : {
+        //         color : "red"
+        //       }
+        //     }
+        //   });
+        // });
+// $scope.b.legend.itemStyle.attr({
+//   color : "#000000"
+// });
+        $('.highcharts-legend-item text').css("fill","red");
+        console.log($('.highcharts-legend-item text tspan'));
+        // console.log($scope.b.legend.allItems);
+      };
+
+    $scope.chartData = [
+          {
+            color: '#FF0000',
+            name: 'Tokyo',
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            }, {
+              color: '#00FF00',
+                name: 'New York',
+                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+            }, {
+              color: '#0000FF',
+                name: 'Berlin',
+                data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+            }
+      ];    
+      $scope.xCategory1 =  ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Ju[1]l', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      $scope.xCategory2 =  ['날짜'];
+        $scope.click = function(clickItem, d){
+          $scope.clickItem = clickItem;
+          console.log(d);
+        }
+
+        $scope.redraw = function(event){
+          // console.log(event);
+        }
+        $scope.load = function(event){
+          // console.log(event);
+        }
+
+        $scope.addSeries = function(){
+          //scope chart에 자동으로 highChart가 연결되도록 설정 함.
+          $scope.chartData.push({
+              color: '#FF00FF',
+                name: 'Seoul',
+                data: [6.9, 4.6, 7.5, 9.4, 15.5, 28.0, 28.6, 29.9, 18.3, 16.0, 14.9, 7.0]
+          });
+    }
+
+    $scope.selection = function(event){
+      if (event.xAxis) {
+        $scope.selectionMsg = 'min: '+ event.xAxis[0].min +', max: '+ event.xAxis[0].max;
+       } else {
+        $scope.selectionMsg = "selection reset";
+       }
+    }
+    $scope.xplotband = [{ 
+            from: 1.5,
+            to: 4.5,
+            color: 'rgba(255, 255, 0, 0.5)',
+            label: {
+                text: 'spring',
+                style: {
+                    color: '#0000FF'
+                }
+            },
+            id : 1
+        }]
+
+
+    $scope.yplotband = [{ 
+            from: 26,
+            to: 28,
+            color: 'rgba(255, 0, 0, 0.5)',
+            label: {
+                text: '1st Alarm',
+                style: {
+                    color: '#0000FF'
+                }
+            },
+            id : 1
+        }]
+
+        $scope.yplotline = [{
+      value : 30,
+      color : 'red',
+      // dashStyle : 'shortdash',
+      width : 2,
+      label : {
+        text : 'Last quarter minimum'
+        }
+      }];
+
+        
+        $scope.addGuage = function(){
+
+          $scope.addXGuage({ 
+                from: 4.5,
+              to: 7.5,
+              color: 'rgba(0, 255, 0, 0.5)',
+              label: {
+                  text: 'summer',
+                  style: {
+                      color: '#0000FF'
+                  }
+              },
+              id : 2
+            });
+
+          $scope.addYGuage({ 
+                from: 28,
+                to: 30,
+                color: 'rgba(0, 0, 255, 0.5)',
+                label: {
+                    text: '2nd Alarm',
+                    style: {
+                        color: '#0000FF'
+                    }
+                },
+                id : 2
+            });
+    }
+
+    
+    $scope.removeGuage = function(){
+      $scope.removeXGuage(1);
+      $scope.removeYGuage(1);
+    }
+
+    $scope.addTest = function(){
+      var size = $scope.chartData.length;
+      for(var i=0; i<$scope.chartData.length; i++){
+
+        if(i===0){
+          $scope.chartData[i].data.push(5);
+        }
+        else if(i===1){
+          $scope.chartData[i].data.push(10);
+        }
+        else{
+          $scope.chartData[i].data.push(15);
+        }
+      }
+    }
+
+    $scope.addTest2 = function(){
+      $scope.chartData = [
+          {
+            color: '#FF0000',
+                name: 'A',
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            }, {
+              color: '#00FFF0',
+                name: 'B',
+                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+            }
+      ];    
+      }
+
+      $scope.addCategory = function(){
+        $scope.xCategory[0].push("TEMP");
+     [1] }
+    }
+    </script>
+  </head>
+  <body>
+    <form name="myForm" ng-controller="Ctrl">
+  <div kt-chart="b" type="line" data="chartData" xplotband="xplotband" yplotband="yplotband" xplotline="xplotline" yplotline="yplotline" backgroundcolor="#ffffff" margintop="50" marginbottom="70" marginright="50" marginleft="50" 
+        click="click()" load="load()" redraw="redraw()" selection="selection()">
+    <k-chart-maintitle text="Main Title Chart222" fontsize="24px" fontcolor="#ff00ff" fontweight="bold" align="center" ></k-chart-maintitle>
+    <k-chart-subtitle text="Sub Title" fontsize="12px" fontcolor="#ff0000" fontweight="bold" align="center" ></k-chart-subtitle>
+    <k-chart-tooltip valueprefix="온도:" valuesuffix="&deg;C" > </k-chart-tooltip>
+    <k-chart-legend enabled="true" layout="horizontal" align="center" verticalalign="bottom" x="-30" y="10" 
+          backgroundcolor="#FFFF00" bordercolor="#FF0000" itemhovercolor="#FF0000" itemcolor="#000000" itemfontweight='bold' ></k-chart-legend>
+    <k-chart-xaxis text="Month" category="xCategory1" step="1" ></k-chart-xaxis>
+    <k-chart-xaxis text="Month2" category="xCategory2" step="1" ></k-chart-xaxis>
+    <k-chart-yaxis text="Temp" options="{ min : 10}"></k-chart-yaxis>
+    <k-chart-datalabel withlabel="true" point="1" ></k-chart-datalabel>
+  </div>
+  <button ng-click="addSeries()" > Add Series </button>
+  <button ng-click="addGuage()" > Add Guage </button>
+  <button ng-click="removeGuage()" > Remove Guage </button>
+  <button ng-click="addTest()" > Add Test </button>
+  <button ng-click="addTest2()" > Add Test2 </button>
+  <button ng-click="addCategory()" > addCategory </button>
+  <p> 선택한 아이템 -> category : {{clickItem.category}},  x : {{clickItem.x}}, y : {{clickItem.y}} </p>
+  <p> Selection -> {{selectionMsg}} </p>
+  <button ng-click="changeLegend()">차트 레전드 변경</button>
+     </form>
+     
+  </body>
+</html>

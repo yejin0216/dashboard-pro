@@ -1,0 +1,253 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+			var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			preview.open();
+			preview.write($scope.apiExample);
+			preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		행을 동적으로 추가 삭제 수정할 수 있는 컴포넌트이다.
+	</p>
+	<h2>사용법</h2>
+	<div class="usage">
+      <textarea ui-codemirror="{
+             lineNumbers: true,
+             mode: 'text/html',
+             readOnly: true
+            }" ng-model="apiUsage">
+     </textarea>
+	</div>
+	<h2>속성별 설명</h2>
+
+
+	<div class="attributes">
+		<h3>그리드 컴포넌트 전체 속성</h3>
+		<ul>
+			<li>
+				<code>kt-grid</code>
+				<p>그리드 컴포넌트를 선언한다. 값으로 고유한 아이디를 주어야 한다. 해당 아이디로 "$scope.아이디명"을 통하여 jqGrid javascript API 접근이 가능하다.</p>
+			</li>
+			<li>
+				<code>data</code>
+				<p>그리드 컴포넌트와 바인딩할 데이터 명을 값으로 줄 수 있다. $scope에 바인딩 되어 있어야 한다.</p>
+				<p>그리드에 바인딩될 데이타는 특정한 데이타 포멧을 가진다. 데이타 포멧은 다음과 같다.</p>
+				<p class="alert alert-info">
+					{ rows : [{ ... },,,], total : 20, page : 1, records : 200, footerData : { ... } }
+					<br>
+					rows : 데이터 배열, total : 페이징 전체 수, page : 현재 페이지 번호, records : 페이징 대상이되는 전체 데이터 건 수
+					<br>
+					rows는 필수이고 페이징용 데이터 total, page, records는 페이징 처리 시 사용한다.
+					<br>
+					footerData는 footerrow에서 사용하는 값이다. column의 필드의 명과 동일해야 한다.
+				</p>
+			</li>
+			<li>
+				<code>grid-height</code>
+				<p>표현식의 결과값이 정수 혹은 문자열이여야 한다. 해당 결과값은 그리드의 높이를 지정한다. 결과값이 auto이면 로우의 갯수에 맞게 그리드의 높이가 결정된다.</p>
+				<p>예) grid-height="400"</p>
+			</li>
+			<li>
+				<code>grid-width</code>
+				<p>표현식의 결과값이 정수형이어야 한다. 해정 정수는 그리드의 넓이를 지정한다. 넓이를 수동으로 지정할 경우 autowidth를 지정하면 안된다.</p>
+				<p>예) grid-width="400"</p>
+			</li>
+			<li>
+				<code>autowidth</code> <small>- optional</small>
+				<p>넓이를 자동으로 계산 여부. width가 지정되어서는 안된다.</p>
+				<p>예) autowidth="true"</p>
+			</li>
+			<li>
+				<code>pager</code> <small>- optional</small>
+				<p>페이저를 사용 여부. pager를 추가 하지 않으면 적용하지 않는다.</p>
+				<p>예) pager="true"</p>
+			</li>
+			<li>
+				<code>row-num</code> <small>- optional</small>
+				<p>표현식의 결과값이 정수형이어야 한다. 해정 정수는 화면에 표시할 로우의 갯수를 지정한다. 속성을 추가하지 않으면 전체조회가 된다.</p>
+				<p>예) row-num="3"</p>
+			</li>
+			<li>
+				<code>rownumbers</code> <small>- optional</small>
+				<p>화면에 로우의 인덱스를 표시하는 컬럼을 추가한다. 기본은 false이다.</p>
+				<p>예) rownumbers="true"</p>
+			</li>
+			<li>
+				<code>row-num-width</code> <small>- optional</small>
+				<p>로우 번호 표시하는 쪽의 넓이를 지정한다.</p>
+
+			</li>
+			<li>
+				<code>forcefit</code> <small>- optional</small>
+				<p>컬럼의 넓이를 자동으로 지정한다. 즉 수평 스크롤바가 생성되는 것을 막아준다.</p>
+				<p>예) forcefit="true"</p>
+			</li>
+			<li>
+				<code>footerrow</code> <small>- optional</small>
+				<p>footer 로우를 설정한다. 전체 로우에 대한 합계나 섬머리를 제공할 때 사용한다ㅣ</p>
+				<p>footer에 대한 데이터는 위쪽 data 속성에서 확인 바란다.</p>
+				<p>예) footerrow="true"</p>
+			</li>
+			<li>
+				<code>sortable</code> <small>- optional</small>
+				<p>컬럼을 드래그 엔 드랍으로 이동시킬수 있는 여부를 작성한다.</p>
+				<p>예) sortable="true"</p>
+			</li>
+			<li>
+				<code>on-page-change</code> <small>- optional</small>
+				<p>페이저에서 변경이 있을 때 호출될 함수명을 등록한다.</p>
+				<p>예) on-page-change="changePage()"</p>
+			</li>
+		</ul>
+		<h3>tr 에서의 사용 가능 속성</h3>
+		<ul>
+			<li>
+				<code>on-select-row</code> <small>- optional</small>
+				<p>로우를 선택하였을때 호출할 함수명을 값으로 줄 수 있다.</p>
+			</li>
+		</ul>
+		<h3>td 에서의 사용 가능 속성</h3>
+		<ul>
+			<li>
+				<code>sortable</code> <small>- optional</small>
+				<p>컬럼을 클릭하면 해당 컬럼으로 로우를 정렬할지 여부를 작성한다.</p>
+			</li>
+			<li>
+				<code>sorttype</code> <small>- optional</small>
+				<p>정렬할 데이터 타입을 알려준다.</p>
+				<ul>
+					<li>int/integer - 정수형</li>
+					<li>float/number/currency - 10진수 숫자형</li>
+					<li>date - 날짜형</li>
+					<li>text - 문자열형</li>
+				</ul>
+			</li>
+			<li>
+				<code>width</code> <small>- optional</small>
+				<p>컬럼의 넓이를 지정한다. 기본값 100</p>
+			</li>
+			<li>
+				<code>formatter</code> <small>- optional</small>
+				<p>셀에 보여줄 포멧딩을 정한다. jqGrid에서 제공하는 formatter를 사용하려면 표현식이 계산되었을 때의 결과가 문자열로 integer, number, currency, date, email, link, showlink, checkbox, select, actions이면 되고 사용자 정의 formatter를 사용할 경우 함수가 리턴되면 된다. 자세한 내용은 <a href="http://www.trirand.com/jqgridwiki/doku.php?id=wiki:predefined_formatter">jqgrid predefined formatter 문서</a>를 참고하거나 예제페이지를 참고한다.</p>
+			<li>
+				<code>formatoptions</code> <small>- optional</small>
+				<p>jqGrid에서 제공하는 formatter에 옵션을 줄 때 사용한다. 설정 오브젝트가 값으로 주어지면 된다. 자세한 내용은 <a href="http://www.trirand.com/jqgridwiki/doku.php?id=wiki:predefined_formatter">jqgrid predefined formatter 문서</a>를 참고하거나 예제페이지를 참고한다.</p>
+			</li>
+			<li>
+				<code>align</code> <small>- optional</small>
+				<p>컬럼 내부 값의 정렬을 지정한다.</p>
+				<p>"left", "center", "right" 중 하나로 지정. 기본값은 "center"이다.</p>
+			</li>
+		</ul>
+	</div>
+	<h2>예제</h2>
+	<div class="example">
+      <textarea ui-codemirror="{
+             lineNumbers: true,
+             mode: 'text/html',
+                  onChange : renderPreview
+            }" ng-model="apiExample">
+     </textarea>
+	</div>
+	<h2>Preview</h2>
+	<iframe id="preview">
+
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><table kt-grid="{string}" data="{string}" grid-height="{표현식}" grid-width="{표현식}"
+ autowidth="{boolean}" row-num="{number}" rownumbers="{boolean}" row-num-width="{number}" 
+ multiselect="{boolean}" pager="{boolean}" sortable="{boolean}">
+      <thead>
+         <tr row-merge="true"><th colspan="{number}">컬럼명</th></tr> <!-- 그룹컬럼(optional) -->
+         <tr>
+            <th>컬럼명</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr onSelectRow="{func}">
+            <td width="{percent/px}" 
+               align="{center|left|right}" 
+               sorttype="{type}" sortable="{boolean}" formatter="{표현식:문자열|함수}" formatoptions="{표현식:설정 객체}">
+               {{model의 필드명}}
+            </td>
+         </tr>
+      </tbody>
+</table></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="gridTest">
+  <head>
+   <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css">
+   <link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+   <link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" />
+   <link rel="stylesheet" type="text/css" href="build/css/kt3m-ui.min.css">
+
+   <style type="text/css">
+      .kt-table {
+       border: 1px solid #000;
+      }
+   </style>
+&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+&lt;script src="vendor/jquery-ui/jquery-ui.js"&gt;&lt;/script&gt;
+   &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+   &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+   &lt;script src="vendor/jqgrid/js/i18n/grid.locale-en.js"&gt;&lt;/script&gt;
+   &lt;script src="vendor/jqgrid/js/minified/jquery.jqGrid.min.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+        angular.module('gridTest', ['kt.ui']).controller('Ctrl', function ($scope) {
+
+         var userList = {
+            rows:[
+                  { name : "고재도", email : "3@gmail.com", regDate : "2003-01-24" },
+                  { name : "정한도", email : "2@gmail.com", regDate : "2001-02-28" },
+                  { name : "김민우", email : "1@gmail.com", regDate : "2000-03-24" }
+               ]
+         };
+      
+         $scope.userList = userList;  
+
+         $scope.select = function(data) {
+         $scope.selectedData = data;
+         };
+    });
+    &lt;/script&gt;
+  </head>
+  <body ng-controller="Ctrl">
+      <table kt-grid="grid1" data="userList" grid-height="200" grid-width="980" autowidth="true" row-num="15" sortable="true">
+         <thead>
+            <tr>
+               <th>이름</th>
+               <th>이메일</th>
+               <th>등록일</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr on-select-row="select()">
+               <td width="33%" align="center" sortable="true" sorttype="text">{{name}}</td>
+               <td width="33%" align="center">{{email}}</td>
+               <td width="34%" align="center">{{regDate}}</td>
+            </tr>
+         </tbody>
+      </table>
+      <p>선택한 로우 : {{selectedData.name}} {{selectedData.email}} {{selectedData.regDate}}</p>
+  </body>
+</html></script>
+

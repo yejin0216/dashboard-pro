@@ -1,0 +1,88 @@
+<html ng-app="app" ng-controller="ctrl">
+<link href="/vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="/vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+<link rel="stylesheet" href="/build/css/kt3m-ui.css">
+<style>
+  .detail th, .prjInfo th{
+    width: 15%;
+    background-color: #F1F1EA;
+    font-size: 12px;
+  }
+
+  .detail td{
+    width: 85%;
+  }
+</style>
+<script src="/vendor/jquery/dist/jquery.js"></script>
+<script src="/vendor/jquery-ui/jquery-ui.js"></script>
+<script src="/vendor/angular/angular.js"></script>
+<script src="/vendor/jqgrid/js/i18n/grid.locale-en.js"></script>
+<script src="/vendor/jqgrid/js/minified/jquery.jqGrid.min.js"></script>
+<script src="/build/kt3m-ui.js"></script>
+<script type="text/javascript">
+  angular.module('app', ['kt.ui']).controller('ctrl', function($scope, $http){
+      var apiKey='3qPajHBv9hOGD_bcOivJse25vEhjwNom';
+      var dbName='ktdev';
+      var url='https://api.mongolab.com/api/1/databases';
+      var collectionName='ktuiexample_1';
+      $scope.detail={};
+
+      function getParameter(strParamName) {
+          var strURL = location.search;
+          var tmpParam = strURL.substring(1).split("&");
+          if(strURL.substring(1).length > 0){
+              var Params = new Array;
+              for(var i=0;i<tmpParam.length;i++){
+                  Params = tmpParam[i].split("=");
+                  if(strParamName == Params[0]){
+                      return Params[1];
+                  }
+              }
+           }
+           return "";
+      };
+      
+      var id = getParameter("id");
+      var data = $http.get(url+'/'+dbName+'/collections/'+collectionName+'/'+id+'?apiKey='+apiKey);
+      data.then(function(response){
+        angular.copy(response.data, $scope.detail);
+      });
+
+      $scope.closeInsertion = function () {
+        window.location.href = "PG-F4CONTENTS_MAIN.html";
+      };
+  });
+</script>
+<body>
+  <br>
+  <h4 align="center">detail</h4>
+  <div class="detail">
+    <table class="table">
+      <tr>
+        <th>name</th>
+        <td>{{detail.name}}</td>
+      </tr>
+      <tr>
+        <th>phone</th>
+        <td>{{detail.phone}}</td>
+      </tr>
+      <tr>
+        <th>address</th>
+        <td>{{detail.address}}</td>
+      </tr>
+      <tr>
+        <th>class</th>
+        <td>
+          <li ng-repeat="class in detail.classes" >
+              {{class}}
+          </li>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div align=center><br>
+    <button type="button" class="btn btn-gray-bold" ng-click=closeInsertion()>뒤로가기</button>
+  </div>
+</body>
+</html>

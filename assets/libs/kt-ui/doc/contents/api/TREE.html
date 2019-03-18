@@ -1,0 +1,173 @@
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style-theme-default.css">
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h3>
+		설명
+	</h3>
+	<p class="description">
+		트리구조의 데이터를 표현할 때 사용하는 트리 컴포넌트이다.
+	</p>
+
+	<h3>사용법</h3>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h3>속성별 설명</h3>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>kt-tree</code>
+				<p>트리 컴포넌트 적용</p>
+			</li>
+			<li>
+				<code>data</code>
+				<p>트리 컴포넌트와 바인딩할 데이터이다.</p>
+				<p>
+					data 형식은 아래와 같아야 한다.
+					<ul>
+						<li>text : 노드의 텍스트</li>
+					</ul>
+					<ul>
+						<li>show : 자식 노드들을 펼칠지 여부</li>
+					</ul>
+					<ul>
+						<li>level : 노드의 레벨</li>
+					</ul>
+					<ul>
+						<li>children : 자식 노드들</li>
+					</ul>
+					<ul>
+						<li>css : 해당 노드에 적용될 css</li>
+					</ul>
+					<ul>
+						<li>selected : 해당 노드가 selected된 채로 유지됨</li>
+					</ul>
+				</p>
+			</li>
+<!-- 			<li>
+				<code>ng-model</code> <small></small>
+				<p>selected된 값을 담을 변수를  지정한다.</p>
+			</li>
+			<li>
+				<code>selectable</code><small>- optional</small>
+				<p>값을 false로 주었을 경우 click이 동작하지 않음</p>
+			</li> -->
+			<li>
+				<code>on-select</code> <small>- optional</small>
+				<p>노드를 선택할 때 호출될 $scope에 바인딩된 콜백함수를 지정한다.</p>
+				<p>콜백함수의 인자에 selected로 정하면 선택된 노드값을 전달해 준다.</p>
+				<code>on-click</code> <small>- optional</small>
+				<p>노드를 클릭할 때 호출될 $scope에 바인딩된 콜백함수를 지정한다.</p>
+				<p>콜백함수의 인자에 clicked로 정하면 선택된 노드값을 전달해 준다.</p>
+<!-- 				<code>init</code> <small>- optional</small>
+				<p>초기에 selected되어질 값을 지정한다.</p> -->
+			</li>
+		</ul>
+	</div>
+	<h3>예제</h3>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h3>Preview</h3>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><div
+	 kt-tree 
+	 data="{string}" 
+	 selectable="{string}"
+	 [on-select]="{func}"
+	 [on-click]="{func}"
+	 [ng-model]="{array}">
+ </div></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  	<link href="build/css/kt3m-ui.css" rel="stylesheet">
+  	<style>body { margin: 10px; }</style>
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+    angular.module('myApp', ['kt.ui']).controller('TabsDemoCtrl', function ($scope) {
+			$scope.select = function(selected) {
+				$scope.selected = selected;
+			};
+
+			$scope.click = function(clicked) {
+				$scope.clicked = clicked;
+			};
+
+
+
+			$scope.tree = [
+				{text: "Node1", level:1, show: true, css : "a", children: [
+					{text: "leaf1", level:2, children: [],  css : "b"},
+					{text: "leaf2", level:2, children: []}
+				]},
+				{text: "leaf3", level:1, children: [], css : "a"},
+				{text: "Node3", level:1, show: true, children: [
+					{text: "Node4", level:2,  children: [
+						{text: "leaf4", level:3, children: []},
+						{text: "leaf5", level:3, children: []}
+					]},
+					{text: "leaf6", level:2, children: []}
+				]},
+				{text: "leaf7", level:1, children: [], css : "b", selected : "true"},
+				{text: "leaf8", level:1, children: [], selected : "true"}
+			];
+
+			$scope.firstvalue = $scope.tree[1];
+			$scope.changeSelected = function() {
+				$scope.selected = $scope.tree[2];
+			};
+
+    });
+    &lt;/script&gt;
+  </head>
+  <body>
+  	<div ng-controller="TabsDemoCtrl">
+		<div kt-tree data="tree" on-select="select(selected)" on-click="click(clicked)" > </div>
+			<div>init : {{firstvalue}}</div>
+			<div>selected : {{selected}}</div>
+			<div>clicked : {{clicked}}</div>
+			<button ng-click="changeSelected()">changeSelected</button>
+		</div>
+  </body>
+</html></script>

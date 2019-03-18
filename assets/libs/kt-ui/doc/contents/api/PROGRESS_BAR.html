@@ -1,0 +1,195 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h3>
+		설명
+	</h3>
+	<p class="description">
+		숫자 진행율에 대한 프로그레스 바 컴포넌트이다.
+	</p>
+
+	<h3>사용법</h3>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h3>속성별 설명</h3>
+	<div class="attributes">
+		<ul>
+			<li>
+				<code>value</code>
+				<p>
+					진행율의 값을 나타낸다. 숫자로 표시할 경우 static한 값이고 문자일 경우 $scope에 바인딩된 변수를 나타낸다. $scope에는 숫자 값 혹은 object를 바인딩 할 수 있다. Object경우 속성으로 value와 type을 줄 수 있다. value는 숫자 값이고 100%이내의 값이다. type은 프로그레시브 바 타입을 나타낸다. 아래 stackedTypes을 참고한다.
+				</p>
+			</li>
+			<li>
+				<code>type</code> <small>- optional</small>
+				<p></p>
+			</li>
+			<li>
+				<code>stacked-types</code> <small>- optional</small>
+				<p>기본 타입들은 : 'success', 'info', 'warning', 'danger'이다.</p>
+				<p>다른 타입들로 정의를 원할 경우 'typeA','typeB' 처럼 작성하면 된다.</p>
+				<p>progressConfig으로도 전달 가능하다. stackedTypes을 constant로 전달.</p>		
+			</li>
+			<li>
+				<code>auto-type</code> <small>- optional</small>
+				<p>타입을 자동으로 넣어줄 때 사용한다.</p>	
+			</li>
+			<li>
+				<code>animate</code> <small>- optional</small>
+				<p>애니메이션 효과 줄 여부를 결정. 기본은 true이다.</p>	
+				<p>progressConfig으로도 전달 가능하다. constant로 전달.</p>	
+			</li>
+			<li>
+				<code>on-full</code> <small>- optional</small>
+				<p>값이 100%이 되었을 때 호출할 함수를 전달한다.</p>
+			</li>
+			<li>
+				<code>on-empty</code> <small>- optional</small>
+				<p>값이 0%이 되었을 때 호출할 함수를 전달한다.</p>
+			</li>
+		</ul>
+	</div>
+	<h3>예제</h3>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h3>Preview</h3>
+	<iframe id="preview" style="height: 700px;">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><div pregress value="{string|integer}" 
+	[type]="{string}"
+	[stacked-types]="{string,string,...}" 
+	[auto-type]="{boolean}" 
+	[animate]="{boolean}"
+	[on-full]="{func}"
+	[on-empty]="{func}">
+</div></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="myApp">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  	<style>body { margin: 10px; }</style>
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/underscore/underscore.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+
+	angular.module('myApp', ['kt.ui']).controller('mainCtrl', function ($scope) {
+		var types = ['success', 'info', 'warning', 'danger'];
+
+		$scope.dynamicValue1 = 22;
+		$scope.dynamicObject = {
+	    value: _.random(1, 100),
+	    type: types[_.random(0, 3)]
+	  };
+
+		$scope.random1 = function() {
+			var randomValue = _.random(1, 100);
+
+			$scope.dynamicValue1 = randomValue;
+			$scope.dynamicObject = {
+	      value: randomValue,
+	      type: types[_.random(0, 3)]
+	    };
+		};
+
+		$scope.random2 = function() {
+			$scope.dynamicValue2 = [];
+			var numOfBar = _.random(1, 5);
+			for (var i = numOfBar - 1; i >= 0; i--) {
+				var max = 100/numOfBar;
+				var value = _.random(1, max);
+				$scope.dynamicValue2.push({
+					value : value,
+					type:types[_.random(0, 3)]
+				});
+			};
+		};
+		$scope.random2();
+	});
+    &lt;/script&gt;
+  </head>
+  <body>
+	<div ng-controller="mainCtrl">
+		<h2>Static Process Bar</h2>
+		<div class="row">
+			<div class="col-md-4">
+				<div progress value="33"></div>
+			</div>
+			<div class="col-md-4">
+				<div progress class="progress-warning progress-striped" value="22"></div>
+			</div>
+			<div class="col-md-4">
+				<div progress class="progress-danger progress-striped active" value="88"></div>
+			</div>
+		</div>
+
+		<h2>Dynamic Progress Bar</h2>
+		<div class="row">
+			<div class="well col-md-10">값 : {{dynamicValue1}}</div>
+			<div class="col-md-2">
+				<button class="btn btn-default" ng-click="random1()">랜덤 생성</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<p>기본 프로그레시브 바</p>
+			<div progress value="dynamicValue1"></div>
+		</div>
+		<div class="row">
+			<p>에니메이션 없다.</p>
+			<div progress value="dynamicValue1" animate="false" ></div>
+		</div>
+		<div class="row">
+			<p>객체 (value와 type을 동적으로 구성)</p>
+			<div class="row">
+				<div class="well col-md-10">값 : {{dynamicObject}}</div>
+			</div>
+			<div progress class="row active progress-striped" value="dynamicObject"></div>
+		</div>
+
+		<h2>Stacked Progress Bar</h2>
+		<div class="well">값 : {{dynamicValue2}}</div>
+		<div class="row">
+			<div class="col-md-10">
+				<div progress value="dynamicValue2"></div>
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-default" ng-click="random2()">랜덤 생성</button>
+			</div>
+		</div>
+	</div>
+  </body>
+</html></script>

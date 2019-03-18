@@ -1,0 +1,168 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+	
+</script>
+
+<div ng-controller="compDocCtrl">
+	<h2>
+		설명
+	</h2>
+	<p class="description">
+		그리드 페이징 처리
+	</p>
+	<h2>예제</h2>
+	<iframe id="preview" style="border:none; height:500px;">
+		
+	</iframe>
+	<h2>코드</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]>
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl"><!doctype html>
+<html ng-app="gridTest">
+  <head>
+  	<link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="vendor/jqgrid/css/ui.jqgrid.css" media="screen" />
+	<link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="build/css/kt3m-ui.css">
+
+	&lt;script src="vendor/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jqgrid/js/i18n/grid.locale-en.js"&gt;&lt;/script&gt;
+	&lt;script src="vendor/jqgrid/js/jquery.jqGrid.js"&gt;&lt;/script&gt;
+    &lt;script src="build/kt3m-ui.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+    /**
+    * gridTest Module
+    *
+    * Description
+    */
+    angular.module('gridTest', ['kt.ui']).
+    	controller('Ctrl',['$scope',function($scope){
+    		var cashedColumns = [];
+
+			var userList = {
+				rows:[]
+			};
+
+			//컬럼을 동적으로 생성
+      function genColumn() {
+      	var column = [],
+      			columnLengh = Math.floor(Math.random() * 10) + 1;
+
+      	for (var i = 0; i < columnLengh; i++) {
+      		column.push({
+      			title : "컬럼"+i,
+      			name : "column"+i,
+      			index : "column"+i,
+      			width : 30
+      		})
+      	};
+
+      	cashedColumns = column;
+      	return column;
+      }
+
+      getUserList(userList,1,3,genColumn());//1번째 페이지 가져오기.
+
+			$scope.userList = userList;  
+
+			$scope.creatColumn = function () {
+				getUserList(userList,1,3,genColumn());
+			}
+
+			$scope.changePage = function(page, rowNum){
+				getUserList(userList,page,rowNum);
+			}
+
+			$scope.selectRow =function(rowData){
+				$scope.selectedRow = rowData;
+			}
+
+			// 주의할 점 : 페이징으로 호출될 때($scope.changePage)에는 데이터에 columns정보가 없어야 된다.(undefined)
+			function getUserList(list, page, rowNum, newColumn){
+				var startRow = (page-1)*rowNum;
+				list.rows = [];
+				for (var i = 1+startRow; i <= startRow+rowNum; i++) {
+					var d = {};
+					if(newColumn !== undefined){
+						angular.forEach(newColumn, function(value, key){
+							d[value.index] = value.name+"`s data "+i;
+						});
+					}else{
+						angular.forEach(cashedColumns, function(value, key){
+
+							d[value.index] = value.name+"`s data "+i;
+
+						});						
+					}
+					list.rows.push(d);
+				};
+
+				list.columns = newColumn;
+
+				list.total = 10;
+				list.page = page;
+				list.records = 10*rowNum;
+				list.footerData = { name : "전체 건수 : ", email : list.rows.length, regDate : list.rows.length };
+			}
+    	}]);
+    &lt;/script&gt;
+</head>
+  <body ng-controller="Ctrl">
+  		선택된 로우 : {{selectedRow}}
+		<table kt-grid="grid1" data="userList" pager="true" grid-height="200" grid-width="980" autowidth="true" row-num="3" rowNumWidth="10" rownumbers="true" sortable="true" row-list="[3,5,10]" on-page-change="changePage()"> 
+			<thead>
+				<tr>
+					<th>이름</th>
+					<th>이메일</th>
+					<th>등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr on-select-row="selectRow()">
+					<td align="center" sortable="true" sorttype="text">{{name}}</td>
+					<td align="center" >{{email}}</td>
+					<td align="center">{{regDate}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div >
+			<button class="btn btn-default" ng-click="creatColumn()">컬럼 동적생성</button>
+		</div>
+  </body>
+</html>
+</script>
+

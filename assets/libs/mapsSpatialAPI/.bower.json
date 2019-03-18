@@ -1,0 +1,14 @@
+{
+  "name": "mapsSpatialAPI",
+  "_cacheHeaders": {
+    "ETag": "\"5afeb87b-6bd4\"",
+    "Last-Modified": "Fri, 18 May 2018 11:26:51 GMT",
+    "Content-Length": "27604",
+    "Content-Type": "application/javascript"
+  },
+  "_release": "e-tag:5afeb87b-",
+  "main": "index.js",
+  "_source": "http://api.ktgis.com:10080/v3/olleh/mapsSpatialAPI.js?key=T2xsZWhNYXBBUEkwMDA0OnZUMVM0TnFWZGk=",
+  "_target": "*",
+  "_originalSource": "http://api.ktgis.com:10080/v3/olleh/mapsSpatialAPI.js?key=T2xsZWhNYXBBUEkwMDA0OnZUMVM0TnFWZGk="
+}

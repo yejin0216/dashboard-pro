@@ -1,0 +1,69 @@
+<script type="text/javascript">
+  function uiPatternLayoutCtrl($scope, $routeParams, $location, PageMenuHelper) {
+
+    var pathInfo = $location.path().split("/");
+        pathInfo.shift();
+
+
+    $scope.patternId = $routeParams.patternId || "index";
+    $scope.patternUrl = "doc/contents/ui-examples/"+$scope.patternId+".html";
+
+    $scope.examples = PageMenuHelper.getTreeMenu("ui-examples").child;
+
+    $scope.currentPageInfo = PageMenuHelper.getCurrentPage(pathInfo);
+
+    $scope.title = $scope.currentPageInfo.pageInfo.title.replace(/\((.*)\)/,"")+" 예제";
+    $scope.pageMeta = (/\((.*)\)/.test( $scope.currentPageInfo.pageInfo.title)) ? $scope.currentPageInfo.pageInfo.title.match(/\((.*)\)/)[1] : "";
+
+    $scope.showPageHead = function() {
+      return pathInfo[1];
+    };
+
+    $scope.subLavActive = function (pathUrl) {
+      return (pathUrl === pathInfo[1]) ? { active : true } : { active : false };
+    }
+
+    $scope.hasPage =function() {
+      return ($scope.currentPageInfo.pageInfo.title === $scope.currentPageInfo.groupInfo.title) ? false : true;
+    };
+
+  };
+</script>
+<div ng-controller="uiPatternLayoutCtrl">
+  <div class="col-md-3">
+    <div class="well sidebar-nav">
+      <ul class="nav nav-list" ng-repeat="patternType in examples">
+        <li class="nav-header"><a href="">{{patternType.title}}</a></li>
+        <li ng-repeat="pattern in patternType.child" ng-class="subLavActive(pattern.url)"><a ng-href="#/ui-examples/{{pattern.url}}" >{{pattern.title}}</a></li>
+        <li class="divider"></li>
+      </ul>
+    </div><!--/.well -->
+  </div><!--/span--> 
+  <div class="col-md-9" ng-switch="patternId">
+    <div class="page-head" ng-show="showPageHead()">
+      <h1 class="pull-left">
+        {{ title }} 
+        <!-- page meta -->
+        <span class="page-meta">{{pageMeta}}</span>
+      </h1>
+      <ul class="breadcrumb pull-right" >
+        <li>
+          <a ng-href="#/{{currentPageInfo.rootInfo.section}}"><i class="icon-home"></i> {{currentPageInfo.rootInfo.title}}</a> 
+        </li>
+        <!-- Divider -->
+        <li>
+          <span class="divider">/</span> 
+          <a href="#/{{currentPageInfo.rootInfo.section}}/{{currentPageInfo.groupInfo.url}}" class="bread-current">{{currentPageInfo.groupInfo.title}}</a>
+        </li>
+        <!-- Divider -->
+        <li ng-show="hasPage()">
+          <span class="divider">/</span> 
+          <a href="#/{{currentPageInfo.rootInfo.section}}/{{currentPageInfo.pageInfo.url}}" class="bread-current">{{currentPageInfo.pageInfo.title}}</a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div data-doc-subview>
+    </div>
+  </div>
+</div>

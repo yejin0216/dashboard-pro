@@ -1,0 +1,97 @@
+<script type="text/javascript">
+	function compDocCtrl ($scope) {
+		var usageTpl = _($('#usageTpl').html()).unescape();
+		var apiTpl = _($('#exapmleTpl').html()).unescape();
+
+		$scope.apiUsage = usageTpl;
+		$scope.apiExample = apiTpl;
+		$scope.renderPreview = function() {
+			var previewFrame = document.getElementById('preview');
+		  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+
+			  preview.open();
+			  preview.write($scope.apiExample);
+			  preview.close();
+		};
+		$scope.renderPreview();
+	}
+</script>
+<div ng-controller="compDocCtrl">
+	<h2>
+		 설명
+	</h2>
+	<p class="description">
+		셀렉터에 옵션을 주어 멀티 선택이 가능하도록 한다.
+	</p>
+	<h2>사용법</h2>
+	<div class="usage">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+	      		readOnly: true
+	         }" ng-model="apiUsage">
+	  </textarea>
+	</div>
+	<h2>속성별 설명</h2>
+	<div class="attributes">
+		<ul>
+			<ul>
+			<li>
+				<code>multiple</code>
+				<p>여러개의 항복을 선택할 때 사용한다.</p>
+				<p>multiple="multiple" <- 항복에 값이 없어도 되지만 웹 호환성 문제로 명시하는게 좋다.</p>
+			</li>
+			
+		</ul>
+	</div>
+	<h2>예제</h2>
+	<div class="example">
+		<textarea ui-codemirror="{
+	          lineNumbers: true,
+	          mode: 'text/html',
+						onChange : renderPreview
+	         }" ng-model="apiExample">
+	  </textarea>		
+	</div>
+	<h2>Preview</h2>
+	<iframe id="preview">
+		
+	</iframe>
+</div>
+
+<script id="usageTpl" type="text/tpl"><select
+       ngModel="{string}"
+       multiple="{multiple}"
+       [name]="{string}"
+       [ngRequired]="{string}"
+       [ngOptions]="{comprehension_expression}"
+       [required]
+       >
+</select></script>
+
+<script id="exapmleTpl" type="text/tpl">&lt;!doctype html&gt;
+&lt;html ng-app="myApp"&gt;
+  &lt;head&gt;
+    &lt;script src="vendor/angular/angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+    angular.module('myApp', []).controller('Ctrl', function ($scope) {
+		
+       $scope.colors = [
+        {name:'black', checked:'false'},
+        {name:'white', checked:'false'},
+        {name:'red', checked:'false'},
+        {name:'blue', checked:'false'},
+        {name:'yellow', checked:'false'}
+  		];    
+  	 });
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body ng-controller="Ctrl"&gt;
+    
+    &lt;select ng-model="color" ng-options="c.name for c in colors" multiple="multiple"&gt;&lt;/select&gt;&lt;br&gt;
+    &lt;p&gt;
+      Currently selected: {{ color }}
+    &lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</script>
+
