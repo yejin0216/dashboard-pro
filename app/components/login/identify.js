@@ -34,7 +34,7 @@ function IdentifyController($scope, authDataService, $rootScope, $state, jwtHelp
             var param = 'userNm='+vm.userNm+'&email='+vm.userEmailAdr;
             authDataService.findMbrId(param)
                 .success(function(resp) {
-                    if ( resp.responseCode === '200' ) {
+                    if ( resp.responseCode === 'OK' ) {
                         var count = resp.data.total;
                         if ( count > 0 ) { //회원정보가 있을 경우
                             var mbrId = resp.data.rows[0].mbrId;
@@ -72,7 +72,7 @@ function IdentifyController($scope, authDataService, $rootScope, $state, jwtHelp
             var param = {mbrId:vm.userId, email:vm.userEmailAdr};
             authDataService.findMbrInfo(param)
                 .success(function (resp) {
-                    if ( resp.responseCode === '200' ) {
+                    if ( resp.responseCode === 'OK' ) {
                         var count = resp.data.total;
                         if ( count > 0 ) {
                             param = {mbrId:vm.userId, email:vm.userEmailAdr, langCd:localStorage.getItem('langCd')};

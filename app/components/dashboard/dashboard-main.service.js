@@ -207,7 +207,7 @@ angular.module('app.mydash')
                 });
             },
             getDeviceListV1 : function(){
-                return $http.get(adminConstant.contextPathV1 + 'intn/devices?pageNum=1&pageCon=100&lang='+$.cookie('langCd'));
+                return $http.get(adminConstant.contextPathV1 + 'intn/devices?pageNum=1&pageCon=100&lang='+localStorage.getItem('langCd'));
             },
             getDeviceImg : function(atcFileId){
                 return $http.get(adminConstant.contextPathV1 + 'devices/' + encodeURIComponent(atcFileId) +'/imageBase64');

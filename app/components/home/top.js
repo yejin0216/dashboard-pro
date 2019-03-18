@@ -50,19 +50,21 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
     //Push Session 연결
     function makePushSession() {
         // var filter = "win16|WIN16|win32|WIN32|win64|WIN64|mac|MAC|MacIntel";
-        // if ( !pushCnct /*&& filter.indexOf(navigator.platform)!=-1*/ ) {
-        //     var svcTgtSeq = sessionStorage.getItem('dash_svc_tgt_seq');
-        //     var mbrSeq = sessionStorage.getItem('dash_mbr_seq');
-        //     var scpt = [{'svcTgtSeq':svcTgtSeq,'msgTypeCd':'01'}
-        //                ,{'svcTgtSeq':svcTgtSeq,'msgTypeCd':'03'}];
-        //     pushCnct = //new PnsClient('https://iotmakers.kt.com/stomp', 'https://iotmakers.kt.com/pushapi/v1/sessions', mbrSeq, 'YjZjZGEyODk0OWQwNDFhMGE0MDI3MWVjZmVkNGQ5MTQxNDMxMjI5NTAyMTk4', scpt);
-        //     new PnsClient('http://112.175.172.117:15674/stomp', 'http://112.175.172.116:8480/pushapi/v1/sessions', mbrSeq, 'YjZjZGEyODk0OWQwNDFhMGE0MDI3MWVjZmVkNGQ5MTQxNDMxMjI5NTAyMTk4', scpt);
-        //     pushCnct.setUsername("admin");
-        //     pushCnct.setPassword("admin!");
-        //     pushCnct.setKeepAlive(30000);
-        //     pushCnct.setAccessToken(sessionStorage.getItem('dash_access_token'));//엑세스토큰
-        //     pushCnct.connect(onPushCnctCallback); //STOMP 연결
-        // }
+        if ( !pushCnct /*&& filter.indexOf(navigator.platform)!=-1*/ ) {
+            var svcTgtSeq = sessionStorage.getItem('dash_svc_tgt_seq');
+            var mbrSeq = sessionStorage.getItem('dash_mbr_seq');
+            var scpt = [{'svcTgtSeq':svcTgtSeq,'msgTypeCd':'01'}
+                       ,{'svcTgtSeq':svcTgtSeq,'msgTypeCd':'03'}];
+            pushCnct =
+            new PnsClient('https://iotmakers.kt.com/stomp', 'https://iotmakers.kt.com/pushapi/v1/sessions', mbrSeq, 'YjZjZGEyODk0OWQwNDFhMGE0MDI3MWVjZmVkNGQ5MTQxNDMxMjI5NTAyMTk4', scpt);
+            //new PnsClient('http://112.175.172.8:15674/stomp', 'http://112.175.172.8/pushapi/v1/sessions', mbrSeq, 'gqdmd4c8pwm1BqAJ', scpt);
+            //new PnsClient('http://112.175.172.106:15674/stomp', 'http://112.175.172.105:8080/pushapi/v1/sessions', mbrSeq, 'gqdmd4c8pwm1BqAJ', scpt);
+            pushCnct.setUsername("testuser6");
+            pushCnct.setPassword("testuser6!");
+            pushCnct.setKeepAlive(30000);
+            pushCnct.setAccessToken(sessionStorage.getItem('dash_access_token'));//엑세스토큰
+            pushCnct.connect(onPushCnctCallback); //STOMP 연결
+        }
     }
 
     //push callback

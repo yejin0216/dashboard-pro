@@ -55,6 +55,7 @@ manage.controller('GeneralController',
         //프로필 이미지 삭제
         vm.deleteProfileFile = function() {
             vm.profileFile = './assets/images/svg/user.svg';
+            saveImage("", "");
         }
 
         //프로필 이미지 업로드
@@ -82,7 +83,7 @@ manage.controller('GeneralController',
             myDashService.updateDashbdImg(param)
                 .success(function(resp) {
                     if (resp.responseCode === '200') {
-                        vm.profileFile = imageUrl;
+                        vm.profileFile = imageUrl||vm.profileFile;
                         $rootScope.$emit('changeUserImg', {profileImgFilePath:vm.profileFile}); //사용자 프로필 이미지 변경
                     }
                 })

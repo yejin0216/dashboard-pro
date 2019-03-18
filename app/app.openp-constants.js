@@ -3,15 +3,15 @@ angular.module('app')
  * 개방형 API URL
  * */
     .constant("adminConstant", {
-        "authPath"         : "http://112.175.172.116",
-        "portalPath"       : "http://112.175.172.116/portalapi/v1/",
-        "contextPathV1"    : "http://112.175.172.116/api/v1/",
-        "contextPathV11"   : "http://112.175.172.116/api/v1.1/"
+        "authPath"         : "https://iotmakers.kt.com",
+        "portalPath"       : "https://iotmakers.kt.com/portalapi/v1/",
+        "contextPathV1"    : "https://iotmakers.kt.com/api/v1/",
+        "contextPathV11"   : "https://iotmakers.kt.com/api/v1.1/"
     })
     .constant("coreConstant", {
-        "corePath"         : "http://112.175.172.116/coreapi/v1.1/",
-        "contextPathV1"    : "http://112.175.172.116/api/v1/",
-        "contextPathV11"   : "http://112.175.172.116/api/v1.1/"
+        "corePath"         : "https://iotmakers.kt.com/coreapi/v1.1/",
+        "contextPathV1"    : "https://iotmakers.kt.com/api/v1/",
+        "contextPathV11"   : "https://iotmakers.kt.com/api/v1.1/"
     })
     .constant('messageType', {
         warning  : "warning",

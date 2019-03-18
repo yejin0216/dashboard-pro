@@ -19,7 +19,7 @@ function FAQController($rootScope, $scope) {
             'pre':'회원정보',
             'title':'회원탈퇴 방법을 알려주세요.',
             'contents':'IoTMakers 개방형 포털에서 회원탈퇴를 신청하실 수 있습니다.<br/>다만, 라이선스 사용기간이 남아있는 회원님께서는 회원탈퇴시 유의해주시기 바랍니다.<br/><br/>' +
-            '<a href="http://localhost:8010/#/manage/general" target="_blank"><i class="fas fa-external-link-alt"></i> 라이선스 사용기간 확인하기</a><br/>' +
+            '<a href="http://iotmakers.kt.com/dashboard2/#/manage/general"><i class="fas fa-external-link-alt"></i> 라이선스 사용기간 확인하기</a><br/>' +
             '<a href="http://iotmakers.kt.com/openp/index.html#/login/checkPwd" target="_blank"><i class="fas fa-external-link-alt"></i> 개방형 포털에서 회원탈퇴하기</a>'
         }
         , {
@@ -74,15 +74,15 @@ function FAQController($rootScope, $scope) {
             , 'title':'그룹태그란 무엇인가요?'
             , 'contents':'IoT 디바이스의 센서들의 묶음으로 NB-IoT 통신모듈을 사용하는 IoT 디바이스의 필수사항입니다.<br/>' +
             '설정한 그룹태그는 [나의 디바이스]에서 확인할 수 있습니다.<br/><br/>' +
-            '<a ui-sref="myDev"><i class="fas fa-external-link-alt"></i> 디바이스의 그룹태그 확인하기</a>'
+            '<a href="http://iotmakers.kt.com/dashboard2/#/device"><i class="fas fa-external-link-alt"></i> 디바이스의 그룹태그 확인하기</a>'
         }
         , {
             'pre':'대시보드'
             , 'title':'Capability UI Type이란 무엇인가요?'
             , 'contents':'IoT 디바이스의 제어센서의 UI 표현방식을 의미하는 Dashboard Pro2의 용어입니다.<br/>' +
-            'Dashboard Pro2의 제어위젯은 TEXT로 제어문을 입력하도록 설정되어있지만 Capability UI Type를 설정하면 BUTTON, SLIDER 등 다양한 UI 방식으로 제어문을 입력하고 실행할 수 있습니다. ' +
+            'Dashboard Pro2의 제어위젯은 TEXT로 제어문을 입력하도록 설정되어있지만 Capability UI Type를 설정하면 BUTTON, COMBO 등 다양한 UI 방식으로 제어문을 입력하고 실행할 수 있습니다. ' +
             '설정한 Capability UI Type은 모든 제어위젯에 적용됩니다.<br/><br/>' +
-            '<a ui-sref="myDev"><i class="fas fa-external-link-alt"></i> 제어센서의 Capability UI Type 변경하기</a>'
+            '<a href="http://iotmakers.kt.com/dashboard2/#/device"><i class="fas fa-external-link-alt"></i> 제어센서의 Capability UI Type 변경하기</a>'
         }
         , {
             'pre':'대시보드'
