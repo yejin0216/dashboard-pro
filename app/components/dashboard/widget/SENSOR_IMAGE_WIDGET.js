@@ -65,7 +65,7 @@ function sensorImageWdgtCtrl($scope, $rootScope, $modal, myDashService) {
         //아이콘 업데이트 모달 호출
         list.wdgtSeq = $scope.wdgtInfo.wdgtSeq; //위젯일련번호 세팅
         $modal.open({
-            templateUrl:'components/dashboard/widget/SENSOR_ICON_VIEW_MODAL.html',
+            templateUrl:'app/components/dashboard/widget/SENSOR_ICON_VIEW_MODAL.html',
             scope:$scope,
             resolve:{
                 wdgtInfo: function() {

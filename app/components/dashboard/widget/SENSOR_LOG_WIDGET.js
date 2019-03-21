@@ -125,7 +125,7 @@ angular.module('app.mydash')
                 //날짜 세팅 모달
                 scope.setDate = function() {
                    $modal.open({
-                        templateUrl:'components/dashboard/widget/COMM_LOG_DATE_MODAL.html',
+                        templateUrl:'app/components/dashboard/widget/COMM_LOG_DATE_MODAL.html',
                         scope:scope,
                         resolve:{
                             wdgtInfo:function () {

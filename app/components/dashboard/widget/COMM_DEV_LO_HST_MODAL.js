@@ -225,7 +225,7 @@ angular.module('app.mydash')
         //이동체 정보 수정
         $scope.updateDev = function() {
             $modal.open({
-                templateUrl: 'components/dashboard/widget/COMM_MAP_TOOLS_MODAL.html',
+                templateUrl: 'app/components/dashboard/widget/COMM_MAP_TOOLS_MODAL.html',
                 scope: $scope,
                 resolve: {
                     wdgtInfo: function () {

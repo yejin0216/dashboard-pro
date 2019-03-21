@@ -73,7 +73,7 @@ function sensorTableWdgtCtrl($scope, $rootScope, $modal, $translate, myDashServi
         list.wdgtSeq = $scope.wdgtInfo.wdgtSeq; //위젯일련번호 세팅
 
         $modal.open({
-            templateUrl:'components/dashboard/widget/SENSOR_ICON_VIEW_MODAL.html',
+            templateUrl:'app/components/dashboard/widget/SENSOR_ICON_VIEW_MODAL.html',
             scope:$scope,
             resolve:{
                 wdgtInfo: function() {

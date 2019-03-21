@@ -179,7 +179,7 @@ angular.module('app.mydash')
                     dev.sbjtSeq = scope.widget.sbjtSeq;
                     dev.wdgtSeq = wdgtSeq; //이후삭제필요
                     $modal.open({
-                        templateUrl: 'components/dashboard/widget/COMM_DEV_LO_HST_MODAL.html',
+                        templateUrl: 'app/components/dashboard/widget/COMM_DEV_LO_HST_MODAL.html',
                         scope: scope,
                         resolve: {
                             devInfo: function () {

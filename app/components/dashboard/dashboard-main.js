@@ -319,7 +319,7 @@ angular.module('app.mydash', ['kt.ui'])
                 myDashService.getWdgtBySbjt(wdgt)
                     .success(function (resp) {
                         $modal.open({
-                            templateUrl: 'components/dashboard/widget/' + wdgt.wdgtTmpltId + '-Settings.html',
+                            templateUrl: 'app/components/dashboard/widget/' + wdgt.wdgtTmpltId + '-Settings.html',
                             scope: $scope,
                             resolve: {
                                 wdgtInfo: function () {
@@ -336,7 +336,7 @@ angular.module('app.mydash', ['kt.ui'])
                 myDashService.getWdgtBySbjt(wdgt)
                     .success(function (resp) {
                         $modal.open({
-                            templateUrl: 'components/dashboard/widget/COMM_CHART_TOOLS_MODAL.html',
+                            templateUrl: 'app/components/dashboard/widget/COMM_CHART_TOOLS_MODAL.html',
                             scope: $scope,
                             resolve: {
                                 wdgtInfo: function () {
@@ -381,7 +381,7 @@ angular.module('app.mydash', ['kt.ui'])
             //한눈 가이드 보기
             vm.sumryGuide = function() {
                 $modal.open({
-                    templateUrl:'components/guide/sumryGuide.html',
+                    templateUrl:'app/components/guide/sumryGuide.html',
                     scope:$scope,
                     controller:'sumryGuideController',
                     backdropClass: 'dark-backdrop'

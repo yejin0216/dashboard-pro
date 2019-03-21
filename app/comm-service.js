@@ -4,21 +4,21 @@ angular.module('app.commSvc', [])
         return{
             open : function (message, opts) {
                 var newScope = $rootScope.$new(),
-                    templateUrl = "./template/messageBox.html",
+                    templateUrl = "app/shared/messages/messageBox.html",
                     modalInstance,
                     options = angular.extend({}, opts);
 
                 if(options.title){
-                    templateUrl = "./template/messageTitleBox.html",
+                    templateUrl = "app/shared/messages/messageTitleBox.html",
                         newScope.title = options.title;
                 }
 
                 if(options.confirm){
-                    templateUrl = "./template/messageBoxConfim.html";
+                    templateUrl = "app/shared/messages/messageBoxConfim.html";
                 }
 
                 if(options.result){
-                    templateUrl = "./template/messageBoxResult.html";
+                    templateUrl = "app/shared/messages/messageBoxResult.html";
                     newScope.title = options.title;
                 }
 
