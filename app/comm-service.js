@@ -117,14 +117,6 @@ angular.module('app.commSvc', [])
                 if ( !savedDev ) return;//저장된 디바이스 정보 없을 경우
                 if ( savedDev.values ) {//Capability value list
                     scope.valList = JSON.parse(JSON.stringify(savedDev.values));
-                    // angular.forEach(scope.valList, function(val, idx){
-                    //     if ( (val.data).indexOf('"') !== -1 ) {
-                    //         scope.valList[idx].type = 'STRING';
-                    //         scope.valList[idx].data = (val.data).replace(/"/g,"");
-                    //     } else {
-                    //         scope.valList[idx].type = 'DOUBLE';
-                    //     }
-                    // });
                     scope.valList.sort(function (a, b) { // 정렬
                         return a.data < b.data ? -1 : a.data > b.data ? 1 : 0;
                     });
@@ -174,6 +166,11 @@ angular.module('app.commSvc', [])
                     var value = ctrlMsg;
                     if ( (ctrlMsg).indexOf('"') !== -1 ) {
                         value = ctrlMsg.replace(/"/g,"");
+                    }
+                    if (savedDev.snsrValType === '0000030') {
+                        value = parseInt(value);
+                    } else if (savedDev.snsrValType === '0000010') {
+                        value = parseFloat(value);
                     }
                     var param = {targetSequence:sessionStorage.getItem('dash_svc_tgt_seq'), sequence:dev.spotDevSeq, sync:false, sensingTags:[{code:dev.snsrCd, value:value, group:dev.group}] };
                     myDashService.putCtrlLogs(param)

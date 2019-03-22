@@ -717,7 +717,7 @@ performance-inspector div#form-bad-list>div i.fa-circle{color:#ed2024;}
 performance-inspector div.progress{margin-bottom:10px;margin-top:30px;}
 
 /* 위젯 추가 모달 */
-.add-widget-modal{width:850px;}
+.add-widget-modal{width:max-content;}
 .add-widget-modal .modal-body{margin-top:10px;display:inline-block;vertical-align:top;}
 .add-widget-modal .modal-body.modal-right-body{width:450px;border-right:1px solid #eee;padding:20px 15px 30px 30px;}
 .add-widget-modal .modal-body.modal-left-body{width:394px;padding:20px 30px 30px 15px;}
