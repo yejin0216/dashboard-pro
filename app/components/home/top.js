@@ -75,7 +75,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
         pushCnct.subscribe(function (resp) {
             var pData = JSON.parse(resp.body);
             var message = pData.message;
-            console.log(message)
+
             if (pData.type === '03'){ //이벤트
                 $scope.pushMsgList.push({'evetNm':message.evetNm,'outbDtm':message.outbDtm});
                 if ($scope.pushMsgList.length>5) {
@@ -130,7 +130,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
         vm.changeNav('dashbd'); //네비게이션 변경
 
         //push 연결
-        if ( vm.selected.cnctTypeCd == 'PS' && !pushcnct ) { //진입 후 처음으로 푸시 연결
+        if ( vm.selected.cnctTypeCd == 'PS' && !pushCnct ) { //진입 후 처음으로 푸시 연결
             makePushSession();
         } else {
             if ( pushCnct ) {
@@ -282,14 +282,17 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
                         vm.selected.cnctTypeCd = vm.selectCnctTypeCd;
                         // vm.selected.cnctCycl = vm.selectPollingPerd;
 
-                        if ( vm.selectCnctTypeCd != 'PS' && pushCnct ) { //push 연결 삭제
-                            pushCnct.disconnect(function(){
-                                console.log('push disconnect');
-                                pushCnct = undefined;
-                            });
-                        } else { //push 연결
+                        if ( vm.selectCnctTypeCd == 'PS' && !pushCnct ) { //진입 후 처음으로 푸시 연결
                             makePushSession();
+                        } else {
+                            if ( pushCnct ) {
+                                pushCnct.disconnect(function(){
+                                    console.log('push disconnect');
+                                    pushCnct = undefined;
+                                });
+                            }
                         }
+
                         messageBox.open($translate.instant('comm.eMsgPrpRefresh'), {type:"info"});
                         // $state.reload(); //페이지 새로고침, Dom Node가 너무 올라감! 사용 비추천!
                         // location.reload(); //페이지 새로고침
