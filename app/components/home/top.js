@@ -25,8 +25,12 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
     $rootScope.$on('showDashbdSttus', function(event, args){//상위메뉴 호출
         $scope.showDashbdSttus = args;
     });
-    $rootScope.$on('changeUserImg', function (event, args) { vm.profileFile = args.profileImgFilePath }); //사용자 프로필 이미지 변경
-    $rootScope.$on('expandLeftMenu', function (event, args) { $scope.isExpanded = true; }); //좌측메뉴 펼치기
+    $rootScope.$on('changeUserImg', function (event, args) {//사용자 프로필 이미지 변경
+        vm.profileFile = args.profileImgFilePath
+    });
+    $rootScope.$on('expandLeftMenu', function (event, args) {//좌측메뉴 펼치기
+        $scope.isExpanded = true;
+    });
 
     // 로그인 성공시 사용자 대시보드 정보 호출
     $rootScope.$watch('access_token', function(){
@@ -43,14 +47,13 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
             vm.rmndDt = sessionStorage.getItem('dash_rmnd_dt');//Trial 사용자 잔여일 체크
 
             getDashbdList(); //대시보드 목록 조회
-            makePushSession(); //PC일 경우, Push 연결
+            //makePushSession(); //PC일 경우, Push 연결
         }
     });
 
     //Push Session 연결
     function makePushSession() {
-        // var filter = "win16|WIN16|win32|WIN32|win64|WIN64|mac|MAC|MacIntel";
-        if ( !pushCnct /*&& filter.indexOf(navigator.platform)!=-1*/ ) {
+        if ( !pushCnct ) {
             var svcTgtSeq = sessionStorage.getItem('dash_svc_tgt_seq');
             var mbrSeq = sessionStorage.getItem('dash_mbr_seq');
             var scpt = [{'svcTgtSeq':svcTgtSeq,'msgTypeCd':'01'}
@@ -72,6 +75,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
         pushCnct.subscribe(function (resp) {
             var pData = JSON.parse(resp.body);
             var message = pData.message;
+            console.log(message)
             if (pData.type === '03'){ //이벤트
                 $scope.pushMsgList.push({'evetNm':message.evetNm,'outbDtm':message.outbDtm});
                 if ($scope.pushMsgList.length>5) {
@@ -121,10 +125,22 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
             if ( item.sbjtSeq == sequence ) {
                 item.checked = true;
                 vm.selected = item;
-                //$rootScope.unlocked = item.lockYn=='Y'?false:true;
             }
         });
         vm.changeNav('dashbd'); //네비게이션 변경
+
+        //push 연결
+        if ( vm.selected.cnctTypeCd == 'PS' && !pushcnct ) { //진입 후 처음으로 푸시 연결
+            makePushSession();
+        } else {
+            if ( pushCnct ) {
+                pushCnct.disconnect(function(){
+                    console.log('push disconnect');
+                    pushCnct = undefined;
+                });
+            }
+        }
+
         $state.go('mydashboard', {sequence:sequence});//테마판 호출
         return list;
     }
@@ -215,13 +231,6 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
             vm.modaltitle = $translate.instant('dash.dataCnct');
             vm.msgCnctInfo = '';
             vm.selectCnctTypeCd = vm.selected.cnctTypeCd; //주기타입
-            // var cnctCycl = vm.selected.cnctCycl; //주기
-            // if ( (';30;60;120;300;').indexOf(cnctCycl) === -1 ) {
-            //     vm.inputPollingPerd = cnctCycl;
-            //     vm.selectPollingPerd = '0';
-            // } else {
-            //     vm.selectPollingPerd = cnctCycl==0?'1':cnctCycl;
-            // }
         }
         $scope.topMenuModal = true;
     }
@@ -262,18 +271,6 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
                 });
             //대시보드 연결설정
         } else if ( vm.currentModal == 12 ) {
-            // if ( vm.selectCnctTypeCd === 'PL' ) { //주기(폴링)일 경우
-            //     if ( vm.selectPollingPerd === '1' || typeof vm.selectPollingPerd == 'undefined' ) {
-            //         vm.msgCnctInfo = $translate.instant("comm.eMsgMustValueColumn");
-            //         return;
-            //     } else if ( vm.selectPollingPerd === '0' && !vm.inputPollingPerd ) {
-            //         vm.msgCnctInfo = $translate.instant("comm.eMsgInvalidRange",{value1:30,value2:99999});
-            //         return;
-            //     } else if ( vm.selectPollingPerd === '0' ) {
-            //         vm.selectPollingPerd = vm.inputPollingPerd;
-            //     }
-            //     vm.inputPollingPerd = null;
-            // }
             var param = {
                  'sbjtSeq':vm.selected.sbjtSeq
                 ,'cnctTypeCd':vm.selectCnctTypeCd
@@ -285,7 +282,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
                         vm.selected.cnctTypeCd = vm.selectCnctTypeCd;
                         // vm.selected.cnctCycl = vm.selectPollingPerd;
 
-                        if ( vm.selectCnctTypeCd != 'PS' ) { //push 연결 삭제
+                        if ( vm.selectCnctTypeCd != 'PS' && pushCnct ) { //push 연결 삭제
                             pushCnct.disconnect(function(){
                                 console.log('push disconnect');
                                 pushCnct = undefined;
@@ -376,10 +373,13 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
         $rootScope.access_token = null;
         sessionStorage.clear();
 
-        pushCnct.disconnect(function(){
-            console.log('push disconnect');
-            pushCnct = undefined;
-        });
+        if ( pushCnct ) {
+            pushCnct.disconnect(function(){
+                console.log('push disconnect');
+                pushCnct = undefined;
+            });
+        }
+
         $state.go('auth.login', {toState:'',toParams:''});
     }
 
@@ -450,29 +450,6 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
             return 'off';
         }
         return 'on';
-    }
-
-    //폴링기간 변경
-    vm.changeInputPerd = function(inputPerd) {
-        if ( typeof inputPerd == 'undefined' ) {
-            vm.msgCnctInfo = $translate.instant("comm.eMsgInvalidRange",{value1:30,value2:99999});
-        } else {
-            vm.msgCnctInfo = '';
-        }
-    }
-
-    //성능 검사기 실행
-    function exeInspection() {
-        // 1.크롬브라우저 사용여부
-        if ( (navigator.userAgent).indexOf('Chrome') == -1 ) {
-            vm.inspResult.push({'title':$translate.instant('dash.eMsgPerfTitle05'),'desc':$translate.instant('dash.eMsgPerfReslt05')});
-        }
-        // 2.푸시 사용여부
-        if ( vm.selected.cnctTypeCd === '0002' ) {
-            vm.inspResult.push({'title':$translate.instant('dash.eMsgPerfTitle04'),'desc':$translate.instant('dash.eMsgPerfReslt04')});
-        }
-        // 3.네트워크 대기시간
-        vm.inspResult.push({'title':$translate.instant('dash.eMsgPerfTitle01'),'content':$translate.instant('dash.eMsgPerfDesc01', {value:50})});
     }
 
 }
