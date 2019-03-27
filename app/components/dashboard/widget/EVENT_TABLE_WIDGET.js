@@ -216,7 +216,7 @@ function eventTableWdgtSetCtrl($translate, $scope, $rootScope, $modalInstance, m
                     ,'wdgtSubnm':$scope.wdgtSubnm
                     ,'wdgtSeq':wdgtInfo.wdgtSeq
                     ,'events':$scope.selectedList
-                    ,'mbrId':sessionStorage.getItem('dash_mbr_id')};
+                    ,'mbrId':sessionStorage.getItem('mbr_id')};
         myDashService.insertEventWdgtBySbjt(param)
             .success(function(resp){
                 // 위젯설정 broadcast

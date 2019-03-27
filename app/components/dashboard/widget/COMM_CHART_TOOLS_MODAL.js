@@ -133,7 +133,7 @@ function commChartToolsCtrl($translate, $modalInstance, $scope, $rootScope, wdgt
 
         //parameter
         var param = {'wdgtSeq':wdgtInfo.wdgtSeq
-                    ,'mbrId':sessionStorage.getItem('dash_mbr_id')
+                    ,'mbrId':sessionStorage.getItem('mbr_id')
                     ,'modalId':'chartOption'
                     ,'wdgtOptn':JSON.stringify(selectedItem.optn)
                     ,'devSnsrList':$scope.snsrList};

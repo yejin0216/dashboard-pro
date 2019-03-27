@@ -96,7 +96,7 @@ function complexVideoWdgtSetCtrl($scope, $rootScope, $modal, $modalInstance, myD
         var param = {'wdgtNm':$scope.wdgtNm
                    , 'wdgtSeq':wdgtInfo.wdgtSeq
                    , 'imgFilePath':$scope.imgFilePath
-                   , 'mbrId':sessionStorage.getItem('dash_mbr_id')};
+                   , 'mbrId':sessionStorage.getItem('mbr_id')};
         myDashService.insertComplexImageWdgtBySbjt(param)
             .success(function(resp){
                 // 위젯설정 broadcast

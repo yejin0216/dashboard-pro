@@ -172,7 +172,7 @@ angular.module('app.commSvc', [])
                     } else if (savedDev.snsrValType === '0000010') {
                         value = parseFloat(value);
                     }
-                    var param = {targetSequence:sessionStorage.getItem('dash_svc_tgt_seq'), sequence:dev.spotDevSeq, sync:false, sensingTags:[{code:dev.snsrCd, value:value, group:dev.group}] };
+                    var param = {targetSequence:sessionStorage.getItem('svc_tgt_seq'), sequence:dev.spotDevSeq, sync:false, sensingTags:[{code:dev.snsrCd, value:value, group:dev.group}] };
                     myDashService.putCtrlLogs(param)
                         .success(function(respData){
                             var resultData = '';

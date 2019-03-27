@@ -46,7 +46,7 @@ function authDataService($http, $q, adminConstant) {
      * 로그인 실패회수 초기화
      */
     function updateFailCntReset(addInfo) {
-        return $http.put(adminConstant.contextPathV1+'mbr/updateFailCntReset', addInfo, {headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('dash_token')}});
+        return $http.put(adminConstant.contextPathV1+'mbr/updateFailCntReset', addInfo, {headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('client_token')}});
     }
     /**
      * 로그인 실패 업데이트
@@ -60,7 +60,7 @@ function authDataService($http, $q, adminConstant) {
      */
     function verifyLicense(portalLoginInfo) {
         var deferred = $q.defer();
-        return $http.post(adminConstant.contextPathV11 + 'member/login', portalLoginInfo, {headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('dash_token')}})
+        return $http.post(adminConstant.contextPathV11 + 'member/login', portalLoginInfo, {headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('client_token')}})
             .success(function(response){
                 deferred.resolve(response);
             })
@@ -75,7 +75,7 @@ function authDataService($http, $q, adminConstant) {
      */
     function verifyBizLicense(portalLoginInfo) {
         var deferred = $q.defer();
-        return $http.post(adminConstant.contextPathV11 + 'biz/member/login', portalLoginInfo, {headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('dash_token')}})
+        return $http.post(adminConstant.contextPathV11 + 'biz/member/login', portalLoginInfo, {headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('client_token')}})
             .success(function(response){
                 deferred.resolve(response);
             })
@@ -90,7 +90,7 @@ function authDataService($http, $q, adminConstant) {
      */
     function findMbrId(param) {
         return $http.get(adminConstant.contextPathV1 + 'mbrs?delYn=N&pageNum=1&pageCon=1&'+param, {
-            headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('dash_token')}
+            headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('client_token')}
         });
     }
 
@@ -99,7 +99,7 @@ function authDataService($http, $q, adminConstant) {
      */
     function findMbrInfo(param) {
         return $http.get(adminConstant.contextPathV1 + 'mbrs?delYn=N&pageNum=1&pageCon=1&mbrId='+param.mbrId+'&email='+param.email, {
-            headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('dash_token')}
+            headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('client_token')}
         });
     }
 
@@ -108,7 +108,7 @@ function authDataService($http, $q, adminConstant) {
      */
     function updateMbrRanPwd(param) {
         return $http.put(adminConstant.portalPath + 'mbr/updatePwd', param, {
-            headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('dash_token')}
+            headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('client_token')}
         });
     }
 

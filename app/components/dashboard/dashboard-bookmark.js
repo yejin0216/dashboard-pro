@@ -53,8 +53,8 @@ function BookmarkController($scope, $translate, $rootScope, $state, messageBox, 
         //테마 수정
         var param = {'sbjtSeq':vm.selectedSbjtSeq
                    , 'bmarkYn':'Y'
-                   , 'mbrId':sessionStorage.getItem('dash_mbr_id')
-                   , 'mbrSeq':sessionStorage.getItem('dash_mbr_seq')};
+                   , 'mbrId':sessionStorage.getItem('mbr_id')
+                   , 'mbrSeq':sessionStorage.getItem('mbr_seq')};
         myDashService.updateSbjtItem(param)
             .success(function(resp){
                 if ( resp.responseCode === '200' ) {

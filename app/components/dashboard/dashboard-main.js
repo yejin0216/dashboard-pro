@@ -289,7 +289,7 @@ angular.module('app.mydash', ['kt.ui'])
                         , 'sizeY':item.sizeY //초기 Y사이즈
                         , 'col': item.col //컬럼 위치
                         , 'row': item.row //로우 위치
-                        , 'mbrId':sessionStorage.getItem('dash_mbr_id') };
+                        , 'mbrId':sessionStorage.getItem('mbr_id') };
                     myDashService.insertWdgtBySbjt(param)
                         .success(function(resp) {
                             if (resp.responseCode === '200') {

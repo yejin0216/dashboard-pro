@@ -29,7 +29,7 @@ function LoginController($scope, authDataService, $rootScope, $state, jwtHelper,
                 .then(function(resp){
                     var token = resp.data.access_token;
                     if ( token ) {
-                        sessionStorage.setItem('dash_token', token);
+                        sessionStorage.setItem('client_token', token);
                         var decodedToken = jwtHelper.decodeToken(token);
 
                         //라이선스 유효성 검증
@@ -43,11 +43,11 @@ function LoginController($scope, authDataService, $rootScope, $state, jwtHelper,
                                         $scope.invalidMessage = $translate.instant('comm.eMsgIdNotExistError'); //아이디나 패스워드를 다시 확인하세요.
                                     } else {
                                         //정상 로그인
-                                        sessionStorage.setItem('dash_access_token', token);
-                                        sessionStorage.setItem('dash_mbr_id', decodedToken.mbr_id);
-                                        sessionStorage.setItem('dash_mbr_seq', decodedToken.mbr_seq);
-                                        sessionStorage.setItem('dash_svc_tgt_seq', decodedToken.svc_tgt_seq);
-                                        sessionStorage.setItem('dash_rmnd_dt', response.data.data.rmndDt);
+                                        sessionStorage.setItem('access_token', token);
+                                        sessionStorage.setItem('mbr_id', decodedToken.mbr_id);
+                                        sessionStorage.setItem('mbr_seq', decodedToken.mbr_seq);
+                                        sessionStorage.setItem('svc_tgt_seq', decodedToken.svc_tgt_seq);
+                                        sessionStorage.setItem('rmnd_dt', response.data.data.rmndDt);
                                         $state.go('mydashboard'); //main으로 이동
                                     }
                                 }

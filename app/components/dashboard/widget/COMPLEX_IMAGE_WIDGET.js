@@ -140,7 +140,7 @@ function complexImageWidgetSetCtrl($scope, $rootScope, $modal, $modalInstance, m
         param.wdgtSeq = wdgtInfo.wdgtSeq;
         param.imgFileNm = imageNm;
         param.fontColor = param.titleTextColor;
-        param.mbrId = sessionStorage.getItem('dash_mbr_id');
+        param.mbrId = sessionStorage.getItem('mbr_id');
 
         myDashService.insertComplexImageWdgtBySbjt(param)
             .success(function(resp){
