@@ -14,15 +14,16 @@ angular
         'ngMaterial',
         'colorpicker'
     ])
-    .run(function($rootScope, $state, jwtHelper, authDataService, $modalStack, $location, $window) {
+    .run(function($rootScope, $state, jwtHelper, $translate, authDataService, $modalStack, $location, $window) {
 
+        //s$rootScope.liClasses = [false,false,false,false,false,false];
         $rootScope.$on('$stateChangeStart', function(e, toState, toParams) {
             if(sessionStorage.getItem('access_token') && !jwtHelper.isTokenExpired(sessionStorage.getItem('access_token'))) {
                 $rootScope.access_token = sessionStorage.getItem('access_token');
             } else {
-                $rootScope.access_token = null;
+                $rootScope.access_token = null
             }
-            if (toState.data && toState.data.requiresLogin ) {
+            if ( toState.data && toState.data.requiresLogin ) {
                 if (!sessionStorage.getItem('access_token') || jwtHelper.isTokenExpired(sessionStorage.getItem('access_token'))) {
                     e.preventDefault();
                     $rootScope.access_token = null;
@@ -31,6 +32,15 @@ angular
                     $state.go('auth.login', {toState:toState,toParams:toParams});
                 }
             }
+
+            //네비게이션 변경
+            if ( toState.url.indexOf('/manage') > -1 ) {
+                $rootScope.navName = $translate.instant('comm.manage');
+            } else {
+                $rootScope.navName = $translate.instant('comm.'+toState.name);
+            }
+            $rootScope.state = toState.name;
+
             $modalStack.dismissAll();
         });
 

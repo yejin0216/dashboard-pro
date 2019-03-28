@@ -36,6 +36,8 @@
    "manage":"Management",
    "guide":"Guide",
    "userGuide":"User Guide",
+   "korUserGuide":"User Guide",
+   "engUserGuide":"User Guide",
    "devLog":"Device Log",
    "timeLine":"Timeline",
    "evetTimeLine":"Event Timeline",
@@ -106,7 +108,9 @@
    "svc_dashbd":"Dashboard Pro",
    "svc_dashbd2":"Dashboard Pro2",
    "svc_mng":"Manager",
-   "last5":"5 recent"
+   "last5":"5 recent",
+   "updHst":"Update History",
+   "faq":"FAQ"
   },
   "addWdgt" : {
     "comp" : {

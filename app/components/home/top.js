@@ -4,13 +4,14 @@ angular.module('app')
 function TopController($rootScope, $state, $stateParams, $scope, $filter, $translate, $interval, messageBox, myDashService) {
 
     $rootScope.dashbdSeq = 0;
+    $rootScope.selectedSbjtSeq = 0;
 
     $scope.topMenuModal = false;
     $scope.isExpanded = true;
     $scope.hideDashbd = false;
     $scope.showFooter = true;
-    $scope.navigationName = '';
-    $scope.liClasses = [false,false,false,false,false,false];
+    //$scope.navName = '';
+    //$scope.liClasses = [false,false,false,false,false,false];
     $scope.pushMsgList = [];
     $scope.showEvetPushMsg = sessionStorage.getItem('evet_push_msg')||'N';
 
@@ -95,7 +96,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
 
     //자세히 보기
     vm.seeAllNoti = function() {
-        $state.go('log');//이벤트 타임라인으로 이동
+        $state.go('evetTimeLine');//이벤트 타임라인으로 이동
     };
 
     //대시보드 목록 조회
@@ -109,7 +110,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
                         vm.profileFile = rows.profileImgFilePath;
                     } //프로필이미지 BASE64
 
-                    vm.sbjtList = vm.selectedDashbd(rows.sbjtList, rows.sbjtList[0].sbjtSeq);
+                    vm.sbjtList = vm.selectedDashbd(rows.sbjtList, rows.sbjtList[0].sbjtSeq); //첫번째 대시보드 선택
                     rows = null;
                 }
             })
@@ -127,10 +128,13 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
                 vm.selected = item;
             }
         });
-        vm.changeNav('dashbd'); //네비게이션 변경
+        //vm.changeNav('dashbd'); //네비게이션 변경
 
-        //push 연결
-        if ( vm.selected.cnctTypeCd == 'PS' && !pushCnct ) { //진입 후 처음으로 푸시 연결
+        $rootScope.selectedSbjtSeq = sequence;
+        $rootScope.sbjtNm = ' / ' + vm.selected.sbjtNm; //네비게이션에 표기
+
+        //데이터 연결 설정
+        if ( vm.selected.cnctTypeCd == 'PS' && !pushCnct ) {
             makePushSession();
         } else {
             if ( pushCnct ) {
@@ -141,7 +145,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
             }
         }
 
-        $state.go('mydashboard', {sequence:sequence});//테마판 호출
+        $state.go('dashbd', {sequence:$rootScope.selectedSbjtSeq});//테마판 호출
         return list;
     }
 
@@ -307,58 +311,18 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
         $scope.topMenuModal = false; //모달닫기
     }
 
-    //네비게이션 변경
-    vm.changeNav = function(flag) {
-        var index;
-        $scope.preName = ''; //prefix
-        if ( flag === 'bmark' ) { //즐겨찾기
-            $scope.navigationName = $translate.instant('comm.bmark');
-            index = 0;
-        } else if ( flag === 'guide' ) { //이용가이드
-            $scope.navigationName = $translate.instant('comm.userGuide');
-            index = 4;
+    //메뉴 속성 설정
+    vm.setMenuProps = function(name) {
+        if (name == 'guide') {
             var page = (localStorage.getItem('langCd')||'KOR').toLowerCase()+'UserGuide';
             $state.go(page);
-        } else if ( flag === 'manage' ) { //관리
-            $scope.navigationName = $translate.instant('comm.settings');
-            index = 5;
-        } else if ( flag === 'dashbdList' ) { //대시보드목록
-            $scope.navigationName = $translate.instant('comm.dashbdList');
-            index = 2;
-            //대시보드 목록 Open/Close
+        } else if (name == 'dashbd') {
             if ($scope.hideDashbd) {
                 $scope.hideDashbd = false;
             } else {
                 $scope.hideDashbd = true;
             }
-        } else if ( flag === 'myDev' ) { //나의 디바이스
-            $scope.navigationName = $translate.instant('comm.myDev');
-            index = 1;
-        } else if ( flag === 'dashbd' ) {
-            $scope.preName = $translate.instant('comm.dashbd')+' / ';
-            $scope.navigationName = vm.selected.sbjtNm;
-            index = 2;
-        } else if ( flag === 'log' ) {
-            $scope.navigationName = $translate.instant('comm.evetTimeLine');
-            index = 3;
         }
-        setOn(index);
-    }
-
-    //선택한 목록의 class 변경
-    function setOn(index) {
-        if ( index != 2 ) {
-            angular.forEach(vm.sbjtList, function(item, i){
-                item.checked = false;
-            });
-        }
-        angular.forEach($scope.liClasses, function(item, i){
-            if ( i === index ) {
-                $scope.liClasses[i] = true;
-            } else {
-                $scope.liClasses[i] = false;
-            }
-        });
     }
 
     //개별 대시보드로 이동

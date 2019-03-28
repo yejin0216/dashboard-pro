@@ -65,7 +65,7 @@
                     requiresLogin:true
                 }
             })
-            .state('log', {
+            .state('evetTimeLine', {
                 url:'/log',
                 controller:'DashboardLogController as vm',
                 templateUrl:'app/components/dashboard/dashboard-log.html',
@@ -89,7 +89,7 @@
                     requiresLogin:true
                 }
             })
-            .state('mydashboard', {
+            .state('dashbd', {
                 url:'/dashboard',
                 controller:'MyDashCtrl as vm',
                 templateUrl:'app/components/dashboard/dashboard-main.html',
@@ -98,7 +98,7 @@
                     requiresLogin:true
                 }
             })
-            .state('general', {
+            .state('manage', {
                 url:'/manage/general',
                 controller:'GeneralController as vm',
                 templateUrl:'app/components/manage/general.html',
@@ -106,7 +106,7 @@
                     requiresLogin:true
                 }
             })
-            .state('updHist', {
+            .state('updHst', {
                 url:'/manage/history',
                 controller:'HistoryController as vm',
                 templateUrl:'app/components/manage/history.html',

@@ -363,9 +363,8 @@ body div.totalWrap{height:100%;}
 .header .webNav .topNav div ul {float:right;list-style:none;display:flex;height:50px;}
 .header .webNav .topNav div ul li {cursor:pointer;list-style:none;vertical-align:top;line-height:50px;text-align:center;font-size:14px;color:#454545;line-height:50px;width:50px;background-color:transparent;border:none;border-left:1px solid #eaeaea;}
 .header .webNav .topNav div ul li:hover {background-color:#f1f1f1;}
-.header .webNav .topNav .subTitle, .dashbdTitle{font-weight:bold;font-size:15px;color:#2d2d2d;}
-.header .webNav .topNav .subTitle{width:auto;}
-.header .webNav .topNav .subTitle:before{position:relative;top:4px;left:1px;margin-right:9px;content:"";vertical-align:text-top;display:inline-block;width:5px;height:15px;border-radius:3px;background-color:#2d2d2d;}
+.header .webNav .topNav .dashbdTitle{font-weight:bold;font-size:15px;color:#2d2d2d;}
+.header .webNav .topNav .dashbdTitle:before{position:relative;top:4px;left:1px;margin-right:9px;content:"";vertical-align:text-top;display:inline-block;width:5px;height:15px;border-radius:3px;background-color:#2d2d2d;}
 .header .webNav .leftNav{width:50px;height:100%;}
 .header .webNav .leftNav .colIco-group{padding-top:10px;}
 .header .webNav .leftNav .colIco{height:50px;margin:15px 0;text-align:center;cursor:pointer;}

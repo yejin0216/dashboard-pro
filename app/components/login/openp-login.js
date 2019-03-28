@@ -58,7 +58,7 @@ function LoginController($scope, authDataService, $rootScope, $state, jwtHelper,
                                             sessionStorage.setItem('mbr_seq', decodedToken.mbr_seq);
                                             sessionStorage.setItem('svc_tgt_seq', decodedToken.svc_tgt_seq);
                                             sessionStorage.setItem('rmnd_dt', response.data.data.rmndDt);
-                                            $state.go('mydashboard'); //main으로 이동
+                                            $state.go('dashbd'); //main으로 이동
                                         }
                                     }
                                 }
@@ -129,7 +129,7 @@ function LoginController($scope, authDataService, $rootScope, $state, jwtHelper,
 
         //Access Token 확인
         if ( $rootScope.access_token ) {
-            $state.go('mydashboard');
+            $state.go('dashbd');
         } else {
             $rootScope.access_token = null;
             sessionStorage.clear();

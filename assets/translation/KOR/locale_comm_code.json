@@ -36,6 +36,8 @@
    "manage":"관리",
    "guide":"가이드",
    "userGuide":"이용 가이드",
+   "korUserGuide":"이용 가이드",
+   "engUserGuide":"이용 가이드",
    "devLog":"디바이스 로그",
    "timeLine":"타임라인",
    "evetTimeLine":"이벤트 타임라인",
@@ -106,7 +108,9 @@
    "svc_dashbd":"Dashboard Pro",
    "svc_dashbd2":"Dashboard Pro2",
    "svc_mng":"매니저",
-   "last5":"최근5건"
+   "last5":"최근5건",
+   "updHst":"업데이트 이력",
+   "faq":"FAQ"
   },
   "addWdgt" : {
     "comp" : {

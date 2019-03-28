@@ -37,7 +37,7 @@ function DashboardListController($rootScope, $scope, myDashService, messageBox, 
      */
     vm.move = function(sequence) {
         $rootScope.$emit('moveDashbd', {sequence:sequence});
-        //$state.go('mydashboard', {sequence:sequence}); //대시보드로 이동
+        //$state.go('dashbd', {sequence:sequence}); //대시보드로 이동
     }
 
     /**

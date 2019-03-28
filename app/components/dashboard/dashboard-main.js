@@ -3,8 +3,8 @@ angular.module('app.mydash', ['kt.ui'])
     .controller('MyDashCtrl',
         function($scope, $modal, $log, $rootScope, $state, $stateParams, $http, $translate, $timeout, $interval, adminConstant, myDashService, messageBox, stringUtil) {
 
-            var sbjtSeq = $stateParams.sequence; //선택한 테마일련번호
-            if ( sbjtSeq == 0 ) return; //테마일련번호가 0일 경우 리턴
+            var sbjtSeq = $stateParams.sequence || $rootScope.selectedSbjtSeq; //선택한 테마일련번호
+            if ( sbjtSeq == 0  ) return; //테마일련번호가 0일 경우 리턴
 
             var vm = this;
             var flux; //$interval을 위한 변수
@@ -391,7 +391,7 @@ angular.module('app.mydash', ['kt.ui'])
 
             //이용 가이드 보기
             vm.userGuide = function() {
-                $rootScope.navigationName = $translate.instant('comm.dashbdList');
+                $rootScope.navName = $translate.instant('comm.dashbdList');
                 var page = (localStorage.getItem('langCd')||'KOR').toLowerCase()+'UserGuide';
                 $state.go(page);
             };

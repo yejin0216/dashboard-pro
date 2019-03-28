@@ -17,7 +17,7 @@ function pwdPolicyController($scope, authDataService, $rootScope, $state, $trans
         sessionStorage.setItem('mbr_seq', decodedToken.mbr_seq);
         sessionStorage.setItem('svc_tgt_seq', decodedToken.svc_tgt_seq);
         sessionStorage.setItem('access_token', token);
-        $state.go('mydashboard'); //main으로 이동
+        $state.go('dashbd'); //main으로 이동
     }
 
     //확인
