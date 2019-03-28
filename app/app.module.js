@@ -17,13 +17,13 @@ angular
     .run(function($rootScope, $state, jwtHelper, authDataService, $modalStack, $location, $window) {
 
         $rootScope.$on('$stateChangeStart', function(e, toState, toParams) {
-            if(sessionStorage.getItem('dash_access_token') && !jwtHelper.isTokenExpired(sessionStorage.getItem('dash_access_token'))) {
-                $rootScope.access_token = sessionStorage.getItem('dash_access_token');
+            if(sessionStorage.getItem('access_token') && !jwtHelper.isTokenExpired(sessionStorage.getItem('access_token'))) {
+                $rootScope.access_token = sessionStorage.getItem('access_token');
             } else {
                 $rootScope.access_token = null;
             }
             if (toState.data && toState.data.requiresLogin ) {
-                if (!sessionStorage.getItem('dash_access_token') || jwtHelper.isTokenExpired(sessionStorage.getItem('dash_access_token'))) {
+                if (!sessionStorage.getItem('access_token') || jwtHelper.isTokenExpired(sessionStorage.getItem('access_token'))) {
                     e.preventDefault();
                     $rootScope.access_token = null;
                     sessionStorage.clear();

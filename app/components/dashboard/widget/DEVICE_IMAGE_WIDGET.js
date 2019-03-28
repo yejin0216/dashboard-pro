@@ -105,8 +105,8 @@ function deviceImageWdgtSetCtrl($translate, $scope, $modalInstance, $rootScope, 
         var param = {'wdgtNm':$scope.wdgtNm
             , 'wdgtSubnm':$scope.wdgtSubnm
             , 'wdgtSeq':wdgtInfo.wdgtSeq
-            , 'spotDevSeqs':[{'svcTgtSeq':sessionStorage.getItem('dash_svc_tgt_seq'),'spotDevSeq':selectedDev}]
-            , 'mbrId':sessionStorage.getItem('dash_mbr_id')};
+            , 'spotDevSeqs':[{'svcTgtSeq':sessionStorage.getItem('svc_tgt_seq'),'spotDevSeq':selectedDev}]
+            , 'mbrId':sessionStorage.getItem('mbr_id')};
         myDashService.insertDevWdgtBySbjt(param)
             .success(function(resp){
                 // 위젯설정 broadcast

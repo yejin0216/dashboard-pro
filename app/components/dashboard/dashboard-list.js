@@ -68,8 +68,8 @@ function DashboardListController($rootScope, $scope, myDashService, messageBox, 
             var param = {'sbjtSeq':vm.selectedSbjtSeq
                         , 'sbjtNm':vm.sbjtNm
                         , 'sbjtCtgTypeCd':vm.sbjtCtgTypeCd
-                        , 'mbrId':sessionStorage.getItem('dash_mbr_id')
-                        , 'mbrSeq':sessionStorage.getItem('dash_mbr_seq')};
+                        , 'mbrId':sessionStorage.getItem('mbr_id')
+                        , 'mbrSeq':sessionStorage.getItem('mbr_seq')};
             myDashService.updateSbjtItem(param)
                 .success(function (resp) {
                     if (resp.responseCode === '200') {
@@ -152,8 +152,8 @@ function DashboardListController($rootScope, $scope, myDashService, messageBox, 
         //신규테마 생성
         var param = {'dashbdSeq':$rootScope.dashbdSeq
                    , 'sbjtNm':vm.sbjtNm
-                   , 'mbrId':sessionStorage.getItem('dash_mbr_id')
-                   , 'mbrSeq':sessionStorage.getItem('dash_mbr_seq')};
+                   , 'mbrId':sessionStorage.getItem('mbr_id')
+                   , 'mbrSeq':sessionStorage.getItem('mbr_seq')};
         myDashService.insertSbjtItem(param)
             .success(function (resp) {
                 if (resp.responseCode === '200') {

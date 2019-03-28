@@ -38,7 +38,7 @@ function commLogDateCtrl($translate, $modalInstance, $scope, wdgtInfo, myDashSer
                     //parameter
                     logCount = null;
                     var param = {'wdgtSeq':wdgtSeq
-                                ,'mbrId':sessionStorage.getItem('dash_mbr_id')
+                                ,'mbrId':sessionStorage.getItem('mbr_id')
                                 ,'devSnsrList':[$scope.logInfo]};
                     //디바이스,센서 위젯 수정
                     myDashService.updateDevSnsrWdgtBySbjt(param)

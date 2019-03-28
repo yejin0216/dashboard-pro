@@ -109,7 +109,7 @@ function deviceTableWdgtSetCtrl($translate, $scope, $modalInstance, $rootScope, 
         var devList = [];
         devs.forEach(function(v, i){
             if ( $scope.selectedDev[v] == 'Y' ) {
-                devList.push({'svcTgtSeq':sessionStorage.getItem('dash_svc_tgt_seq'), 'spotDevSeq':v});
+                devList.push({'svcTgtSeq':sessionStorage.getItem('svc_tgt_seq'), 'spotDevSeq':v});
             }
         });
 
@@ -125,7 +125,7 @@ function deviceTableWdgtSetCtrl($translate, $scope, $modalInstance, $rootScope, 
                    , 'wdgtSubnm':$scope.wdgtSubnm
                    , 'wdgtSeq':wdgtInfo.wdgtSeq
                    , 'spotDevSeqs':devList
-                   , 'mbrId':sessionStorage.getItem('dash_mbr_id')};
+                   , 'mbrId':sessionStorage.getItem('mbr_id')};
         myDashService.insertDevWdgtBySbjt(param)
             .success(function(resp){
                 // 위젯설정 broadcast

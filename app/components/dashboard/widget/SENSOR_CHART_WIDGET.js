@@ -414,7 +414,7 @@ function sensorChartWdgtSetCtrl($translate, $rootScope, $scope, $modalInstance, 
             , 'wdgtSubnm':$scope.wdgtSubnm
             , 'wdgtSeq':wdgtSeq
             , 'sensors':$scope.selectedList
-            , 'mbrId':sessionStorage.getItem('dash_mbr_id')};
+            , 'mbrId':sessionStorage.getItem('mbr_id')};
         myDashService.insertDevSnsrWdgtBySbjt(param)
             .success(function(resp){
                 // 위젯설정 broadcast

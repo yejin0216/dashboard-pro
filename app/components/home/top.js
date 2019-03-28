@@ -40,11 +40,11 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
             $('.header').removeClass('noDisplay').addClass('showDisplay');
 
             //정보보안단 권고사항, 사용자계정 Masking 처리
-            var tempUserNm = sessionStorage.getItem('dash_mbr_id');
+            var tempUserNm = sessionStorage.getItem('mbr_id');
             vm.userNm = tempUserNm.substr(0,tempUserNm.length-1);
             tempUserNm = null;
 
-            vm.rmndDt = sessionStorage.getItem('dash_rmnd_dt');//Trial 사용자 잔여일 체크
+            vm.rmndDt = sessionStorage.getItem('rmnd_dt');//Trial 사용자 잔여일 체크
 
             getDashbdList(); //대시보드 목록 조회
             //makePushSession(); //PC일 경우, Push 연결
@@ -54,8 +54,8 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
     //Push Session 연결
     function makePushSession() {
         if ( !pushCnct ) {
-            var svcTgtSeq = sessionStorage.getItem('dash_svc_tgt_seq');
-            var mbrSeq = sessionStorage.getItem('dash_mbr_seq');
+            var svcTgtSeq = sessionStorage.getItem('svc_tgt_seq');
+            var mbrSeq = sessionStorage.getItem('mbr_seq');
             var scpt = [{'svcTgtSeq':svcTgtSeq,'msgTypeCd':'01'}
                        ,{'svcTgtSeq':svcTgtSeq,'msgTypeCd':'03'}];
             pushCnct =
@@ -65,7 +65,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
             pushCnct.setUsername("testuser6");
             pushCnct.setPassword("testuser6!");
             pushCnct.setKeepAlive(30000);
-            pushCnct.setAccessToken(sessionStorage.getItem('dash_access_token'));//엑세스토큰
+            pushCnct.setAccessToken(sessionStorage.getItem('access_token'));//엑세스토큰
             pushCnct.connect(onPushCnctCallback); //STOMP 연결
         }
     }
@@ -75,7 +75,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
         pushCnct.subscribe(function (resp) {
             var pData = JSON.parse(resp.body);
             var message = pData.message;
-            console.log(message)
+
             if (pData.type === '03'){ //이벤트
                 $scope.pushMsgList.push({'evetNm':message.evetNm,'outbDtm':message.outbDtm});
                 if ($scope.pushMsgList.length>5) {
@@ -130,7 +130,7 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
         vm.changeNav('dashbd'); //네비게이션 변경
 
         //push 연결
-        if ( vm.selected.cnctTypeCd == 'PS' && !pushcnct ) { //진입 후 처음으로 푸시 연결
+        if ( vm.selected.cnctTypeCd == 'PS' && !pushCnct ) { //진입 후 처음으로 푸시 연결
             makePushSession();
         } else {
             if ( pushCnct ) {
@@ -282,14 +282,17 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
                         vm.selected.cnctTypeCd = vm.selectCnctTypeCd;
                         // vm.selected.cnctCycl = vm.selectPollingPerd;
 
-                        if ( vm.selectCnctTypeCd != 'PS' && pushCnct ) { //push 연결 삭제
-                            pushCnct.disconnect(function(){
-                                console.log('push disconnect');
-                                pushCnct = undefined;
-                            });
-                        } else { //push 연결
+                        if ( vm.selectCnctTypeCd == 'PS' && !pushCnct ) { //진입 후 처음으로 푸시 연결
                             makePushSession();
+                        } else {
+                            if ( pushCnct ) {
+                                pushCnct.disconnect(function(){
+                                    console.log('push disconnect');
+                                    pushCnct = undefined;
+                                });
+                            }
                         }
+
                         messageBox.open($translate.instant('comm.eMsgPrpRefresh'), {type:"info"});
                         // $state.reload(); //페이지 새로고침, Dom Node가 너무 올라감! 사용 비추천!
                         // location.reload(); //페이지 새로고침

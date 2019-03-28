@@ -13,10 +13,10 @@ function pwdPolicyController($scope, authDataService, $rootScope, $state, $trans
     vm.nxtChg = function() {
         var token = sessionStorage.getItem('temp_access_token');
         var decodedToken = jwtHelper.decodeToken(token);
-        sessionStorage.setItem('dash_mbr_id', decodedToken.mbr_id);
-        sessionStorage.setItem('dash_mbr_seq', decodedToken.mbr_seq);
-        sessionStorage.setItem('dash_svc_tgt_seq', decodedToken.svc_tgt_seq);
-        sessionStorage.setItem('dash_access_token', token);
+        sessionStorage.setItem('mbr_id', decodedToken.mbr_id);
+        sessionStorage.setItem('mbr_seq', decodedToken.mbr_seq);
+        sessionStorage.setItem('svc_tgt_seq', decodedToken.svc_tgt_seq);
+        sessionStorage.setItem('access_token', token);
         $state.go('mydashboard'); //main으로 이동
     }
 

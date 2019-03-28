@@ -24,7 +24,7 @@ angular.module('app.manage', ['kt.ui'])
                     });
 
                 //정보보안단 권고사항, 사용자계정 Masking 처리
-                var tempUserNm = sessionStorage.getItem('dash_mbr_id');
+                var tempUserNm = sessionStorage.getItem('mbr_id');
                 vm.userNm = tempUserNm.substr(0,tempUserNm.length-1)+'*';
                 tempUserNm = null; //사용자 아이디
 
@@ -78,8 +78,8 @@ angular.module('app.manage', ['kt.ui'])
                     'profileImgFilePath':imageUrl,
                     'profileImgFileNm':imageName,
                     'dashbdSeq':$rootScope.dashbdSeq,
-                    'mbrId':sessionStorage.getItem("dash_mbr_id"),
-                    'mbrSeq':sessionStorage.getItem("dash_mbr_seq")
+                    'mbrId':sessionStorage.getItem('mbr_id'),
+                    'mbrSeq':sessionStorage.getItem('mbr_seq')
                 };
                 myDashService.updateDashbdImg(param)
                     .success(function(resp) {

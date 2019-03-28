@@ -300,7 +300,7 @@ function sensorLogWdgtSetCtrl($translate, $rootScope, $scope, $modalInstance, my
             , 'wdgtSubnm':$scope.wdgtSubnm
             , 'wdgtSeq':wdgtInfo.wdgtSeq
             , 'sensors':$scope.selectedList
-            , 'mbrId':sessionStorage.getItem('dash_mbr_id')
+            , 'mbrId':sessionStorage.getItem('mbr_id')
         };
         myDashService.insertDevSnsrWdgtBySbjt(param)
             .success(function (resp) {

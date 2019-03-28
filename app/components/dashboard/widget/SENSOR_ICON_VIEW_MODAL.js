@@ -21,7 +21,7 @@ function sensorIconViewModalCtrl($translate, $scope, $modalInstance, $rootScope,
         }
 
         var param = {'wdgtSeq':$scope.snsrIconList.wdgtSeq
-                    ,'mbrId':sessionStorage.getItem('dash_mbr_id')
+                    ,'mbrId':sessionStorage.getItem('mbr_id')
                     ,'svcTgtSeq':$scope.snsrIconList.svcTgtSeq
                     ,'spotDevSeq':$scope.snsrIconList.spotDevSeq
                     ,'snsrCd':$scope.snsrIconList.snsrCd

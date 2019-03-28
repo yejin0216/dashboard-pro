@@ -174,7 +174,7 @@ function sensorImageWdgtSetCtrl($translatePartialLoader, $translate, $rootScope,
                    , 'wdgtSubnm':$scope.wdgtSubnm
                    , 'wdgtSeq':wdgtInfo.wdgtSeq
                    , 'sensors':$scope.selectedList
-                   , 'mbrId':sessionStorage.getItem('dash_mbr_id')};
+                   , 'mbrId':sessionStorage.getItem('mbr_id')};
         myDashService.insertDevSnsrWdgtBySbjt(param)
             .success(function(resp){
                 // 위젯설정 broadcast

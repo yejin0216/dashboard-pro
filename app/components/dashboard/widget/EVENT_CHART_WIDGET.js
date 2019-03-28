@@ -28,7 +28,7 @@ angular.module('app.mydash')
                                 var resp = resp.data
                                 var toDt = moment().format('x');
                                 var fromDt = moment(moment().format('YYYY-MM-DD 00:00')).format('x'); //금일 0시 0분부터
-                                var param = '&svcTgtSeq='+sessionStorage.getItem('dash_svc_tgt_seq')+'&from='+fromDt+'&to='+toDt;
+                                var param = '&svcTgtSeq='+sessionStorage.getItem('svc_tgt_seq')+'&from='+fromDt+'&to='+toDt;
                                 myDashService.getEventCount(param)
                                     .success(function(list) {
                                         if (list.responseCode === 'OK') {
@@ -164,7 +164,7 @@ function eventChartWdgtSetCtrl($translate, $scope, $rootScope, $modalInstance, m
                     ,'wdgtSubnm':$scope.wdgtSubnm
                     ,'wdgtSeq':wdgtInfo.wdgtSeq
                     ,'events':$scope.selectedList
-                    ,'mbrId':sessionStorage.getItem('dash_mbr_id')};
+                    ,'mbrId':sessionStorage.getItem('mbr_id')};
         myDashService.insertEventWdgtBySbjt(param)
             .success(function(resp){
                 // 위젯설정 broadcast
