@@ -41,7 +41,10 @@ angular.module('app.mydash', ['kt.ui'])
                     enabled: true,
                     handles: ['se'],
                     stop: function(event, $element, widget) {
-                        myDashService.updateWdgtSettingBySbjt({wdgtList:$scope.widgetlist});//변경사항 저장
+                        myDashService.updateWdgtSettingBySbjt({wdgtList:$scope.widgetlist})
+                            .success(function(resp) {
+                                vm.widgetarea = resp.data; //리사이즈 후 변경된 위젯 사이즈 반영
+                            });//변경사항 저장
                         $scope.$broadcast(widget.wdgtSeq+'.changeSettings', {wdgtSize:true});
                     }
                 }
