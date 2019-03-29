@@ -164,15 +164,13 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
                 $scope.invalidMessage2 = $translate.instant('wdgt.eMsgMustValue');
                 validate = false;
             }
-            if ( !vm.capaValue ) {
+            /*if ( !vm.capaValue ) {
                 $scope.invalidMessage3 = $translate.instant('wdgt.eMsgMustValue');
                 validate = false;
-            }/* else {
+            } else {
                 $scope.invalidMessage3 = $translate.instant('wdgt.eMsgInvalidDataType', {value:'JSON'});
             }*/
             if ( !validate ) return;
-
-            console.log(vm.capaValue)
 
             for ( var i=0, count=tempSnsr.length; i<count; i++ ) {
                 if ( tempSnsr[i].code === vm.cntrlSnsr.code ) {
