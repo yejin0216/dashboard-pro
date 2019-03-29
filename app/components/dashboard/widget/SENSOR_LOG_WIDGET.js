@@ -4,7 +4,7 @@ angular.module('app.mydash')
     .directive('logChart', function (myDashService, $modal) {
         return {
             restrict:'A',
-            template:'<div class="logCalendar" ng-click="setDate()"><i class="far fa-calendar-alt"></i></div><div class="fullSizeArea"></div>',
+            template:'<div class="logCalendar" ng-show="showCalendar" ng-click="setDate()"><i class="far fa-calendar-alt"></i></div><div class="fullSizeArea"></div>',
             scope:{
                 widget:'='
             },
@@ -12,6 +12,8 @@ angular.module('app.mydash')
                 var element = element[0];
                 var wdgtSeq = scope.widget.wdgtSeq;
                 var chart, savedInfo;
+
+                scope.showCalendar = false; //캘린더 버튼 제어
 
                 //chart allocation
                 function createChart() {
@@ -139,6 +141,7 @@ angular.module('app.mydash')
                 //변경한 정보 반영
                 scope.$on(wdgtSeq+".changeSettings", function(event, arg){
                     if ( arg.refresh ) { //디바이스,센서 변경
+                        scope.showCalendar = true;
                         if ( chart.series[0] ) {
                             chart.series[0].remove();
                         }
