@@ -156,6 +156,7 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
         } else if ( vm.currentModal === 'setCapa' ) {
             //유효성 검증
             var validate = true;
+            var capaValue = vm.capaValue;
             if ( !vm.cntrlSnsr ) {
                 $scope.invalidMessage1 = $translate.instant('wdgt.eMsgMustValue');
                 validate = false;
@@ -164,18 +165,29 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
                 $scope.invalidMessage2 = $translate.instant('wdgt.eMsgMustValue');
                 validate = false;
             }
-            /*if ( !vm.capaValue ) {
-                $scope.invalidMessage3 = $translate.instant('wdgt.eMsgMustValue');
-                validate = false;
-            } else {
-                $scope.invalidMessage3 = $translate.instant('wdgt.eMsgInvalidDataType', {value:'JSON'});
-            }*/
+            if ( vm.capaBySnsr === 'TEXT' ) {
+                capaValue = '[]';
+            }
+            if ( capaValue ) {
+                //$scope.invalidMessage3 = $translate.instant('wdgt.eMsgMustValue');
+                //validate = false;
+                //capability value list가 json 형식이 아닐 경우
+                try {
+                    capaValue = JSON.parse(capaValue); //string to json
+                } catch(error) {
+                    if ( error instanceof SyntaxError) {
+                        $scope.invalidMessage3 = $translate.instant('wdgt.eMsgInvalidDataType', {value:'JSON'});
+                        validate = false;
+                    }
+                }
+            }
+
             if ( !validate ) return;
 
             for ( var i=0, count=tempSnsr.length; i<count; i++ ) {
                 if ( tempSnsr[i].code === vm.cntrlSnsr.code ) {
                     selectedDevModel.sensingTags[i].uiType = vm.capaBySnsr; //ui type
-                    selectedDevModel.sensingTags[i].values = JSON.parse(vm.capaValue); //values
+                    selectedDevModel.sensingTags[i].values = capaValue; //values
                 }
             }
         }
