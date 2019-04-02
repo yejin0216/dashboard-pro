@@ -19,7 +19,7 @@
                     <a class="btn large btn-black h30" ng-click="vm.find('0001')" tabindex="3">{{"comm.search" | translate}}</a>
                 </div>
             </div>
-            <div class="loginInfo" ng-if="vm.step==='reslt'">
+            <div class="loginInfo" ng-if="vm.step==='reslt'"><!--아이디 찾기 결과-->
                 <div class="welcomeMessage"><h2>{{"comm.findIdReslt" | translate}}</h2></div>
                 <div class="findReslt" ng-if="vm.findIdReslt" ng-bind-html="vm.findIdReslt"></div><!--검색결과-->
                 <div>
@@ -27,9 +27,24 @@
                     <a class="btn middle btn-black h30" ui-sref="auth.login" tabindex="2">{{"comm.signIn" | translate}}</a>
                 </div>
             </div>
-            <div class="loginInfo"ng-if="vm.step==='fail'">
+            <div class="loginInfo" ng-if="vm.step==='pwdReslt'"><!--비밀번호 찾기 결과 -->
+                <div class="welcomeMessage"><h2>{{"comm.findPwdReslt" | translate}}</h2></div>
+                <div class="findReslt">{{"comm.eMsgfindPwdReslt" | translate}}</div><!--검색결과-->
+                <div>
+                    <a class="btn middle btn-gray h30" ui-sref="auth.findPwd" tabindex="1">{{"comm.findPwd" | translate}}</a>
+                    <a class="btn middle btn-black h30" ui-sref="auth.login" tabindex="2">{{"comm.signIn" | translate}}</a>
+                </div>
+            </div>
+            <div class="loginInfo"ng-if="vm.step==='fail'"><!--아이디 찾기 실패-->
                 <div class="welcomeMessage"><h2>{{"comm.findIdReslt" | translate}}</h2></div>
                 <div class="findReslt" ng-if="vm.findIdReslt" ng-bind-html="vm.findIdReslt"></div><!--검색결과-->
+                <div>
+                    <a class="btn large btn-gray h30" ng-click="vm.hstBack()" tabindex="1">{{"comm.hstBack" | translate}}</a>
+                </div>
+            </div>
+            <div class="loginInfo"ng-if="vm.step==='pwdFail'"><!--비밀번호 찾기 실패-->
+                <div class="welcomeMessage"><h2>{{"comm.findPwdReslt" | translate}}</h2></div>
+                <div class="findReslt" ng-if="vm.findPwdReslt" ng-bind-html="vm.findPwdReslt"></div><!--검색결과-->
                 <div>
                     <a class="btn large btn-gray h30" ng-click="vm.hstBack()" tabindex="1">{{"comm.hstBack" | translate}}</a>
                 </div>

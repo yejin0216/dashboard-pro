@@ -78,14 +78,14 @@ function IdentifyController($scope, authDataService, $rootScope, $state, jwtHelp
                             param = {mbrId:vm.userId, email:vm.userEmailAdr, langCd:localStorage.getItem('langCd')};
                             authDataService.updateMbrRanPwd(param)
                                 .success(function(resp) {
-                                    vm.step = 'reslt';
+                                    vm.step = 'pwdReslt';
                                 })
                                 .error(function (resp) {
                                     console.log("API Service Error : " + resp.status + " " + resp.error);
                                 });
                         } else { //회원정보가 없을 경우
-                            vm.step = 'fail';
-                            vm.findIdReslt = $translate.instant('comm.eMsgNotExistMbrInfo');
+                            vm.step = 'pwdFail';
+                            vm.findPwdReslt = $translate.instant('comm.eMsgNotExistMbrInfo');
                             vm.beforePageCode = '0002';
                         }
                     }

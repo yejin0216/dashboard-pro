@@ -39,7 +39,8 @@
     "eMsgSumryMsg09":"<i class='fas fa-book-open'></i>A set that can manage dashboards.<br/><br/><ul><li><u>Bookmark:</u> Dashboard Favorites list</li><li><u>My Devices:</u> Device list registered by user</li><li><u>Dashboard:</u> List of users' dashboards</li><li><u>Event Timeline:</u> View log of user registered event</li><li><u>User Guide:</u> Guide to using dashboards</li><li><u>Management:</u> User information, update history, FAQ</li></ul>",
     "eMsgSumryMsg10":"You can see announcements on your dashboard.",
     "eMsgSumryMsg11":"You can sign out of the dashboard.",
-    "eMsgSumryMsg12":"Refresh the dashboard."
+    "eMsgSumryMsg12":"Refresh the dashboard.",
+    "eMsgfindPwdReslt":"You have successfully emailed the changed password."
   },
   "dash": {
     "eMsgSelectBmark":"Please select a dashboard to add your favorites to.",

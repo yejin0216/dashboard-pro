@@ -133,19 +133,18 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
         $rootScope.selectedSbjtSeq = sequence;
         $rootScope.sbjtNm = ' / ' + vm.selected.sbjtNm; //네비게이션에 표기
 
+        $state.go('dashbd', {sequence:$rootScope.selectedSbjtSeq});//테마판 호출
+
         //데이터 연결 설정
         if ( vm.selected.cnctTypeCd == 'PS' && !pushCnct ) {
             makePushSession();
-        } else {
-            if ( pushCnct ) {
-                pushCnct.disconnect(function(){
-                    console.log('push disconnect');
-                    pushCnct = undefined;
-                });
-            }
+        } else if ( vm.selected.cnctTypeCd != 'PS' && pushCnct ) {
+            pushCnct.disconnect(function(){
+                console.log('push disconnect');
+                pushCnct = undefined;
+            });
         }
 
-        $state.go('dashbd', {sequence:$rootScope.selectedSbjtSeq});//테마판 호출
         return list;
     }
 
@@ -288,13 +287,11 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
 
                         if ( vm.selectCnctTypeCd == 'PS' && !pushCnct ) { //진입 후 처음으로 푸시 연결
                             makePushSession();
-                        } else {
-                            if ( pushCnct ) {
-                                pushCnct.disconnect(function(){
-                                    console.log('push disconnect');
-                                    pushCnct = undefined;
-                                });
-                            }
+                        } else if ( vm.selected.cnctTypeCd != 'PS' && pushCnct ) {
+                            pushCnct.disconnect(function(){
+                                console.log('push disconnect');
+                                pushCnct = undefined;
+                            });
                         }
 
                         messageBox.open($translate.instant('comm.eMsgPrpRefresh'), {type:"info"});
