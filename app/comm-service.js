@@ -108,44 +108,64 @@ angular.module('app.commSvc', [])
             replace: true,
             template: '',
             link: function(scope, element) {
-                var selectedDataList = scope.list;
-                var savedDev = selectedDataList.filter(function(data){
-                                    return data.svcTgtSeq == scope.dev.svcTgtSeq
-                                        && data.spotDevSeq == scope.dev.spotDevSeq
-                                        && data.snsrCd == scope.dev.snsrCd })[0]; //저장된 정보
+                //var selectedDataList = scope.list; //전체목록
+                var savedDev = scope.dev;  //선택정보
+                var template = '';
 
-                if ( !savedDev ) return;//저장된 디바이스 정보 없을 경우
-                if ( savedDev.values ) {//Capability value list
-                    scope.valList = JSON.parse(JSON.stringify(savedDev.values));
-                    scope.valList.sort(function (a, b) { // 정렬
-                        return a.data < b.data ? -1 : a.data > b.data ? 1 : 0;
-                    });
-                }
+                setCapabilityInfo();
 
-                scope.devInfo = savedDev;
-                scope.ctrlAmdDtt = savedDev.amdDtt||''; //최근 제어일시
-                if ( savedDev.uiType === 'TEXT' ) { //대부분 TEXT이기 때문에 제일 앞에 둔다.
-                    scope.ctrlText = scope.devInfo.lastVal? scope.devInfo.lastVal.replace(/"/g,""):'';
-                    var template  = '<div class="capaUi"><textarea rows="2" cols="16" ng-model="ctrlText"></textarea><button type="button" class="btn btn-normal btn-ctrl" ng-click="sendCtr(devInfo, ctrlText, devInfo.lastVal)">SET</button></div>';
-                        template += '<div class="amdDtt">{{ctrlAmdDtt}}</div>';
-                } else if ( savedDev.uiType === 'COMBO' ) {
-                    var template  = '<div class="capaUi"><select class="form-control" ng-model="selectedVal" ng-options="val as val.name for val in valList"><option value="">{{"comm.choise" | translate}}</option></select><button type="button" class="btn btn-normal btn-ctrl" ng-click="sendCtr(devInfo, selectedVal.data, devInfo.lastVal)">SET</button></div>';
-                        template += '<div class="amdDtt">{{ctrlAmdDtt}}</div>';
-                    if (savedDev.lastVal) {// 마지막 제어값이 있는 경우
-                        var index = 0;
-                        angular.forEach(scope.valList, function(val, idx){
-                            if(val.data == savedDev.lastVal){
-                                index = idx;
-                            }
+                // var savedDev = selectedDataList.filter(function(data){
+                //                     return data.svcTgtSeq == seelctedDataItem.svcTgtSeq
+                //                         && data.spotDevSeq == seelctedDataItem.spotDevSeq
+                //                         && data.snsrCd == seelctedDataItem.snsrCd })[0]; //저장된 정보
+
+                //변경된 위젯 설정 적용
+                scope.$on(savedDev.wdgtSeq+".changeCapaUISettings", function(event, arg){
+                    savedDev = arg.data;
+                    setCapabilityInfo();
+                });
+
+                //Capability 그리기
+                function setCapabilityInfo() {
+                    if ( !savedDev ) return;//저장된 디바이스 정보 없을 경우
+                    if ( savedDev.values ) {//Capability value list
+                        scope.valList = JSON.parse(JSON.stringify(savedDev.values));
+                        scope.valList.sort(function (a, b) { // 정렬
+                            return a.data < b.data ? -1 : a.data > b.data ? 1 : 0;
                         });
-                        scope.selectedVal = scope.valList[index];
-                    } else {
-                        scope.selectedVal = scope.valList[0];
                     }
-                } else if ( savedDev.uiType === 'BUTTON' ) {
-                    scope.ctrlText = scope.devInfo.lastVal||'';
-                    var template  = '<div class="capaUi"><p class="btn-capa h30" ng-class="{on:ctrlText==val.data}" ng-repeat="val in valList" ng-click="sendCtr(devInfo, val.data, devInfo.lastVal)">{{val.name}}</p></div>';
+
+                    template = '';
+
+                    scope.devInfo = savedDev;
+                    scope.ctrlAmdDtt = savedDev.amdDtt||''; //최근 제어일시
+
+                    if ( savedDev.uiType == 'TEXT' ) { //대부분 TEXT이기 때문에 제일 앞에 둔다.
+                        scope.ctrlText = scope.devInfo.lastVal? scope.devInfo.lastVal.replace(/"/g,""):'';
+                        scope.devInfo.lastVal = scope.devInfo.lastVal ? scope.devInfo.lastVal.replace(/"/g,""):'';
+                        template  = '<div class="capaUi"><textarea rows="2" cols="16" ng-model="ctrlText"></textarea><button type="button" class="btn btn-normal btn-ctrl" ng-click="sendCtr(devInfo, ctrlText, devInfo.lastVal)">SET</button></div>';
                         template += '<div class="amdDtt">{{ctrlAmdDtt}}</div>';
+                    } else if ( savedDev.uiType == 'COMBO' ) {
+                        template  = '<div class="capaUi"><select class="form-control" ng-model="selectedVal" ng-options="val as val.name for val in valList"><option value="">{{"comm.choise" | translate}}</option></select><button type="button" class="btn btn-normal btn-ctrl" ng-click="sendCtr(devInfo, selectedVal.data, ctrlText)">SET</button></div>';
+                        template += '<div class="amdDtt">{{ctrlAmdDtt}}</div>';
+                        if (savedDev.lastVal) {// 마지막 제어값이 있는 경우
+                            var index = 0;
+                            angular.forEach(scope.valList, function(val, idx){
+                                if(val.data == savedDev.lastVal){
+                                    index = idx;
+                                }
+                            });
+                            scope.selectedVal = scope.valList[index];
+                        } else {
+                            scope.selectedVal = scope.valList[0];
+                        }
+                    } else if ( savedDev.uiType == 'BUTTON' ) {
+                        scope.ctrlText = scope.devInfo.lastVal||'';
+                        template  = '<div class="capaUi"><p class="btn-capa h30" ng-class="{on:ctrlText==val.data}" ng-repeat="val in valList" ng-click="sendCtr(devInfo, val.data, ctrlText)">{{val.name}}</p></div>';
+                        template += '<div class="amdDtt">{{ctrlAmdDtt}}</div>';
+                    }
+                    element.append(template);
+                    element.html($compile(template)(scope));
                 }
 
                 // 제어버튼 클릭
@@ -167,6 +187,7 @@ angular.module('app.commSvc', [])
                     if ( (ctrlMsg).indexOf('"') !== -1 ) {
                         value = ctrlMsg.replace(/"/g,"");
                     }
+                    console.log(savedDev.snsrValType)
                     if (savedDev.snsrValType === '0000030') {
                         value = parseInt(value);
                     } else if (savedDev.snsrValType === '0000010') {
@@ -200,8 +221,6 @@ angular.module('app.commSvc', [])
                             });
                         });
                 }
-                element.append(template);
-                element.html($compile(template)(scope));
 
                 scope.$on('sendCapabilityCtr', function(event, arg){
                     if(scope.devInfo.svcTgtSeq == arg.ctrlDev.svcTgtSeq && scope.devInfo.spotDevSeq == arg.ctrlDev.spotDevSeq && scope.devInfo.snsrCd == arg.ctrlDev.snsrCd){
@@ -218,7 +237,7 @@ angular.module('app.commSvc', [])
                             angular.forEach(scope.valList, function (val, idx) {
                                 //var value = val.data.replace(/"/g, "");
                                 var value = val.data;
-                                if (value == compareVal) {j
+                                if (value == compareVal) {
                                     index = idx;
                                 }
                             })
@@ -226,9 +245,11 @@ angular.module('app.commSvc', [])
                         } else {
                             scope.selectedVal = scope.valList[0];
                         }
+                        scope.ctrlText = scope.selectedVal.data;
                     } else if (devInfo.uiType === 'TEXT') {
                         scope.ctrlText = compareVal.replace(/"/g, "");
-                    } else { //TEXT,BUTTON
+                        scope.devInfo.lastVal = scope.ctrlText;
+                    } else { //BUTTON
                         scope.ctrlText = compareVal;
                     }
                 }

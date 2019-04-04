@@ -42,6 +42,9 @@ function sensorImageWdgtCtrl($scope, $rootScope, $modal, myDashService) {
                         //capability를 위한 세팅
                         $scope.allDevList = resp.data;
                         $scope.allDevList[0].uiType = cpList[$scope.allDevList[0].uiType];
+                        $scope.allDevList[0].wdgtSeq = $scope.wdgtInfo.wdgtSeq;
+
+                        $rootScope.$broadcast(widget.wdgtSeq+'.changeCapaUISettings', {data:$scope.allDevList[0]});
                     } else {
                         $scope.content = '20'; //content type
                     }

@@ -19,7 +19,7 @@
         <div class="snsrNm" ng-if="devList.snsrNm">{{devList.snsrNm}}</div>
         <div class="lastVal">
             <img ng-if="devList.icon" ng-click="updateIcon(devList)" ng-src="{{devList.icon}}" height="25" width="25"/>
-            <capability-ui list="::allDevList" dev="::allDevList[0]"></capability-ui>
+            <capability-ui list="allDevList" dev="allDevList[0]"></capability-ui>
         </div>
         <!--<div class="amdDtt">{{devList.amdDtt}}</div>-->
     </long-content>
