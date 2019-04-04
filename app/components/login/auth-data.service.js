@@ -126,7 +126,7 @@ function authDataService($http, $q, adminConstant) {
      * @returns {string}
      */
     function setTokenInit() {
-        var msgKeyData = 'MjZiZWMxOGNiNjg0NGU2ZWJlYzYxYmVhNTZlOWIxZDExNDMyMjA2OTg4OTU0' + ':' + 'YzI4NTkxOWQxNjdmNDk1YzgyNTg4OWFiZTBiYTcxMGQxNDMyMjA2OTg4OTU0'; //openp
+        var msgKeyData = 'gqdmd4c8pwm1BqAJ' + ':' + 'q3cQl4JTMTPmFPzy';
         if (!window.btoa) window.btoa = $.base64.encode;
         if (!window.atob) window.atob = $.base64.decode;
         var msgKeyDataEncodes = window.btoa(msgKeyData);

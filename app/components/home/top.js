@@ -59,14 +59,11 @@ function TopController($rootScope, $state, $stateParams, $scope, $filter, $trans
             var mbrSeq = sessionStorage.getItem('mbr_seq');
             var scpt = [{'svcTgtSeq':svcTgtSeq,'msgTypeCd':'01'}
                        ,{'svcTgtSeq':svcTgtSeq,'msgTypeCd':'03'}];
-            pushCnct =
-            new PnsClient('https://iotmakers.kt.com/stomp', 'https://iotmakers.kt.com/pushapi/v1/sessions', mbrSeq, 'YjZjZGEyODk0OWQwNDFhMGE0MDI3MWVjZmVkNGQ5MTQxNDMxMjI5NTAyMTk4', scpt);
-            //new PnsClient('http://112.175.172.8:15674/stomp', 'http://112.175.172.8/pushapi/v1/sessions', mbrSeq, 'gqdmd4c8pwm1BqAJ', scpt);
-            //new PnsClient('http://112.175.172.106:15674/stomp', 'http://112.175.172.105:8080/pushapi/v1/sessions', mbrSeq, 'gqdmd4c8pwm1BqAJ', scpt);
-            pushCnct.setUsername("testuser6");
-            pushCnct.setPassword("testuser6!");
+            pushCnct = new PnsClient('https://bizservice.iotmakers.kt.com/stomp', 'https://bizservice.iotmakers.kt.com/pushapi/v1/sessions', mbrSeq, 'gqdmd4c8pwm1BqAJ', scpt);
+            pushCnct.setUsername("dashbd");
+            pushCnct.setPassword("dashbd!");
             pushCnct.setKeepAlive(30000);
-            pushCnct.setAccessToken(sessionStorage.getItem('access_token'));//엑세스토큰
+            pushCnct.setAccessToken(sessionStorage.getItem('dash_access_token'));//엑세스토큰
             pushCnct.connect(onPushCnctCallback); //STOMP 연결
         }
     }

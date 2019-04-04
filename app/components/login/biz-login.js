@@ -12,12 +12,7 @@ function LoginController($scope, authDataService, $rootScope, $state, jwtHelper,
     vm.invalidId = false;
     vm.invalidPwd = false;
 
-    vm.showInformMsg = true;
-    vm.closeInformMsg = function() {
-        vm.showInformMsg = false;
-    }
-
-    //로그인s
+    //로그인
     vm.login = function() {
         //아이디 기억하기
         if ( vm.savedId ) {
@@ -41,25 +36,19 @@ function LoginController($scope, authDataService, $rootScope, $state, jwtHelper,
                         userInfo.svcTgtSeq = decodedToken.svc_tgt_seq;
                         userInfo.mbrSeq = decodedToken.mbr_seq;
                         userInfo.mbrId = decodedToken.mbr_id;
-                        authDataService.verifyLicense(userInfo)
+                        authDataService.verifyBizLicense(userInfo) //비즈 사용자 인증
                             .then(function(response) {
                                 if ( response.data && response.data.responseCode == '200' ) {
                                     if ( response.data.data.loginYn === 'N' ) {
                                         $scope.invalidMessage = $translate.instant('comm.eMsgIdNotExistError'); //아이디나 패스워드를 다시 확인하세요.
                                     } else {
-                                        authDataService.updateFailCntReset(userInfo); //김예진,모의해킹결과적용(로그인실패처리적용)
-
-                                        if ( response.data.data.cngPwdPrdYn === 'Y' ) {
-                                            sessionStorage.setItem('temp_access_token', token);
-                                            $state.go('auth.changePwd'); //비밀번호 변경 후 3개월이 경과했을 경우
-                                        } else {
-                                            sessionStorage.setItem('access_token', token);
-                                            sessionStorage.setItem('mbr_id', decodedToken.mbr_id);
-                                            sessionStorage.setItem('mbr_seq', decodedToken.mbr_seq);
-                                            sessionStorage.setItem('svc_tgt_seq', decodedToken.svc_tgt_seq);
-                                            sessionStorage.setItem('rmnd_dt', response.data.data.rmndDt);
-                                            $state.go('dashbd'); //main으로 이동
-                                        }
+                                        //정상 로그인
+                                        sessionStorage.setItem('access_token', token);
+                                        sessionStorage.setItem('mbr_id', decodedToken.mbr_id);
+                                        sessionStorage.setItem('mbr_seq', decodedToken.mbr_seq);
+                                        sessionStorage.setItem('svc_tgt_seq', decodedToken.svc_tgt_seq);
+                                        sessionStorage.setItem('rmnd_dt', response.data.data.rmndDt);
+                                        $state.go('mydashboard'); //main으로 이동
                                     }
                                 }
                             });
@@ -68,15 +57,6 @@ function LoginController($scope, authDataService, $rootScope, $state, jwtHelper,
                     //로그인 실패
                     $scope.invalidMessage = $translate.instant('comm.eMsgIdNotExistError'); //아이디나 패스워드를 다시 확인하세요.
                     vm.userPwd = '';
-                    authDataService.updateLoginFailInfo({mbrId: vm.userId}, sessionStorage.getItem('client_token'))
-                        .success(function(fail) {
-                            messageBox.open($translate.instant('comm.eMsgInvalidToken', {value:fail.data}), {
-                                type: "warning"
-                            });
-                        })
-                        .error(function(error){
-                            console.log("API Service Error : " + error.status + " " + error.error);
-                        });
                 });
         }
     }
@@ -129,7 +109,7 @@ function LoginController($scope, authDataService, $rootScope, $state, jwtHelper,
 
         //Access Token 확인
         if ( $rootScope.access_token ) {
-            $state.go('dashbd');
+            $state.go('mydashboard');
         } else {
             $rootScope.access_token = null;
             sessionStorage.clear();
