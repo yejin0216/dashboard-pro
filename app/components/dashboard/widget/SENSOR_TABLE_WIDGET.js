@@ -98,22 +98,26 @@ function sensorTableWdgtCtrl($scope, $rootScope, $modal, $translate, myDashServi
 
     // 실시간 업데이트
     $scope.$on('getLastVal', function (e, data) {
-        var devList = $scope.devList;
+        if ( !$scope.devList ) return; //저장된 정보가 없을 경우 푸시 받지 않는다.
+
         var pData = data.data,
-            pSvcTgtSeq = pData.svcTgtSeq,
-            pSpotDevSeq = pData.spotDevSeq,
-            pAttributes = pData.attributes;
-        for ( var i=0, count=devList.length; i<count; i++ ) {
-            var devItem = devList[i];
-            if ( devItem.svcTgtSeq == pSvcTgtSeq && devItem.spotDevSeq == pSpotDevSeq ) { //서비스대상일련번호, 디바이스일련번호가 동일할 경우
+            pSvcTgtSeq = pData.svcTgtSeq, //서비스 대상 일련번호
+            pSpotDevSeq = pData.spotDevSeq, //디바이스 일련번호
+            pAttributes = pData.attributes, //센서,최종값정보
+            pGroupTagCd = pData.groupTagCd; //그룹태그
+        for ( var i=0, count=$scope.devList.length; i<count; i++ ) {
+            var devItem = $scope.devList[i];
+            //서비스대상일련번호, 디바이스일련번호, 그룹태그가 동일할 경우
+            //개방형은 푸시 데이터셋이 다르므로 그룹태그가 어떻게 들어오는지 체크하고 수정이 필요하다.
+            if ( devItem.svcTgtSeq == pSvcTgtSeq && devItem.spotDevSeq == pSpotDevSeq && devItem.group == pGroupTagCd ) {
                 if ( pAttributes && pAttributes[devItem.snsrCd] ) {
-                    devItem.lastVal = pAttributes[devItem.snsrCd];
-                    devItem.amdDtt = moment(pData.occDt).format("YYYY-MM-DD HH:mm:ss");
+                    $scope.devList[i].lastVal = pAttributes[devItem.snsrCd];
+                    $scope.devList[i].amdDtt = moment(pData.occDt).format("YYYY-MM-DD HH:mm:ss");
                 }
             }
-            devList[i] = devItem;
+            devItem = null;
         }
-        $scope.devList = devList;
+
         $scope.$apply();
     });
 }
@@ -142,12 +146,32 @@ function sensorTableWdgtSetCtrl($translate, $rootScope, $scope, $modalInstance, 
      * 디바이스 센서 조회
      * @param selectedDev 선택한 디바이스
      */
-    $scope.getSnsrByDev = function(selectedDev) {
-        myDashService.getDeviceModel(selectedDev.devModelSeq)
+    $scope.getSnsrGroupByDev = function(selectedDev) {
+        myDashService.getSnsrGroupList(selectedDev.devModelSeq)
+            .success(function(resp){
+                if ( resp.responseCode === '200' ) {
+                    $scope.selectedSnsrGroup = []; //센서목록 초기화
+                    $scope.snsrGroupList = resp.data; //DB에서 불러온 센서그룹 목록
+                }
+            });
+    }
+
+    /**
+     * 디바이스 센서그룹 조회
+     * @param selectedSnsrGroup 선택한 센서그룹
+     */
+    $scope.setSnsrList = function(selectedSnsrGroup) {
+        var selectedGroup = selectedSnsrGroup.code;
+        myDashService.getDeviceModel($scope.selectedDev.devModelSeq)
             .success(function(resp){
                 if ( resp.responseCode === '200' ) {
                     $scope.selectedSnsr = []; //센서목록 초기화
-                    $scope.snsrList = resp.data.sensingTags;
+                    $scope.snsrList = resp.data.sensingTags
+                                        .filter(function(snsr){
+                                                    if (snsr.group === selectedGroup) {
+                                                        return true;
+                                                    }
+                                               });
                 }
             });
     }
@@ -164,7 +188,8 @@ function sensorTableWdgtSetCtrl($translate, $rootScope, $scope, $modalInstance, 
         var dupFlag = false;
         for ( var i=0, count=$scope.selectedList.length; i<count; i++ ) {
             var item = $scope.selectedList[i];
-            if ( item.svcTgtSeq == $scope.selectedDev.svcTgtSeq && item.spotDevSeq == $scope.selectedDev.spotDevSeq && item.snsrCd == $scope.selectedSnsr.code ) {
+            if ( item.svcTgtSeq == $scope.selectedDev.svcTgtSeq && item.spotDevSeq == $scope.selectedDev.spotDevSeq &&
+                 item.group == $scope.selectedSnsrGroup.code && item.snsrCd == $scope.selectedSnsr.code ) {
                 dupFlag = true;
             }
         }
@@ -176,6 +201,8 @@ function sensorTableWdgtSetCtrl($translate, $rootScope, $scope, $modalInstance, 
         var addItem = { 'svcTgtSeq': $scope.selectedDev.svcTgtSeq
                       , 'spotDevSeq': $scope.selectedDev.spotDevSeq
                       , 'devNm': $scope.selectedDev.devNm
+                      , 'group' : $scope.selectedSnsrGroup.code
+                      , 'groupNm' : $scope.selectedSnsrGroup.name
                       , 'snsrCd': $scope.selectedSnsr.code
                       , 'snsrNm': $scope.selectedSnsr.name };
         $scope.selectedList.push(addItem);

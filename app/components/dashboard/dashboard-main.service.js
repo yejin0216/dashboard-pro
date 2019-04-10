@@ -27,9 +27,13 @@ angular.module('app.mydash')
             },
             //디바이스/센서 목록 조회
             getDevSnsrList : function(wdgtSeq) {
-                return $http.get(adminConstant.contextPathV11+'dev/getDevSnsrList?&wdgtSeq='+wdgtSeq, {
+                return $http.get(adminConstant.contextPathV11+'dev/getDevSnsrList?wdgtSeq='+wdgtSeq, {
                     headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('access_token')}
                 });
+            },
+            //디바이스모델별 그룹태그 목록 조회
+            getSnsrGroupList : function(devModelSeq) {
+                return $http.get(adminConstant.contextPathV11+'dev/getGroupByDevModelList?devModelSeq='+devModelSeq);
             },
             //대시보드 정보 조회
             getDashbdInfo : function() {

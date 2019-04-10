@@ -13,9 +13,10 @@
                 <tr ng-repeat="list in devList track by $index" ng-class-odd="'back-color-gray1'">
                     <td ng-repeat="g in ::gridCol | orderBy:'ordr'" ng-switch on="g.id" ng-class="tdPadding(g)">
                         <span title="{{list[g.id]}}" ng-switch-default>{{list[g.id]||'-'}}</span>
-                        <span ng-switch-when="icon" ng-click="updateIcon(list)"><img ng-src="{{list[g.id]}}" height="25" width="25"/></span>
-                        <span ng-switch-when="snsrType">{{list[g.id]|snsrTypeNm}}</span>
-                        <span ng-switch-when="lastVal"><b>{{list[g.id]||'-'|ctrlStr}}</b></span>
+                        <span ng-switch-when="icon" ng-click="updateIcon(list)"><img ng-src="{{list['icon']}}" height="25" width="25"/></span> <!--아이콘-->
+                        <span ng-switch-when="snsrType">{{list['snsrType']|snsrTypeNm}}</span> <!--센서타입-->
+                        <span ng-switch-when="snsrNm">{{list['groupNm']}}-{{list['snsrNm']}}</span> <!--그룹태그명/센서명-->
+                        <span ng-switch-when="lastVal"><b>{{list['lastVal']||'-'|ctrlStr}}</b></span> <!--최종값-->
                     </td>
                 </tr>
             </tbody>

@@ -40,7 +40,7 @@ a:active,a:hover,a:focus{}
 /* 기호 */
 .pipe{margin:0 10px;}
 
-/* Text */F
+/* Text */
 .text-left{text-align:left !important;}
 .text-right{text-align:right !important;}
 .text-center{text-align:center !important;}
@@ -55,6 +55,7 @@ a:active,a:hover,a:focus{}
 .color-red2{color:#f27173;}
 .color-red3{color:#ed2024;}
 .color-yellow1{color:#f2c812;}
+.color-transparent{color:transparent !important;}
 
 /* blink */
 /*@keyframes blink {*/
