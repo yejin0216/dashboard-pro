@@ -34,7 +34,7 @@ angular.module('app.mydash')
                         chart:{
                             type:type,
                             style: {
-                                fontFamily: 'NanumSquare'
+                                fontFamily: 'Noto Sans KR'
                             }
                         },
                         title:{
@@ -77,7 +77,7 @@ angular.module('app.mydash')
                         };
                         chartOptions.title = {
                             style: {
-                                fontFamily: 'NanumSquare'
+                                fontFamily: 'Noto Sans KR'
                             }
                         };
                         chartOptions.pane = {
@@ -167,13 +167,13 @@ angular.module('app.mydash')
                         .success(function(resp){
                             var devList = resp.data; //기저장한 디바이스,센서 정보
                             if ( resp.responseCode === '200' && devList ) {
-                                if ( identity === 10 ) {
+                                if ( identity === 10 ) {  //라인형
                                     //로그조회
                                     var toDt = moment().format('x');
                                     var fromDt = toDt - 2629743000; //최대 최근 1개월, 최대 120개 데이터(30초 1패킷 기준 1hr)
                                     var chartData = [];
                                     devList.forEach(function (v, i) {
-                                        var param = '&limit=60&targetSequence=' + v.svcTgtSeq + '&deviceSequence=' + v.spotDevSeq + '&sensingTagCode=' + v.snsrCd + '&from=' + fromDt + '&to=' + toDt;
+                                        var param = '&limit=60&targetSequence=' + v.svcTgtSeq + '&deviceSequence=' + v.spotDevSeq + '&groupCode=' + v.group + '&sensingTagCode=' + v.snsrCd + '&from=' + fromDt + '&to=' + toDt;
                                         myDashService.getDevLogs(param)
                                             .success(function (result) {
                                                 var result = result.data;
@@ -189,7 +189,7 @@ angular.module('app.mydash')
                                                     }
                                                 }
                                                 chartData.push({
-                                                    name:v.devNm + '|' + v.snsrNm,
+                                                    name:v.devNm + '|' + v.groupNm + '-' + v.snsrNm,
                                                     id:v.svcTgtSeq+'|'+v.spotDevSeq,
                                                     tag:v.snsrCd,
                                                     seq:v.seq,
@@ -205,11 +205,11 @@ angular.module('app.mydash')
                                             });
                                     });
 
-                                } else if ( identity === 20 ) {
+                                } else if ( identity === 20 ) { //컬럼형
                                     var chartTempData = [];
                                     var optmData = [];
                                     devList.forEach(function(v, i){
-                                        var name = v.devNm+'<br/>'+v.snsrNm;
+                                        var name = v.devNm+'<br/>'+v.groupNm+'-'+v.snsrNm;
                                         chartTempData[i] = {'id':v.svcTgtSeq+'|'+v.spotDevSeq, 'tag':v.snsrCd,'name':name, 'y':numberUtil.nullToNumber(v.lastVal), 'color':chartColor[i]};
                                         optmData[i] = {'id':v.svcTgtSeq+'|'+v.spotDevSeq, 'tag':v.snsrCd, 'name':name, 'y':numberUtil.nullToNumber(v.optmVal)};
                                         name = null;
@@ -217,10 +217,10 @@ angular.module('app.mydash')
                                     chart.addSeries({ name:'value', data:chartTempData});
                                     chart.addSeries({ type:'line', name:'optimum', color:'#000', lineWidth:1, marker:{fillColor:'#000',symbol:'diamond'}, data:optmData});
                                     chartTempData, optmData = null;
-                                } else {
+                                } else { //기타(게이지 등)
                                     var devInfo = devList[0];
                                     var id = devInfo.svcTgtSeq+'|'+devInfo.spotDevSeq;
-                                    var name = devInfo.devNm+'|'+devInfo.snsrNm;
+                                    var name = devInfo.devNm+'|'+devInfo.groupNm+'-'+devInfo.snsrNm;
                                     var lastVal = numberUtil.nullToNumber(devInfo.lastVal);
                                     chart.update({title:{text:name}});
                                     chart.addSeries({id:id, tag:devInfo.snsrCd, name:name, data:[lastVal]});
@@ -341,12 +341,32 @@ function sensorChartWdgtSetCtrl($translate, $rootScope, $scope, $modalInstance, 
      * 디바이스 센서 조회
      * @param selectedDev 선택한 디바이스
      */
-    $scope.getSnsrByDev = function(selectedDev) {
-        myDashService.getDeviceModel(selectedDev.devModelSeq)
+    $scope.getSnsrGroupByDev = function(selectedDev) {
+        myDashService.getSnsrGroupList(selectedDev.devModelSeq)
+            .success(function(resp){
+                if ( resp.responseCode === '200' ) {
+                    $scope.selectedSnsrGroup = []; //센서목록 초기화
+                    $scope.snsrGroupList = resp.data; //DB에서 불러온 센서그룹 목록
+                }
+            });
+    }
+
+    /**
+     * 디바이스 센서그룹 조회
+     * @param selectedSnsrGroup 선택한 센서그룹
+     */
+    $scope.setSnsrList = function(selectedSnsrGroup) {
+        var selectedGroup = selectedSnsrGroup.code;
+        myDashService.getDeviceModel($scope.selectedDev.devModelSeq)
             .success(function(resp){
                 if ( resp.responseCode === '200' ) {
                     $scope.selectedSnsr = []; //센서목록 초기화
-                    $scope.snsrList = resp.data.sensingTags;
+                    $scope.snsrList = resp.data.sensingTags
+                        .filter(function(snsr){
+                            if (snsr.group === selectedGroup) {
+                                return true;
+                            }
+                        });
                 }
             });
     }
@@ -363,7 +383,8 @@ function sensorChartWdgtSetCtrl($translate, $rootScope, $scope, $modalInstance, 
         var dupFlag = false;
         for ( var i=0, count=$scope.selectedList.length; i<count; i++ ) {
             var item = $scope.selectedList[i];
-            if ( item.svcTgtSeq == $scope.selectedDev.svcTgtSeq && item.spotDevSeq == $scope.selectedDev.spotDevSeq && item.snsrCd == $scope.selectedSnsr.code ) {
+            if ( item.svcTgtSeq == $scope.selectedDev.svcTgtSeq && item.spotDevSeq == $scope.selectedDev.spotDevSeq
+                && item.group == $scope.selectedSnsrGroup.code && item.snsrCd == $scope.selectedSnsr.code ) {
                 dupFlag = true;
             }
         }
@@ -377,10 +398,12 @@ function sensorChartWdgtSetCtrl($translate, $rootScope, $scope, $modalInstance, 
         }
 
         var addItem = { 'svcTgtSeq': $scope.selectedDev.svcTgtSeq
-            , 'spotDevSeq': $scope.selectedDev.spotDevSeq
-            , 'devNm': $scope.selectedDev.devNm
-            , 'snsrCd': $scope.selectedSnsr.code
-            , 'snsrNm': $scope.selectedSnsr.name };
+                      , 'spotDevSeq': $scope.selectedDev.spotDevSeq
+                      , 'devNm': $scope.selectedDev.devNm
+                      , 'group' : $scope.selectedSnsrGroup.code
+                      , 'groupNm' : $scope.selectedSnsrGroup.name
+                      , 'snsrCd': $scope.selectedSnsr.code
+                      , 'snsrNm': $scope.selectedSnsr.name };
         $scope.selectedList.push(addItem);
     }
 

@@ -19,14 +19,23 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <label class="label-control required">{{"comm.dev" | translate}}</label>
-                    <select class="form-control" ng-model="selectedDev" ng-options="item.devNm for item in ::devList track by item.spotDevSeq" ng-change="getSnsrByDev(selectedDev)" >
+                    <select class="form-control" ng-model="selectedDev" ng-options="item.devNm for item in ::devList track by item.spotDevSeq" ng-change="getSnsrGroupByDev(selectedDev)">
                         <option value="">{{"comm.choise" | translate}}</option>
                     </select>
                 </div>
+            </div>
+            <div class="form-group row">
                 <div class="col-sm-6">
                     <label class="label-control required">{{"comm.snsr" | translate}}</label>
+                    <select class="form-control" ng-model="selectedSnsrGroup" ng-options="item.name for item in snsrGroupList track by item.code" ng-change="setSnsrList(selectedSnsrGroup)">
+                        <option value="">{{"comm.choise" | translate}}</option>
+                    </select>
+                    <div class="error">{{invalidMessage}}</div>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label-control color-transparent">#</label>
                     <select class="form-control" ng-model="selectedSnsr" ng-options="item.name for item in snsrList track by item.code" ng-change="setSelectedList()">
                         <option value="">{{"comm.choise" | translate}}</option>
                     </select>
@@ -39,7 +48,7 @@
                 <div class="col-sm-12">
                     <label class="label-control">{{"wdgt.addedSnsrList" | translate}}</label>
                     <div class="selList" ng-repeat="item in selectedList">
-                        <p>{{item.devNm}} / {{item.snsrNm}}<span class="pointer" ng-click="delRow($index)" aria-hidden="true">&times;</span></p>
+                        <p>{{item.devNm}} / {{item.groupNm}}-{{item.snsrNm}}<span class="pointer" ng-click="delRow($index)" aria-hidden="true">&times;</span></p>
                     </div>
                     <div class="noData" ng-if="selectedList.length==0">
                         <span>{{"comm.eMsgNoData" | translate}}</span>

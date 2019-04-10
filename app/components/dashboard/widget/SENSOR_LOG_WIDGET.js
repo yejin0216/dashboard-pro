@@ -94,7 +94,7 @@ angular.module('app.mydash')
                     //로그조회
                     var retvStDt = stDt ? moment(stDt).format('x'):moment().format('x') - 3600000; //1시간
                     var retvFnsDt = endDt ? moment(endDt).format('x'):moment().format('x');
-                    var query = '&limit=9999&targetSequence='+param.svcTgtSeq+'&deviceSequence='+param.spotDevSeq+'&sensingTagCode='+param.snsrCd+'&from='+retvStDt+'&to='+retvFnsDt;
+                    var query = '&limit=9999&targetSequence='+param.svcTgtSeq+'&deviceSequence='+param.spotDevSeq+'&groupCode='+param.group+'&sensingTagCode='+param.snsrCd+'&from='+retvStDt+'&to='+retvFnsDt;
                     myDashService.getDevLogs(query)
                         .success(function (result) {
                             retvStDt,retvFnsDt,query = null;
@@ -189,7 +189,7 @@ function sensorLogWdgtCtrl($translate, myDashService, $scope) {
                     devInfo = resp.data[0];
                     var toDt = moment().format('x');
                     var fromDt = toDt - 7889229000; //최대 최근 3개월
-                    var param = '&limit=60&targetSequence='+devInfo.svcTgtSeq+'&deviceSequence='+devInfo.spotDevSeq+'&sensingTagCode='+devInfo.snsrCd+'&from='+fromDt+'&to='+toDt;
+                    var param = '&limit=60&targetSequence='+devInfo.svcTgtSeq+'&deviceSequence='+devInfo.spotDevSeq+'&groupCode='+devInfo.group+'&sensingTagCode='+devInfo.snsrCd+'&from='+fromDt+'&to='+toDt;
                     myDashService.getDevLogs(param)
                         .success(function (result) {
                             if (result.responseCode === '200' && result.data) {
@@ -215,14 +215,14 @@ function sensorLogWdgtCtrl($translate, myDashService, $scope) {
         if ( $scope.viewType == 'chart' ) return;
 
         var pData = data.data,
-            pSvcTgtSeq = pData.svcTgtSeq,
-            pSpotDevSeq = pData.spotDevSeq,
-            pAttributes = pData.attributes,
-            devNm = devInfo.devNm,
-            snsrNm = devInfo.snsrNm;
+            pSvcTgtSeq = pData.svcTgtSeq, //서비스 대상 일련번호
+            pSpotDevSeq = pData.spotDevSeq, //디바이스 일련번호
+            pAttributes = pData.attributes, //센서,최종값정보
+            pGroupTagCd = pData.groupTagCd; //그룹태그
 
-        if ( devInfo.svcTgtSeq == pSvcTgtSeq && devInfo.spotDevSeq == pSpotDevSeq && pAttributes && pAttributes[devInfo.snsrCd] ) {
-            $scope.logList.unshift({'createOn':moment(pData.occDt).format("YYYY-MM-DD HH:mm:ss"),'devNm':devNm,'snsrNm':snsrNm,'value':pAttributes[devInfo.snsrCd]});
+        if ( devInfo.svcTgtSeq == pSvcTgtSeq && devInfo.spotDevSeq == pSpotDevSeq && devInfo.group == pGroupTagCd && pAttributes && pAttributes[devInfo.snsrCd] ) {
+            $scope.logList.unshift({'createOn':moment(pData.occDt).format("YYYY-MM-DD HH:mm:ss"),'devNm':devInfo.devNm
+                                          ,'snsrNm':devInfo.group +'-'+ devInfo.snsrNm,'value':pAttributes[devInfo.snsrCd]});
         }
         if ( $scope.logList.length > 100 ) {
             $scope.logList.pop();
@@ -259,12 +259,32 @@ function sensorLogWdgtSetCtrl($translate, $rootScope, $scope, $modalInstance, my
      * 디바이스 센서 조회
      * @param selectedDev 선택한 디바이스
      */
-    $scope.getSnsrByDev = function(selectedDev) {
-        myDashService.getDeviceModel(selectedDev.devModelSeq)
+    $scope.getSnsrGroupByDev = function(selectedDev) {
+        myDashService.getSnsrGroupList(selectedDev.devModelSeq)
+            .success(function(resp){
+                if ( resp.responseCode === '200' ) {
+                    $scope.selectedSnsrGroup = []; //센서목록 초기화
+                    $scope.snsrGroupList = resp.data; //DB에서 불러온 센서그룹 목록
+                }
+            });
+    }
+
+    /**
+     * 디바이스 센서그룹 조회
+     * @param selectedSnsrGroup 선택한 센서그룹
+     */
+    $scope.setSnsrList = function(selectedSnsrGroup) {
+        var selectedGroup = selectedSnsrGroup.code;
+        myDashService.getDeviceModel($scope.selectedDev.devModelSeq)
             .success(function(resp){
                 if ( resp.responseCode === '200' ) {
                     $scope.selectedSnsr = []; //센서목록 초기화
-                    $scope.snsrList = resp.data.sensingTags;
+                    $scope.snsrList = resp.data.sensingTags
+                        .filter(function(snsr){
+                            if (snsr.group === selectedGroup) {
+                                return true;
+                            }
+                        });
                 }
             });
     }
@@ -279,6 +299,8 @@ function sensorLogWdgtSetCtrl($translate, $rootScope, $scope, $modalInstance, my
         var addItem = { 'svcTgtSeq':$scope.selectedDev.svcTgtSeq
                       , 'spotDevSeq':$scope.selectedDev.spotDevSeq
                       , 'devNm':$scope.selectedDev.devNm
+                      , 'group' : $scope.selectedSnsrGroup.code
+                      , 'groupNm' : $scope.selectedSnsrGroup.name
                       , 'snsrCd':$scope.selectedSnsr.code
                       , 'snsrNm':$scope.selectedSnsr.name };
         $scope.selectedList[0] = addItem; //최대 1개만 등록가능하다.
