@@ -227,6 +227,7 @@ function sensorLogWdgtCtrl($translate, myDashService, $scope) {
         if ( $scope.logList.length > 100 ) {
             $scope.logList.pop();
         }
+        $scope.$apply();
     });
 
 }
