@@ -184,6 +184,7 @@ angular.module('app.mydash', ['kt.ui'])
                     vm.nextstep('0002', vm.selectedTmplt[0].compCtgTypeCd);
                 } else if ( curstep == '0002' ) { //컴포넌트
                     $scope.compCtgr = flag;
+                    vm.allDs = 'N';//전체선택 해제
                     vm.selectedComp = vm.selectedTmplt.filter(function(item){return item.compCtgTypeCd == flag})[0].wdgtTmpltByCompList;
                     vm.selectedWdgtType  = '0001'; //초기는 무조건 위젯타입:위젯으로 세팅한다.
                     vm.nextstep('0003', vm.selectedWdgtType);
@@ -317,6 +318,26 @@ angular.module('app.mydash', ['kt.ui'])
                 }, 500);
             };
 
+            //데이터셋 전체 선택
+            vm.selectAllDs = function() {
+                if ( vm.allDs === 'Y' ) { //전체선택
+                    vm.selectedDs.map(function(ds) {
+                        vm.dsId[ds.id] = 'Y';
+                    })
+                } else { //전체해제
+                    vm.selectedDs.map(function(ds) {
+                        vm.dsId[ds.id] = 'N';
+                    })
+                }
+            }
+
+            //데이터셋 일부 선택
+            vm.selectDs = function(id) {
+                if ( vm.dsId[id] == 'N' && vm.allDs == 'Y' ) {
+                    vm.allDs = 'N';
+                }
+            }
+
             //위젯 세부정보 편집
             vm.updateWdgt = function(wdgt) {
                 myDashService.getWdgtBySbjt(wdgt)
@@ -333,6 +354,51 @@ angular.module('app.mydash', ['kt.ui'])
                         });
                     });
             };
+
+            //위젯 복제
+            vm.copyWdgt = function(wdgt) {
+                //area는 총 36까지 사용할 수 있다.
+                if ( vm.widgetarea >= 36 ) {
+                    // 위젯을 추가할 타일 영역이 부족합니다.
+                    // 필요 없는 위젯을 삭제하거나 신규 대시보드를 추가하여 사용하시기 바랍니다.
+                    messageBox.open($translate.instant('dash.eMsgChkWdgtArea'), {
+                        type: "warning"
+                    });
+                    return;
+                }
+
+                $scope.widgetlist.push({
+                    wdgtNm:wdgt.wdgtNm,
+                    name:wdgt.wdgtNm,
+                    wdgtSubnm:wdgt.wdgtSubnm,
+                    sizeX:wdgt.sizeX,
+                    sizeY:wdgt.sizeY
+                });
+                $timeout(function() {
+                    var v_length = $scope.widgetlist.length-1;
+                    var item = $scope.widgetlist[v_length];
+                    var param = {'sbjtSeq': wdgt.sbjtSeq
+                                ,'wdgtSeq': wdgt.wdgtSeq
+                                , 'col': item.col //컬럼 위치
+                                , 'row': item.row //로우 위치
+                                , 'mbrId':sessionStorage.getItem('mbr_id')};
+                    v_length, item = null;
+                    myDashService.copyWdgtTmplt(param)
+                        .success(function (resp) {
+                            if (resp.responseCode === '200') {
+                                var sbjtInfo = resp.data.rows;
+                                var wdgtCnt = resp.data.total;
+                                var index = wdgtCnt - 1;
+
+                                vm.widgetarea = sbjtInfo[1]; //위젯이 차지하는 총 넓이
+                                $scope.widgetlist[index] = sbjtInfo[0][index]; //위젯 목록
+                                cntlsbjtArea(wdgtCnt); //위젯총건수
+
+                                sbjtInfo, wdgtCnt, index = null;
+                            }
+                        })
+                }, 500);
+            }
 
             //위젯 차트도구모음
             vm.updateOptn = function(wdgt) {
