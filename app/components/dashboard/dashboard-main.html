@@ -15,14 +15,16 @@
                             <div id="wdgt{{widget.wdgtSeq}}-title">{{widget.wdgtNm}}</div>
                             <div id="wdgt{{widget.wdgtSeq}}-subtitle" class="box-header-subtitle">{{widget.wdgtSubnm}}</div>
                         </div>
+                        <div class="box-header-spinner"><img src="assets/image/Bars-1s-40px.gif"></div>
                         <!-- PC버전 -->
                         <div class="btn-group box-header-btns hidden-mobile">
                             <i class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#" ng-click="vm.updateWdgt(widget)">{{"dash.updWdgtDtl" | translate}}</a></li>
+                                <li><a href="#" ng-click="vm.updateWdgt(widget)">{{"dash.updWdgtDtl" | translate}}</a></li><!--세부정보편집-->
                                 <li ng-if="widget.wdgtTmpltId=='SENSOR_CHART_WIDGET'"> <!-- 센서차트 -->
                                     <a href="#" ng-click="vm.updateOptn(widget)">{{"dash.updViewOptn" | translate}}</a>
                                 </li>
+                                <li><a href="#" ng-click="vm.copyWdgt(widget)">{{"dash.cloneWdgtTmplt" | translate}}</a></li><!--위젯템플릿복제-->
                                 <li class="divider"></li>
                                 <li><a href="#" ng-click="vm.deleteWdgt(widget)">{{"dash.delWdgt" | translate}}</a></li>
                             </ul>
@@ -90,8 +92,9 @@
                     <div class="modal-title" ng-if="vm.selectedDs.length>0">{{"comm.dataset" | translate}}</div>
                     <div ng-if="vm.selectedDs.length>0">
                         <ul class="ul-list">
+                            <li><label><input type="checkbox" ng-model="vm.allDs" ng-true-value="'Y'" ng-false-value="'N'" ng-change="vm.selectAllDs()">&nbsp;{{"comm.allChoise" | translate}}</label></li>
                             <li ng-repeat="ds in vm.selectedDs">
-                                <label><input type="checkbox" ng-model="vm.dsId[ds.id]" ng-true-value="'Y'" ng-false-value="'N'">&nbsp;{{ds.name}}</label>
+                                <label><input type="checkbox" ng-model="vm.dsId[ds.id]" ng-true-value="'Y'" ng-false-value="'N'" ng-change="vm.selectDs(ds.id)">&nbsp;{{ds.name}}</label>
                             </li>
                         </ul>
                     </div>
