@@ -150,7 +150,7 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
      * 센서별 Capability 세팅
      */
     vm.setCapaBySnsr = function() {
-        if ( !vm.cncrlSnsr || vm.cncrlSnsr == null ) return;
+        if ( !vm.cntrlSnsr || vm.cntrlSnsr == null ) return;
         vm.capaBySnsr = vm.cntrlSnsr.uiType;
         vm.capaValue = JSON.stringify(vm.cntrlSnsr.values);
     }
