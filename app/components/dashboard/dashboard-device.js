@@ -55,6 +55,9 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
      */
     vm.open = function(name, dev) {
         vm.selectedDev = dev; //선택한 디바이스
+        vm.modalName = $translate.instant('comm.'+name);
+        vm.currentModal = name;
+        $scope.deviceModal = true; //모달
         if ( name !== 'dtlView' ) {
             //유효성검증 항목 초기화
             $scope.invalidMessage1 = '';
@@ -66,7 +69,10 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
                     if ( resp.responseCode === '200') {
                         selectedDevModel = resp.data;
                         if ( resp.data.sensingTags ) {
-                            vm.snsrList = resp.data.sensingTags; //센서목록
+                            vm.snsrList = resp.data.sensingTags.sort(function(a, b) { // 오름차순
+                                return a.group < b.group ? -1 : a.group > b.group ? 1 : 0;
+                                //오름차순 정렬
+                            });
                             initModal(name);
                         }
                     }
@@ -75,10 +81,6 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
                 console.log("API Service Error : " + resp.status + " " + resp.error);
             });
         }
-        vm.modalName = $translate.instant('comm.'+name);
-        vm.currentModal = name;
-
-        $scope.deviceModal = true; //모달
     }
 
     /**
@@ -89,8 +91,22 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
         if ( name === 'snsrView' ) {
             vm.getSnsrDtl(vm.snsrList[0], 0); //센서 상세보기
         } else if ( name === 'setCapa' ) {
-            vm.cntrlSnsrList = vm.snsrList.filter(function(data){return data.type == '0000020' || data.type == '3000'}); //제어센서목록
+            vm.cntrlSnsrGroupList = [];
+            vm.snsrList.map(function(snsr, i) {
+                                if ( snsr.type == '000020' || snsr.type == '3000') {
+                                    vm.cntrlSnsrGroupList.push({name:snsr.groupName, code:snsr.group});
+                                }
+                            });
         }
+    }
+
+    vm.getSnsrList = function() {
+        if ( vm.cntrlSnsrGroup == null || !vm.cntrlSnsrGroup ) return;
+        vm.cntrlSnsrList = vm.snsrList.filter(function(snsr){
+                                                if ( snsr.type == '000020' || snsr.type == '3000') {
+                                                    return snsr.group == vm.cntrlSnsrGroup.code;
+                                                }
+                                              });
     }
 
     /**
@@ -100,7 +116,6 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
      */
     vm.getSnsrDtl = function(snsr, idx) {
         vm.selectedSnsr = snsr; //선택한 센서
-        vm.selectedTagGroup = vm.selectedSnsr.tagGroup; //선택한 센서의 그룹태그
         //vm.selectedDataType = vm.selectedSnsr.dataType; //선택한 센서의 데이터타입
         selectedRowNum = idx;
     }
@@ -135,6 +150,7 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
      * 센서별 Capability 세팅
      */
     vm.setCapaBySnsr = function() {
+        if ( !vm.cncrlSnsr || vm.cncrlSnsr == null ) return;
         vm.capaBySnsr = vm.cntrlSnsr.uiType;
         vm.capaValue = JSON.stringify(vm.cntrlSnsr.values);
     }
@@ -144,16 +160,8 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
      */
     vm.save = function() {
         var tempSnsr = selectedDevModel.sensingTags;
-        //센서보기 변경내역 저장
-        if ( vm.currentModal === 'snsrView' && (vm.selectedTagGroup || vm.selectedDataType)) {
-            for ( var i=0, count=tempSnsr.length; i<count; i++ ) {
-                if ( tempSnsr[i].code === vm.selectedSnsr.code ) {
-                    selectedDevModel.sensingTags[i].group = vm.selectedTagGroup; //그룹태그
-                    //selectedDevModel.sensingTags[i].dataType = vm.selectedDataType; //데이터타입
-                }
-            }
         //Capability 변경내역 저장
-        } else if ( vm.currentModal === 'setCapa' ) {
+        if ( vm.currentModal === 'setCapa' ) {
             //유효성 검증
             var validate = true;
             var capaValue = vm.capaValue;
@@ -167,6 +175,10 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
             }
             if ( vm.capaBySnsr === 'TEXT' ) {
                 capaValue = '[]';
+            }
+            if ( vm.capaBySnsr != 'TEXT' && capaValue.length == 0 ) {
+                $scope.invalidMessage3 = $translate.instant('wdgt.eMsgMustValue');
+                return;
             }
             if ( capaValue ) {
                 //$scope.invalidMessage3 = $translate.instant('wdgt.eMsgMustValue');
@@ -185,10 +197,11 @@ function DashboardDevController($rootScope, $scope, $state, $filter, $translate,
             if ( !validate ) return;
 
             for ( var i=0, count=tempSnsr.length; i<count; i++ ) {
-                if ( tempSnsr[i].code === vm.cntrlSnsr.code ) {
+                if ( tempSnsr[i].group == vm.cntrlSnsrGroup.code && tempSnsr[i].code == vm.cntrlSnsr.code ) {
                     selectedDevModel.sensingTags[i].uiType = vm.capaBySnsr; //ui type
                     selectedDevModel.sensingTags[i].values = capaValue; //values
                 }
+                selectedDevModel.sensingTags[i].unit = null;
             }
         }
 

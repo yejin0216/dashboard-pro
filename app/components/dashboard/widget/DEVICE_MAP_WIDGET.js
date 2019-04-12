@@ -32,7 +32,7 @@ angular.module('app.mydash')
                 function getSavedDevInfo() {
                     scope.savedDevList = [];
                     scope.roadAddr = [];
-                    myDashService.getDeviceList()
+                    myDashService.getDeviceSttusList()
                         .success(function(resp){
                             if ( resp.responseCode === '200' && resp.data ) {
                                 var allDevList = resp.data; //모든 디바이스

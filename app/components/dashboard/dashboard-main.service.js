@@ -19,9 +19,21 @@ angular.module('app.mydash')
                     headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('access_token')}
                 });
             },
+            //나의 디바이스 목록 조회(상태조회)
+            getDeviceSttusList : function() {
+                return $http.get(adminConstant.contextPathV11+'dev/getDevList?lastSttusYN=Y', {
+                    headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('access_token')}
+                });
+            },
             //나의 디바이스 상세 조회
             getDeviceInfo : function(spotDevSeq) {
                 return $http.get(adminConstant.contextPathV11+'dev/getDevList?spotDevSeq='+spotDevSeq, {
+                    headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('access_token')}
+                });
+            },
+            //나의 디바이스 상세 조회(상태조회)
+            getDeviceSttusInfo : function(spotDevSeq) {
+                return $http.get(adminConstant.contextPathV11+'dev/getDevList?lastSttusYN=Y&spotDevSeq='+spotDevSeq, {
                     headers:{'Authorization': 'Bearer ' + sessionStorage.getItem('access_token')}
                 });
             },
@@ -225,7 +237,7 @@ angular.module('app.mydash')
 
             /* Model */
             getDeviceModel : function(sequence){
-                return $http.get(adminConstant.contextPathV11 + 'models/' + sequence);
+                return $http.get(adminConstant.contextPathV11 + 'models/' + sequence+'?includeUiProperties=true');
             },
             updateDeviceModel : function(sequence, param){
                 return $http.put(adminConstant.contextPathV11 + 'models/' + sequence, param);

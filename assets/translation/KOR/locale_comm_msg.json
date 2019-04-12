@@ -79,11 +79,12 @@
   },
   "wdgt": {
     "eMsgTrackerDupError":"이미 추가한 이동체입니다.",
+    "eMsgTrackerGroupError":"동일한 위경도 센서 그룹을 선택하세요.",
     "eMsgSnsrDupError":"이미 추가한 센서입니다.",
     "eMsgEventDupError":"이미 추가한 이벤트입니다.",
     "eMsgMustValue":"필수 입력 항목입니다.",
     "eMsgTooManyOptn":"시각화 옵션은 1개까지 선택할 수 있습니다.",
-    "eMsgInvalidDataType":"{{value}}으로 입력하세요.",
+    "eMsgInvalidDataType":"{{value}} 형식으로 입력하세요.",
     "eMsgNeedSensorCtrlValue":"센서의 제어값 설정이 필요합니다.",
     "eMsgSetSameValue":"이미 설정된 값입니다.",
     "eMsgExcutedCtrlCmd":"제어를 실행했습니다.\n\n",

@@ -21,7 +21,7 @@
             <div class="form-group row">
                 <div class="col-sm-12">
                     <label class="label-control required">{{"wdgt.tracker" | translate}}<sub>({{"comm.dev" | translate}})</sub></label>
-                    <select class="form-control" ng-model="selectedDev" ng-options="item.devNm for item in ::devList track by item.spotDevSeq" ng-change="getSnsrByDev(selectedDev, 'latit')">
+                    <select class="form-control" ng-model="selectedDev" ng-options="item.devNm for item in ::devList track by item.spotDevSeq" ng-change="getSnsrGroupByDev(selectedDev)">
                         <option value="">{{"comm.choise" | translate}}</option>
                     </select>
                 </div>
@@ -29,16 +29,30 @@
             <div class="form-group row">
                 <div class="col-sm-6">
                     <label class="label-control required">{{"wdgt.latit" | translate}}<sub>({{"comm.snsr" | translate}})</sub></label>
-                    <select class="form-control" ng-model="selectedLatitSnsr" ng-options="item.name for item in latitSnsr track by item.code" ng-change="getSnsrByDev(selectedDev, 'lngit')">
+                    <select class="form-control" ng-model="selectedLatitSnsrGroup" ng-options="item.name for item in snsrGroupList track by item.code" ng-change="getLatitSnsrList()">
                         <option value="">{{"comm.choise" | translate}}</option>
                     </select>
                 </div>
                 <div class="col-sm-6">
+                    <label class="label-control color-transparent">#</label>
+                    <select class="form-control" ng-model="selectedLatitSnsr" ng-options="item.name for item in latitSnsr track by item.code" ng-change="setSelectedList()">
+                        <option value="">{{"comm.choise" | translate}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
                     <label class="label-control required">{{"wdgt.lngit" | translate}}<sub>({{"comm.snsr" | translate}})</sub></label>
-                    <select class="form-control" ng-model="selectedLngitSnsr" ng-options="item.name for item in lngitSnsr track by item.code" ng-change="setSelectedList()">
+                    <select class="form-control" ng-model="selectedLngitSnsrGroup" ng-options="item.name for item in snsrGroupList track by item.code" ng-change="getLngitSnsrList()">
                         <option value="">{{"comm.choise" | translate}}</option>
                     </select>
                     <div class="error">{{invalidMessage}}</div>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label-control color-transparent">#</label>
+                    <select class="form-control" ng-model="selectedLngitSnsr" ng-options="item.name for item in lngitSnsr track by item.code" ng-change="setSelectedList()">
+                        <option value="">{{"comm.choise" | translate}}</option>
+                    </select>
                 </div>
             </div>
             <h4 class="divider"></h4> <!-- divider -->
@@ -46,7 +60,7 @@
                 <div class="col-sm-12">
                     <label class="label-control">{{"wdgt.addedTrackerList" | translate}}</label>
                     <div class="selList" ng-repeat="item in selectedList">
-                        <p>{{item.devNm}} / {{item.latitSnsrNm}}, {{item.lngitSnsrNm}}<span class="pointer" ng-click="delRow($index)" aria-hidden="true">&times;</span></p>
+                        <p>{{item.devNm}} / {{item.lngitSnsrGroupNm}}-{{item.latitSnsrNm}}, {{item.latitSnsrGroupNm}}-{{item.lngitSnsrNm}}<span class="pointer" ng-click="delRow($index)" aria-hidden="true">&times;</span></p>
                     </div>
                     <div class="noData" ng-if="selectedList.length==0">
                         <span>{{"comm.eMsgNoData" | translate}}</span>

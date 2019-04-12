@@ -190,7 +190,7 @@ angular.module('app.mydash')
                                                 }
                                                 chartData.push({
                                                     name:v.devNm + '|' + v.groupNm + '-' + v.snsrNm,
-                                                    id:v.svcTgtSeq+'|'+v.spotDevSeq,
+                                                    id:v.svcTgtSeq+'|'+v.spotDevSeq+'|'+v.group,
                                                     tag:v.snsrCd,
                                                     seq:v.seq,
                                                     color:chartColor[i],
@@ -210,7 +210,7 @@ angular.module('app.mydash')
                                     var optmData = [];
                                     devList.forEach(function(v, i){
                                         var name = v.devNm+'<br/>'+v.groupNm+'-'+v.snsrNm;
-                                        chartTempData[i] = {'id':v.svcTgtSeq+'|'+v.spotDevSeq, 'tag':v.snsrCd,'name':name, 'y':numberUtil.nullToNumber(v.lastVal), 'color':chartColor[i]};
+                                        chartTempData[i] = {'id':v.svcTgtSeq+'|'+v.spotDevSeq+'|'+v.group, 'tag':v.snsrCd,'name':name, 'y':numberUtil.nullToNumber(v.lastVal), 'color':chartColor[i]};
                                         optmData[i] = {'id':v.svcTgtSeq+'|'+v.spotDevSeq, 'tag':v.snsrCd, 'name':name, 'y':numberUtil.nullToNumber(v.optmVal)};
                                         name = null;
                                     });
@@ -219,7 +219,7 @@ angular.module('app.mydash')
                                     chartTempData, optmData = null;
                                 } else { //기타(게이지 등)
                                     var devInfo = devList[0];
-                                    var id = devInfo.svcTgtSeq+'|'+devInfo.spotDevSeq;
+                                    var id = devInfo.svcTgtSeq+'|'+devInfo.spotDevSeq+'|'+devInfo.group;
                                     var name = devInfo.devNm+'|'+devInfo.groupNm+'-'+devInfo.snsrNm;
                                     var lastVal = numberUtil.nullToNumber(devInfo.lastVal);
                                     chart.update({title:{text:name}});
@@ -282,7 +282,7 @@ angular.module('app.mydash')
                 //실시간 업데이트
                 scope.$on('getLastVal', function (e, data) {
                     var pData = data.data,
-                        pId = pData.svcTgtSeq+'|'+pData.spotDevSeq,
+                        pId = pData.svcTgtSeq+'|'+pData.spotDevSeq+'|'+pData.groupTagCd,
                         pAttributes = pData.attributes;
                     if ( element.identity === 10 ) {
                         var series = chart.series;

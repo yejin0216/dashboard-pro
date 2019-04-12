@@ -11,7 +11,7 @@ function deviceTableWdgtCtrl($translate, myDashService, $scope) {
         $scope.gridCol = JSON.parse(widget.wdgtDataset).ds; //데이터셋
 
         //나의 디바이스 목록 조회
-        myDashService.getDeviceList()
+        myDashService.getDeviceSttusList()
             .success(function(resp){
                 if ( resp.responseCode === '200' ) {
                     allDevList = resp.data;

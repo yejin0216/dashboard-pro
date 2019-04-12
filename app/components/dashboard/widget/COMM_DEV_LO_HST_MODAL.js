@@ -33,13 +33,14 @@ angular.module('app.mydash')
                 //디바이스 위치 로그 조회
                 var devMarkers = [];
                 function getDevLoLog() {
+                    var snsrGroup = scope.mapInfo.latitSnsrGroup; //위도그룹
                     var latitSnsrCd = scope.mapInfo.latitSnsrCd; //위도센서코드
                     var lngitSnsrCd = scope.mapInfo.lngitSnsrCd; //경도센서코드
                     var fromDt = moment(scope.mapInfo.stTime).format('x');
                     var toDt = moment(scope.mapInfo.endTime).format('x');
 
                     //최대 1일 데이터만 조회
-                    var param = '&targetSequence='+scope.mapInfo.svcTgtSeq+'&deviceSequence='+scope.mapInfo.spotDevSeq+'&from='+fromDt+'&to='+toDt+'&offset=1&limit=5760&logCondition=%5b-90%3c%3d'+latitSnsrCd+'%3c0%2c0%3c'+latitSnsrCd+'%3c%3d90%2c-180%3c%3d'+lngitSnsrCd+'%3c0%2c0%3c'+lngitSnsrCd+'%3c%3d180%5d';
+                    var param = '&targetSequence='+scope.mapInfo.svcTgtSeq+'&deviceSequence='+scope.mapInfo.spotDevSeq+'&groupCode='+snsrGroup+'&from='+fromDt+'&to='+toDt+'&offset=1&limit=5760';
                     myDashService.getDevLogs(param)
                         .success(function (resp) {
                             if ( resp.responseCode === '200' && resp.data ) {

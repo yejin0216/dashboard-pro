@@ -19,8 +19,8 @@ angular.module('app.mydash')
                     maptemplate += '<ul><li ng-repeat="dev in savedDevList" ng-class="{selected:selectedDev==dev.spotDevSeq}" ng-click="moveFocus(dev)"><p class="ellipsis">';
                     maptemplate += '<i ng-if="dev.sttus" class="fas fa-circle color-red1"></i>';
                     maptemplate += '<i ng-if="!dev.sttus" class="fas fa-ban color-gray2"></i><b> {{dev.devNm}}</b></p>';
-                    maptemplate += '<p class="devDtl"><i class="glyphicon glyphicon-map-marker"></i> {{roadAddr[$index]||\'No Data\'}}<br/>';
-                    maptemplate += '<i class="glyphicon glyphicon-time"></i> {{dev.modifiedOn||\'No Data\'}}<button class="btn btn-small custom" ng-click="popLoHstDtl(dev)">{{"comm.dtlView" | translate}}</button></p></li></ul>';
+                    maptemplate += '<p class="devDtl"><span><i class="glyphicon glyphicon-map-marker"></i> {{roadAddr[$index]||\'No Data\'}}</span><br/>';
+                    maptemplate += '<span><i class="glyphicon glyphicon-time"></i> {{dev.modifiedOn||\'No Data\'}}<button class="btn btn-small custom" ng-click="popLoHstDtl(dev)">{{"comm.dtlView" | translate}}</button></span></p></li></ul>';
                     maptemplate += '<div ng-if="savedDevList.length===0" class="noData transparent">{{"comm.eMsgNoData" | translate}}</div>';
                     maptemplate += '</div><div class="mapDevCount hidden-mobile">Total {{savedDevList.length}}</div>';
                     maptemplate += '<div class="mapArea" id="map_div'+wdgtSeq+'"/>';
@@ -49,7 +49,7 @@ angular.module('app.mydash')
                             if ( data.responseCode === '200' && data.data ) {
                                 scope.savedDevList = data.data;
                                 var toDt = moment().format('x');
-                                var fromDt = toDt - 86400000; //최근 1일
+                                var fromDt = toDt - 2629743000; //최근 한달
                                 // 최종 좌표 조회
                                 for ( var i=0, iCount=scope.savedDevList.length; i<iCount; i++ ) {
                                     getLastDevLo(scope.savedDevList[i], toDt, fromDt, i); //이동체의 최종위치를 조회한다.
@@ -60,9 +60,11 @@ angular.module('app.mydash')
 
                 //이동체의 최종위치 조회
                 function getLastDevLo(devInfo, toDt, fromDt, index) {
-                    var latitSnsrCd = devInfo.latitSnsrCd; //위도센서코드
-                    var lngitSnsrCd = devInfo.lngitSnsrCd; //경도센서코드
-                    var param = '&targetSequence='+devInfo.svcTgtSeq+'&deviceSequence='+devInfo.spotDevSeq+'&from='+fromDt+'&to='+toDt+'&offset=1&limit=1&logCondition=%5b-90%3c%3d'+latitSnsrCd+'%3c0%2c0%3c'+latitSnsrCd+'%3c%3d90%2c-180%3c%3d'+devInfo.lngitSnsrCd+'%3c0%2c0%3c'+lngitSnsrCd+'%3c%3d180%5d';
+                    var snsrGroup = devInfo.latitSnsrGroup; //위도그룹
+                    var latitSnsrCd = devInfo.latitSnsrCd; //위도센서
+                    var lngitSnsrCd = devInfo.lngitSnsrCd; //경도센서
+
+                    var param = '&targetSequence='+devInfo.svcTgtSeq+'&deviceSequence='+devInfo.spotDevSeq+'&groupCode='+snsrGroup+'&from='+fromDt+'&to='+toDt+'&offset=1&limit=1';
                     myDashService.getDevLogs(param)
                         .success(function (resp) {
                             if ( resp.responseCode === '200' && resp.data ) {
@@ -73,11 +75,11 @@ angular.module('app.mydash')
                                     var item = logDtl[j];
                                     if ( item.code === latitSnsrCd ) { //위도값 매핑
                                         devInfo.latitSnsrVal = item.value;
-                                    } else if ( item.code === lngitSnsrCd ) { //경도값 매핑
+                                    }
+                                    if ( item.code === lngitSnsrCd ) { //경도값 매핑
                                         devInfo.lngitSnsrVal = item.value;
                                     }
                                 }
-                                //console.log(map)
                                 if ( map ) {
                                     makeDevMap(devInfo, index, latitSnsrCd, lngitSnsrCd); //Marker 생성
                                 }
@@ -103,6 +105,7 @@ angular.module('app.mydash')
                     //marker identification
                     markers[mKey].latitSnsrCd = latitSnsrCd;
                     markers[mKey].lngitSnsrCd = lngitSnsrCd;
+                    markers[mKey].snsrGroup = devInfo.latitSnsrGroup;
 
                     //info window
                     markers[mKey].info = devInfo.devNm +'<br/>'+ $translate.instant('wdgt.latit')+': ' + lat+' | '+$translate.instant('wdgt.lngit')+': '+lng;
@@ -160,14 +163,17 @@ angular.module('app.mydash')
                         pSvcTgtSeq = pData.svcTgtSeq,
                         pSpotDevSeq = pData.spotDevSeq,
                         pAttributes = pData.attributes,
-                        marker = markers[pSvcTgtSeq+'|'+pSpotDevSeq];
+                        pGroupTagCd = pData.groupTagCd,
+                        index = pSvcTgtSeq+'|'+pSpotDevSeq,
+                        marker = markers[index];
 
-                    if ( marker && pAttributes && pAttributes[marker.latitSnsrCd] && pAttributes[marker.lngitSnsrCd] ) {
+                    if ( marker && pAttributes && marker.snsrGroup == pGroupTagCd && pAttributes[marker.latitSnsrCd] && pAttributes[marker.lngitSnsrCd] ) {
                         var latitSnsrVal = pAttributes[marker.latitSnsrCd],
                             lngitSnsrVal = pAttributes[marker.lngitSnsrCd],
                             position = new olleh.maps.LatLng(latitSnsrVal, lngitSnsrVal);
-                        markers[pSvcTgtSeq+'|'+pSpotDevSeq].setPosition(position);
-                        markers[pSvcTgtSeq+'|'+pSpotDevSeq].lo = $translate.instant('wdgt.latit')+':'+latitSnsrVal+' | '+$translate.instant('wdgt.lngit')+': '+lngitSnsrVal;
+
+                        markers[index].setPosition(position);
+                        markers[index].lo = $translate.instant('wdgt.latit')+':'+latitSnsrVal+' | '+$translate.instant('wdgt.lngit')+': '+lngitSnsrVal;
                         latitSnsrVal, lngitSnsrVal, position;
                     }
                     scope.$apply();
@@ -218,21 +224,53 @@ function complexMapWdgtSetCtrl($translate, $scope, $modalInstance, $rootScope, m
      * 디바이스 센서 조회
      * @param selectedDev 선택한 디바이스
      */
-    $scope.getSnsrByDev = function(selectedDev, flag) {
-        if ( flag === 'latit' ) { //위도
-            $scope.latitSnsr = []; //센서목록 초기화
-            myDashService.getDeviceModel(selectedDev.devModelSeq)
-                .success(function(resp){
-                    if ( resp.responseCode === '200' ) {
-                        $scope.latitSnsr = resp.data.sensingTags;
-                    }
-                });
-        } else if ( flag === 'lngit' ) { //경도
-            $scope.lngitSnsr = []; //센서목록 초기화
-            $scope.lngitSnsr = $scope.latitSnsr.filter(function(snsr){
-                return snsr.sequence != $scope.selectedLatitSnsr.sequence;
+    var allSnsrList = []; //선택한 디바이스/모델에 대한 센서 목록
+    $scope.getSnsrGroupByDev = function(selectedDev) {
+        //그룹태그 조회
+        myDashService.getSnsrGroupList(selectedDev.devModelSeq)
+            .success(function(resp){
+                if ( resp.responseCode === '200' ) {
+                    $scope.selectedSnsrGroup = []; //센서목록 초기화
+                    $scope.snsrGroupList = resp.data; //DB에서 불러온 센서그룹 목록
+                }
             });
-        }
+        //디바이스 모델 조회
+        myDashService.getDeviceModel(selectedDev.devModelSeq)
+            .success(function(resp){
+                if ( resp.responseCode === '200' ) {
+                    allSnsrList = resp.data.sensingTags;
+                    $scope.selectedLatitSnsr = []; //센서목록 초기화
+                    $scope.selectedLngitSnsr = []; //센서목록 초기화
+                }
+            });
+    }
+
+    /**
+     * 위도 센서 조회
+     * @param
+     */
+    $scope.getLatitSnsrList = function() {
+        var selectedLatit = $scope.selectedLatitSnsrGroup.code;
+        $scope.latitSnsr = allSnsrList.filter(
+                                    function(snsr){
+                                        if ( snsr.group == selectedLatit ) {
+                                            return true;
+                                        }
+                                    });
+    }
+
+    /**
+     * 경도 센서 조회
+     * @param
+     */
+    $scope.getLngitSnsrList = function() {
+        var selectedLngit = $scope.selectedLngitSnsrGroup.code;
+        $scope.lngitSnsr = allSnsrList.filter(
+                                    function(snsr){
+                                        if ( snsr.group == selectedLngit ) {
+                                            return true;
+                                        }
+                                    });
     }
 
     /**
@@ -240,8 +278,16 @@ function complexMapWdgtSetCtrl($translate, $scope, $modalInstance, $rootScope, m
      * @description 선택한 디바이스, 센서 목록 세팅
      */
     $scope.setSelectedList = function() {
-        if ( !$scope.selectedLatitSnsr.code ) return;
-        if ( !$scope.selectedLngitSnsr.code ) return;
+        if ( !$scope.selectedLatitSnsr.code && !$scope.selectedLngitSnsr.code
+            || $scope.selectedLatitSnsr.code == null && !$scope.selectedLngitSnsr.code == null ) {
+            return;
+        }
+
+        $scope.invalidMessage = '';
+        if ( $scope.selectedLatitSnsrGroup.code != $scope.selectedLngitSnsrGroup.code ) {
+            $scope.invalidMessage = $translate.instant('wdgt.eMsgTrackerGroupError');
+            return;
+        }
 
         var dupFlag = false;
         for ( var i=0, count=$scope.selectedList.length; i<count; i++ ) {
@@ -254,11 +300,16 @@ function complexMapWdgtSetCtrl($translate, $scope, $modalInstance, $rootScope, m
             $scope.invalidMessage = $translate.instant('wdgt.eMsgTrackerDupError');
             return;
         }
+
         var addItem = { 'svcTgtSeq': $scope.selectedDev.svcTgtSeq
                        ,'spotDevSeq': $scope.selectedDev.spotDevSeq
                        ,'devNm': $scope.selectedDev.devNm
+                       ,'latitSnsrGroup': $scope.selectedLatitSnsrGroup.code
+                       ,'latitSnsrGroupNm': $scope.selectedLatitSnsrGroup.name
                        ,'latitSnsrCd': $scope.selectedLatitSnsr.code
                        ,'latitSnsrNm': $scope.selectedLatitSnsr.name
+                       ,'lngitSnsrGroup': $scope.selectedLngitSnsrGroup.code
+                       ,'lngitSnsrGroupNm': $scope.selectedLngitSnsrGroup.name
                        ,'lngitSnsrCd': $scope.selectedLngitSnsr.code
                        ,'lngitSnsrNm': $scope.selectedLngitSnsr.name };
         $scope.selectedList.push(addItem);

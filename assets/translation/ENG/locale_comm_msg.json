@@ -79,6 +79,7 @@
   },
   "wdgt": {
     "eMsgTrackerDupError":"It is already added.",
+    "eMsgTrackerGroupError":"Please select the same light intensity sensor group.",
     "eMsgSnsrDupError":"It is already added.",
     "eMsgEventDupError":"It is already added.",
     "eMsgMustValue":"Required field.",

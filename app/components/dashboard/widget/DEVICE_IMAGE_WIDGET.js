@@ -40,7 +40,7 @@ function deviceImageWdgtCtrl($scope, myDashService, $interval) {
             .success(function(data){
                 if ( data.responseCode === '200' && data.data ) {
                     var savedDevInfo = data.data[0];
-                    myDashService.getDeviceInfo(savedDevInfo.spotDevSeq)
+                    myDashService.getDeviceSttusInfo(savedDevInfo.spotDevSeq)
                         .success(function(resp){
                             if ( resp.responseCode === '200' ) {
                                 $scope.devInfo = resp.data[0];
