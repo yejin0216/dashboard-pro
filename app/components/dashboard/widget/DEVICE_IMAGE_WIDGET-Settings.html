@@ -21,14 +21,14 @@
             <div class="form-group row">
                 <label class="label-control required col-sm-12">{{"comm.dev" | translate}}</label>
                 <div class="devDiv col-sm-12">
-                    <div ng-repeat="item in ::devList track by item.spotDevSeq">
+                    <div ng-repeat="item in ::myDevList track by item.spotDevSeq">
                         <label class="radio-label-control" title="{{::item.name}}">
                             <input type="radio" name="selectedDev" ng-model="selectedDev.spotDevSeq" value="{{::item.spotDevSeq}}"/>&nbsp;{{::item.devNm}}
                         </label>
                     </div>
                 </div>
                 <div class="devDiv col-sm-12 error">{{invalidMessage}}</div>
-                <div class="noData" ng-if="::devList.length==0">
+                <div class="noData" ng-if="::myDevList.length==0">
                     <span>{{"comm.eMsgNoData" | translate}}</span>
                 </div>
             </div>

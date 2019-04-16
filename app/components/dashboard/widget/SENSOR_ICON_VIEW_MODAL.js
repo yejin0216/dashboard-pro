@@ -6,6 +6,7 @@ function sensorIconViewModalCtrl($translate, $scope, $modalInstance, $rootScope,
     $scope.snsrIconList = wdgtInfo;
     $scope.selectedIcon = '';//초기화
     $scope.invalidMessage = '';//초기화
+    console.log($scope.snsrIconList)
 
     //센서 아이콘 업데이트 모달 닫기
     $scope.closeSnsrIconModal = function() {
@@ -24,6 +25,7 @@ function sensorIconViewModalCtrl($translate, $scope, $modalInstance, $rootScope,
                     ,'mbrId':sessionStorage.getItem('mbr_id')
                     ,'svcTgtSeq':$scope.snsrIconList.svcTgtSeq
                     ,'spotDevSeq':$scope.snsrIconList.spotDevSeq
+                    ,'group':$scope.snsrIconList.group
                     ,'snsrCd':$scope.snsrIconList.snsrCd
                     ,'otputIcon':''};
 

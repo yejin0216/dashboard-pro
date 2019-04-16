@@ -9,7 +9,7 @@ angular.module('app.mydash')
             },
             controller: function($scope, $element, $attrs, $translate){
             },
-            link: function (scope, element) {
+            link: function (scope, element, rootScope) {
                 var wdgtSeq = scope.widget.wdgtSeq;
                 var map, infoWindow, clusterer; //Map 생성
 
@@ -19,8 +19,8 @@ angular.module('app.mydash')
                     maptemplate += '<ul><li ng-repeat="dev in savedDevList track by $index" ng-class="{selected:selectedDev==dev.spotDevSeq}" ng-click="moveFocus(dev, roadAddr[$index])"><p class="ellipsis">';
                     maptemplate += '<i ng-if="dev.sttus" class="fas fa-circle color-red1"></i>';
                     maptemplate += '<i ng-if="!dev.sttus" class="fas fa-ban color-gray2"></i><b> {{dev.devNm}}</b></p>';
-                    maptemplate += '<p class="devDtl"><i class="glyphicon glyphicon-map-marker"></i> {{roadAddr[$index].addr}}<br/>';
-                    maptemplate += '<i class="glyphicon glyphicon-time"></i> {{dev.amdDtt}}</li></ul>';
+                    maptemplate += '<p class="devDtl"><i class="glyphicon glyphicon-map-marker"></i> {{roadAddr[$index].addr || \'No Data\'}}<br/>';
+                    maptemplate += '<i class="glyphicon glyphicon-time"></i> {{dev.amdDtt || \'No Data\'}}</li></ul>';
                     maptemplate += '<div ng-if="savedDevList.length===0" class="noData transparent">{{"comm.eMsgNoData" | translate}}</div>';
                     maptemplate += '</div><div class="mapDevCount hidden-mobile">Total {{savedDevList.length}}</div>';
                     maptemplate += '<div class="mapArea" id="map_div'+ wdgtSeq +'"/>';
@@ -29,32 +29,27 @@ angular.module('app.mydash')
                 }
 
                 //Marker를 생성할 디바이스 목록 조회
+                var allDevList = scope.$root.myDevList; //나의 디바이스 목록
                 function getSavedDevInfo() {
                     scope.savedDevList = [];
                     scope.roadAddr = [];
-                    myDashService.getDeviceSttusList()
-                        .success(function(resp){
-                            if ( resp.responseCode === '200' && resp.data ) {
-                                var allDevList = resp.data; //모든 디바이스
-                                myDashService.getDevWdgtBySbjt(scope.widget)
-                                    .success(function(data){
-                                        if ( data.responseCode === '200' && data.data ) {
-                                            var savedDevList = data.data; //위젯에 등록한 디바이스
-                                            for ( var i=0, iCount=savedDevList.length; i<iCount; i++ ) {
-                                                var savedDev = savedDevList[i];
-                                                for (var j = 0, jCount = allDevList.length; j < jCount; j++) {
-                                                    var allDev = allDevList[j];
-                                                    if (savedDev.svcTgtSeq == allDev.svcTgtSeq && savedDev.spotDevSeq == allDev.spotDevSeq) {
-                                                        scope.savedDevList[i] = allDev;
-                                                        if (map) {
-                                                            makeDevMap(scope.savedDevList[i], i);
-                                                        }
-                                                    }
-                                                }
+                    myDashService.getDevWdgtBySbjt(scope.widget)
+                        .success(function(data){
+                            if ( data.responseCode === '200' && data.data ) {
+                                var savedDevList = data.data; //위젯에 등록한 디바이스
+                                for ( var i=0, iCount=savedDevList.length; i<iCount; i++ ) {
+                                    var savedDev = savedDevList[i];
+                                    for (var j = 0, jCount = allDevList.length; j < jCount; j++) {
+                                        var allDev = allDevList[j];
+                                        if (savedDev.svcTgtSeq == allDev.svcTgtSeq && savedDev.spotDevSeq == allDev.spotDevSeq) {
+                                            scope.savedDevList[i] = allDev;
+                                            if (map) {
+                                                makeDevMap(scope.savedDevList[i], i);
                                             }
-                                            clusterer.setMap(map);
                                         }
-                                    });
+                                    }
+                                }
+                                clusterer.setMap(map);
                             }
                         });
                 }
@@ -85,9 +80,11 @@ angular.module('app.mydash')
                     var param = 'point.lat='+lat +'&point.lng='+lng;
                     myDashService.getRoadAddress(param)
                         .success(function(data){
-                            scope.roadAddr[k] = { latitVal:lat
-                                                , lngitVal:lng
-                                                , addr:data.residentialAddress[0].parcelAddress[0].fullAddress};
+                            var result = null;
+                            if ( data.residentialAddress.length > 0 ) {
+                                result = data.residentialAddress[0].parcelAddress[0].fullAddress;
+                            }
+                            scope.roadAddr[k] = result;
                         });
 
                     if ( k === 0 ) { //첫번째 마커로 포커스 이동
@@ -133,26 +130,12 @@ function deviceMapWdgtSetCtrl($translate, $scope, $modalInstance, $rootScope, my
 
     $scope.wdgtNm = wdgtInfo.wdgtNm; //기저장 또는 Default 위젯명 세팅
     $scope.wdgtSubnm = wdgtInfo.wdgtSubnm; //기저장 또는 Default 위젯명 세팅
+
     $scope.selectedDev = []; //디바이스 목록
-
-    //디바이스 목록 조회
-    myDashService.getDeviceList()
-        .success(function(resp){
-            if ( resp.responseCode === '200' ) {
-                setCheckBox(resp.data);
-            }
-        });
-
-    //checkbox 세팅
-    function setCheckBox(resultSet) {
-        $scope.devList = resultSet; //디바이스 목록
-        if ( wdgtInfo.devWdgtList ) {
-            var savedDev = wdgtInfo.devWdgtList; //기저장한 디바이스 정보
-            savedDev.forEach(function (dev, i) {
-                $scope.selectedDev[dev.spotDevSeq] = 'Y';
-            });
-        }
-    }
+    var savedDev = wdgtInfo.devWdgtList; //기저장한 디바이스 정보
+    savedDev.forEach(function (dev) {
+        $scope.selectedDev[dev.spotDevSeq] = 'Y';
+    });
 
     //모달 변경내역 저장
     $scope.save = function() {

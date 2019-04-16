@@ -2,25 +2,20 @@ angular.module('app.mydash')
     .controller('DEVICE_TABLE_WIDGET_Ctrl', deviceTableWdgtCtrl)
     .controller('DEVICE_TABLE_WIDGET_SET_Ctrl', deviceTableWdgtSetCtrl);
 
-function deviceTableWdgtCtrl($translate, myDashService, $scope) {
+function deviceTableWdgtCtrl($translate, myDashService, $rootScope, $scope) {
 
-    var allDevList = [];
+    var allDevList = $rootScope.myDevList; //나의 디바이스 목록
+
     //initialize
     $scope.getWdgtInfo = function(widget) {
         $scope.wdgtInfo = widget;
         $scope.gridCol = JSON.parse(widget.wdgtDataset).ds; //데이터셋
 
         //나의 디바이스 목록 조회
-        myDashService.getDeviceSttusList()
-            .success(function(resp){
-                if ( resp.responseCode === '200' ) {
-                    allDevList = resp.data;
-                    myDashService.getDevWdgtBySbjt($scope.wdgtInfo)
-                        .success(function(data){
-                            if ( data.responseCode === '200' ) {
-                                getSavedDevList(allDevList, data.data);
-                            }
-                        });
+        myDashService.getDevWdgtBySbjt($scope.wdgtInfo)
+            .success(function(data){
+                if ( data.responseCode === '200' ) {
+                    getSavedDevList(allDevList, data.data);
                 }
             });
 
@@ -31,11 +26,6 @@ function deviceTableWdgtCtrl($translate, myDashService, $scope) {
             }
         });
     };
-
-    //실시간 업데이트
-    // $scope.$on('getLastVal', function (e, data) {
-    //     $scope.devList = data.data[$scope.wdgtInfo.wdgtSeq].devList;
-    // });
 
     //저장된 디바이스 목록 조회
     function getSavedDevList(allDevList, compare) {
@@ -79,24 +69,9 @@ function deviceTableWdgtSetCtrl($translate, $scope, $modalInstance, $rootScope, 
 
     $scope.selectedDev = []; //디바이스 목록
     var savedDev = wdgtInfo.devWdgtList; //기저장한 디바이스 정보
-
-    //디바이스 목록 조회
-    myDashService.getDeviceList()
-        .success(function(resp){
-            if ( resp.responseCode === '200' ) {
-                setCheckBox(resp.data);
-            }
-        });
-
-    //checkbox 세팅
-    function setCheckBox(resultSet) {
-        $scope.devList = resultSet; //디바이스 목록
-        if ( savedDev ) {
-            savedDev.forEach(function (dev, i) {
-                $scope.selectedDev[dev.spotDevSeq] = 'Y';
-            });
-        }
-    }
+    savedDev.forEach(function (dev) {
+        $scope.selectedDev[dev.spotDevSeq] = 'Y';
+    });
 
     //모달 닫기
     $scope.close = function() {
@@ -107,7 +82,7 @@ function deviceTableWdgtSetCtrl($translate, $scope, $modalInstance, $rootScope, 
     $scope.save = function() {
         var devs = Object.keys($scope.selectedDev);
         var devList = [];
-        devs.forEach(function(v, i){
+        devs.forEach(function(v){
             if ( $scope.selectedDev[v] == 'Y' ) {
                 devList.push({'svcTgtSeq':sessionStorage.getItem('svc_tgt_seq'), 'spotDevSeq':v});
             }

@@ -194,13 +194,11 @@ function sensorLogWdgtCtrl($translate, myDashService, $scope) {
                         .success(function (result) {
                             if (result.responseCode === '200' && result.data) {
                                 result = result.data;
-                                var devNm = devInfo.devNm,
-                                    snsrNm = devInfo.snsrNm;
                                 for ( var i=0, iCount=result.length; i<iCount; i++ ) {
                                     var item = result[i];
                                     result[i] = { 'createOn':moment(item.createOn).local().format('YYYY-MM-DD HH:mm:ss')
-                                                , 'devNm':devNm
-                                                , 'snsrNm':snsrNm
+                                                , 'devNm':devInfo.devNm
+                                                , 'snsrNm':devInfo.groupNm +'-'+ devInfo.snsrNm
                                                 , 'value':item.response.sensingTags[0].value };
                                 }
                                 $scope.logList = result;
@@ -222,7 +220,7 @@ function sensorLogWdgtCtrl($translate, myDashService, $scope) {
 
         if ( devInfo.svcTgtSeq == pSvcTgtSeq && devInfo.spotDevSeq == pSpotDevSeq && devInfo.group == pGroupTagCd && pAttributes && pAttributes[devInfo.snsrCd] ) {
             $scope.logList.unshift({'createOn':moment(pData.occDt).format("YYYY-MM-DD HH:mm:ss"),'devNm':devInfo.devNm
-                                          ,'snsrNm':devInfo.group +'-'+ devInfo.snsrNm,'value':pAttributes[devInfo.snsrCd]});
+                                          ,'snsrNm':devInfo.groupNm+'-'+ devInfo.snsrNm,'value':pAttributes[devInfo.snsrCd]});
         }
         if ( $scope.logList.length > 100 ) {
             $scope.logList.pop();

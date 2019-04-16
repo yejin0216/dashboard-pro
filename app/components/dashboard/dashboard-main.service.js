@@ -115,7 +115,7 @@ angular.module('app.mydash')
             },
             //지도 자산정보 조회
             selectComplexMapAsset : function(param) {
-                return $http.get(adminConstant.contextPathV11+'wdgt/getComplexMapAsset/'+param.sbjtSeq+'/'+param.wdgtSeq+'/'+param.spotDevSeq);
+                return $http.post(adminConstant.contextPathV11+'wdgt/getComplexMapAsset', param);
             },
             //테마별 위젯 삭제
             deleteWdgtBySbjt : function(param) {
@@ -153,6 +153,7 @@ angular.module('app.mydash')
                     headers:{'Authorization': 'Bearer 338251553db8897a3eaaa89b045716c076f7a19cc3a1c5b04d61673542b05d71888b1cbc'}
                 });
             },
+            /*Master API*/
             getCdDtlList : function (groupCode){
                 return $http.get(adminConstant.contextPathV11 + 'codes?groupCode='+groupCode +'&useYn=Y&lang='+localStorage.getItem('langCd'));
             },
@@ -168,8 +169,9 @@ angular.module('app.mydash')
             putCtrlLogs : function(param){
                 return $http.put(adminConstant.contextPathV11 + 'devices/'+param.sequence+'/sensingTags?targetSequence=' + param.targetSequence, param);
             },
-
-            /* Model */
+            getDevStatus : function(param) {
+                return $http.post(adminConstant.contextPathV1 + 'devices/status', param);
+            },
             getDeviceModel : function(sequence){
                 return $http.get(adminConstant.contextPathV11 + 'models/' + sequence+'?includeUiProperties=true');
             },

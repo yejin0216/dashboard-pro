@@ -21,12 +21,12 @@
             <div class="form-group row">
                 <label class="label-control required col-sm-12">{{"comm.dev" | translate}}</label>
                 <div class="devDiv col-sm-12">
-                    <div ng-repeat="item in ::devList track by item.spotDevSeq">
+                    <div ng-repeat="item in ::myDevList track by item.spotDevSeq">
                         <label title="{{::item.devNm}}"><input type="checkbox" ng-model="selectedDev[item.spotDevSeq]" ng-true-value="'Y'" ng-false-value="'N'">&nbsp;{{::item.devNm}}</label>
                     </div>
                 </div>
                 <div class="devDiv col-sm-12 error">{{invalidMessage}}</div>
-                <div class="noData" ng-if="::devList.length==0">
+                <div class="noData" ng-if="::myDevList.length==0">
                     <span>{{"comm.eMsgNoData" | translate}}</span>
                 </div>
             </div>

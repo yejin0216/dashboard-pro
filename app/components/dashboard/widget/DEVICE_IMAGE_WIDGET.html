@@ -5,7 +5,7 @@
         <div class="text-center devSttus" ng-if="showThisDiv('sttus')">
             <i ng-if="devInfo.sttus" class="fas fa-circle color-red1"></i>
             <i ng-if="!devInfo.sttus" class="fas fa-ban color-gray2"></i>
-            <span class="amdDtt"  ng-if="showThisDiv('amdDtt')">{{devInfo.amdDtt}}</span>
+            <span class="amdDtt" ng-if="showThisDiv('amdDtt')">{{devInfo.amdDtt}}</span>
         </div>
     </non-icon-content>
     <!--//아이콘이 없는 경우-->
@@ -16,10 +16,12 @@
             <img ng-if="devInfo.icon" ng-src="data:image/jpg;base64,{{devInfo.icon}}">
             <img ng-if="!devInfo.icon" src="assets/image/svg/img_device_none.svg">
         </div>
-        <div class="text-center devSttus" ng-if="showThisDiv('sttus')">
-            <i ng-if="devInfo.sttus" class="fas fa-circle color-red1"></i>
-            <i ng-if="!devInfo.sttus" class="fas fa-ban color-gray2"></i>
-            <span class="amdDtt"  ng-if="showThisDiv('sttus')">{{devInfo.amdDtt}}</span>
+        <div class="text-center devSttus">
+            <span ng-if="showThisDiv('sttus')">
+                <i ng-if="devInfo.sttus" class="fas fa-circle color-red1"></i>
+                <i ng-if="!devInfo.sttus" class="fas fa-ban color-gray2"></i>
+            </span>
+            <span class="amdDtt" ng-if="showThisDiv('amdDtt')">{{devInfo.amdDtt}}</span>
         </div>
     </icon-content>
     <!--//아이콘이 있는 경우-->

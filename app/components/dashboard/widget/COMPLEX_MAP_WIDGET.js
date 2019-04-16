@@ -50,9 +50,15 @@ angular.module('app.mydash')
                                 scope.savedDevList = data.data;
                                 var toDt = moment().format('x');
                                 var fromDt = toDt - 2629743000; //최근 한달
+                                var allDevList = scope.$root.myDevList;
                                 // 최종 좌표 조회
                                 for ( var i=0, iCount=scope.savedDevList.length; i<iCount; i++ ) {
-                                    getLastDevLo(scope.savedDevList[i], toDt, fromDt, i); //이동체의 최종위치를 조회한다.
+                                    for ( var j=0, jCount=allDevList.length; j<jCount; j++ ) {
+                                        if ( scope.savedDevList[i].svcTgtSeq == allDevList[j].svcTgtSeq && scope.savedDevList[i].spotDevSeq == allDevList[j].spotDevSeq ) {
+                                            scope.savedDevList[i].sttus = allDevList[j].sttus;
+                                            getLastDevLo(scope.savedDevList[i], toDt, fromDt, i); //이동체의 최종위치를 조회한다.
+                                        }
+                                    }
                                 }
                             }
                         });
@@ -174,7 +180,7 @@ angular.module('app.mydash')
 
                         markers[index].setPosition(position);
                         markers[index].lo = $translate.instant('wdgt.latit')+':'+latitSnsrVal+' | '+$translate.instant('wdgt.lngit')+': '+lngitSnsrVal;
-                        latitSnsrVal, lngitSnsrVal, position;
+                        latitSnsrVal, lngitSnsrVal, position = null;
                     }
                     scope.$apply();
                 });

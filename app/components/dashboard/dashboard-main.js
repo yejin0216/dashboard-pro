@@ -7,7 +7,6 @@ angular.module('app.mydash', ['kt.ui'])
             if ( sbjtSeq == 0  ) return; //테마일련번호가 0일 경우 리턴
 
             var vm = this;
-            var flux; //$interval을 위한 변수
             var wdgtTmplt = []; //위젯템플릿목록
             $scope.widgetlist = []; //위젯 목록
 
@@ -86,50 +85,45 @@ angular.module('app.mydash', ['kt.ui'])
                         console.log("API Service Error : " + resp.status + " " + resp.error);
                     });
 
+                //사용자에 속한 디바이스 조회
+                myDashService.getDeviceList()
+                    .success(function(resp) {
+                        if (resp.responseCode === '200') {
+                            $rootScope.myDevList = resp.data; //나의 디바이스 목록
+                            var inclGwCnctId = [];
+                            var inclSpotDevId =[];
+                            resp.data.forEach(function(item) {
+                                inclGwCnctId.push(item.gwCnctId); //게이트웨어 아이디
+                                inclSpotDevId.push(item.spotDevId); //디바이스 목록
+                            });
+                            //디바이스 상태 조회
+                            var param = { 'inclGwCnctId':inclGwCnctId, 'inclSpotDevId':inclSpotDevId };
+                            myDashService.getDevStatus(param)
+                                .success(function(resp) {
+                                    if (resp.responseCode === 'OK') {
+                                        $rootScope.myDevList.forEach(function(dev, i) {
+                                            resp.data.forEach(function(sttus) {
+                                                if ( dev.svcTgtSeq == sttus.svcTgtSeq && dev.spotDevSeq == sttus.spotDevSeq ) {
+                                                    $rootScope.myDevList[i].sttus = JSON.parse(sttus.status); //string to boolean
+                                                }
+                                            });
+                                        });
+                                    }
+                                })
+                                .error(function(resp) {
+                                    console.log("API Service Error : " + resp.status + " " + resp.error);
+                                });
+                        }
+                    })
+                    .error(function(resp) {
+                        console.log("API Service Error : " + resp.status + " " + resp.error);
+                    });
                 //1시간 주기 대시보드 refresh
                 // if ( angular.isDefined(reload) ) return;
                 // reload = $interval(function() {
                 //     $state.reload(); //페이지 새로고침
                 // }, 3600000);
             }
-
-            //연결설정 정보 세팅
-            // function setCnctInfo(cnctInfo) {
-            //     var cnctType = cnctInfo[0].cncttypecd; //연결방식
-            //     if ( cnctType === 'PL' ) { //폴링
-            //         var cnctCycle = cnctInfo[0].cnctcycl*1000; //폴링 주기
-            //         if ( angular.isDefined(flux) ) return;
-            //         flux = $interval(function() {
-            //             getLastVal(); //디바이스 최종 값 조회
-            //         }, cnctCycle);
-            //     } else {
-            //         flux = undefined;
-            //     }
-            // }
-            // $scope.$on('$destroy', function() {
-            //     if (angular.isDefined(flux)) {
-            //         $interval.cancel(flux);
-            //         flux = undefined;
-            //     }
-            //     // if (angular.isDefined(reload)) {
-            //     //     $interval.cancel(reload);
-            //     //     reload = undefined;
-            //     // }
-            // });
-
-            //디바이스 최종 값 조회
-            //getLastVal();
-            // function getLastVal() {
-            //     myDashService.getLastVal({'sbjtSeq':sbjtSeq})
-            //         .success(function(resp) {
-            //             if (resp.responseCode === '200' && resp.data) {
-            //                 $rootScope.$broadcast('getLastVal', {broadcast:true, data:resp.data});
-            //             }
-            //         })
-            //         .error(function(resp) {
-            //             console.log("API Service Error : " + resp.status + " " + resp.error);
-            //         });
-            // }
 
             //테마영역 Style Display 제어
             function cntlsbjtArea(totalWdgtCnt){
