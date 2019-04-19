@@ -115,7 +115,7 @@ angular.module('app.mydash')
             },
             //지도 자산정보 조회
             selectComplexMapAsset : function(param) {
-                return $http.post(adminConstant.contextPathV11+'wdgt/getComplexMapAsset', param);
+                return $http.get(adminConstant.contextPathV11+'wdgt/getComplexMapAsset/{sbjtSeq}/{wdgtSeq}/{spotDevSeq}', param);
             },
             //테마별 위젯 삭제
             deleteWdgtBySbjt : function(param) {
