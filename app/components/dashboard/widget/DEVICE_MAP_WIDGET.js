@@ -16,10 +16,10 @@ angular.module('app.mydash')
                 drawMap(); //지도 생성
                 function drawMap() {
                     var maptemplate  = '<div class="mapDevList hidden-mobile">';
-                    maptemplate += '<ul><li ng-repeat="dev in savedDevList track by $index" ng-class="{selected:selectedDev==dev.spotDevSeq}" ng-click="moveFocus(dev)"><p class="ellipsis">';
+                    maptemplate += '<ul><li ng-repeat="dev in savedDevList track by $index" ng-class="{selected:selectedDev==dev.spotDevSeq}" ng-click="moveFocus(dev, roadAddr[$index])"><p class="ellipsis">';
                     maptemplate += '<i ng-if="dev.sttus" class="fas fa-circle color-red1"></i>';
                     maptemplate += '<i ng-if="!dev.sttus" class="fas fa-ban color-gray2"></i><b> {{dev.devNm}}</b></p>';
-                    maptemplate += '<p class="devDtl"><i class="glyphicon glyphicon-map-marker"></i> {{roadAddr[$index] || \'No Data\'}}<br/>';
+                    maptemplate += '<p class="devDtl"><i class="glyphicon glyphicon-map-marker"></i> {{roadAddr[$index].addr || \'No Data\'}}<br/>';
                     maptemplate += '<i class="glyphicon glyphicon-time"></i> {{dev.amdDtt || \'No Data\'}}</li></ul>';
                     maptemplate += '<div ng-if="savedDevList.length===0" class="noData transparent">{{"comm.eMsgNoData" | translate}}</div>';
                     maptemplate += '</div><div class="mapDevCount hidden-mobile">Total {{savedDevList.length}}</div>';
@@ -80,12 +80,14 @@ angular.module('app.mydash')
                     var param = 'point.lat='+lat +'&point.lng='+lng;
                     myDashService.getRoadAddress(param)
                         .success(function(data){
-                            scope.roadAddr[k] = data.residentialAddress[0].parcelAddress[0].fullAddress;
+                            scope.roadAddr[k] = { latitVal:lat
+                                                , lngitVal:lng
+                                                , addr:data.residentialAddress[0].parcelAddress[0].fullAddress};
                         });
 
                     if ( k === 0 ) { //첫번째 마커로 포커스 이동
                         var firstMarker = scope.savedDevList[0];
-                        scope.moveFocus(firstMarker);
+                        scope.moveFocus(firstMarker, firstMarker);
                     }
                     // if ( k === (scope.savedDevList.length-1) ) { //모든 마커 정보를 생성한 후, 클러스터 생성
                     //     clusterer.setMap(map);
@@ -99,9 +101,9 @@ angular.module('app.mydash')
                 }, 500);
 
                 //디바이스를 클릭하면 해당 디바이스 위치로 포커스를 이동한다.
-                scope.moveFocus = function(dev) {
+                scope.moveFocus = function(dev, addr) {
                     scope.selectedDev = dev.spotDevSeq; //선택한 디바이스
-                    var latLng = new olleh.maps.LatLng(dev.latitVal, dev.lngitVal); //선택한 위치로 이동
+                    var latLng = new olleh.maps.LatLng(addr.latitVal, addr.lngitVal); //선택한 위치로 이동
                     map.setCenter(latLng);
                     //infoWindow를 열기 위한 Click Event 호출
                     // var customEvent = new olleh.maps.event.Event('click', dev.marker);
