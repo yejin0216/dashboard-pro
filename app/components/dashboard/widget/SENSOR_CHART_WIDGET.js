@@ -10,19 +10,18 @@ angular.module('app.mydash')
                 var wdgtSeq = scope.widget.wdgtSeq; //위젯일련번호
                 var element = element[0];
                 var chart;
+                var optn = JSON.parse(scope.widget.wdgtOptn);
 
                 //chart option allocation
                 function initChart() {
                     element.id = 'widget_'+wdgtSeq; //차트ID 세팅
                     element.identity = 10;
 
-                    var optn = JSON.parse(scope.widget.wdgtOptn);
                     var type = optn.optn[0].id; //차트타입
                     //var dim = optn.dimension; //차원
                     var plotBands = optn.plotBands; //plotband
                     var min = optn.min || 0; //min
                     var max = optn.max || 200; //max
-                    optn = null;
 
                     var xAxisType = {'bar':'category','column':'category','spiderWeb':'category','line':'datetime','area':'datetime','scatter':'datetime','gauge':''};
 
@@ -248,8 +247,9 @@ angular.module('app.mydash')
                         var newOptn = arg.wdgtOptn; //차트옵션 편집 모달에서 전달받은 속성값
                         //차트타입이 서로 다를 경우에만
                         if ( newOptn.optn[0].id !== oldOptn.chart.type ) {
-                            var type = newOptn.optn[0].id === 'spiderWeb'?'column':newOptn.optn[0].id;
+                            var type = newOptn.optn[0].id === 'spiderWeb' ? 'column' : newOptn.optn[0].id;
                             oldOptn.chart.type = type;
+                            optn.optn[0].id = type;
                         }
                         //dimension
                         // if ( newOptn.dimension === '3d' ) {
@@ -264,11 +264,14 @@ angular.module('app.mydash')
                         //plotband
                         if ( newOptn.plotBands ) {
                             oldOptn.yAxis.plotBands = newOptn.plotBands;
+                            optn.plotBands = newOptn.plotBands;
                         }
                         //최솟값,최댓값
                         if (newOptn.min !== '' && typeof newOptn.min != 'undefined' && newOptn.max !== '' && typeof newOptn.max != 'undefined') {
                             oldOptn.yAxis.min = newOptn.min;
                             oldOptn.yAxis.max = newOptn.max;
+                            optn.min = newOptn.min;
+                            optn.max = newOptn.max;
                         }
 
                         newOptn = null;
