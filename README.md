@@ -1,7 +1,7 @@
-# FactoryMakers_SaaS_UI
+# dashboard-pro
 
 ## 설명 
- FactoryMakers SaaS의 Front-end 소스코드로 Single Page Application입니다. 
+ SaaS의 Front-end 소스코드로 Single Page Application입니다. 
  
 ## 디렉토리 구조 
 ```
